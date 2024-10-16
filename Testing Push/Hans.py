@@ -1,1 +1,2 @@
 print("hans")
+print("hi")
