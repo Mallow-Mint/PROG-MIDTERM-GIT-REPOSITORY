@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 # Set up display
-SCREEN = pygame.display.set_mode((800, 600))
+SCREEN = pygame.display.set_mode((1300, 650))
 pygame.display.set_caption("Spell Book")
 
 # Define colors
@@ -55,29 +55,29 @@ def main_menu():
         mouse_pos = pygame.mouse.get_pos()
 
         # Title text
-        title_text = get_font(75).render("SPELL BOOK", True, WHITE)
-        title_rect = title_text.get_rect(center=(400, 100))
+        title_text = get_font(100).render("SPELL BOOK", True, WHITE)
+        title_rect = title_text.get_rect(center=(650, 200))
         SCREEN.blit(title_text, title_rect)
 
         # Create buttons
-        start_button = Button((400, 300), "NEW GAME", get_font(50), WHITE, GRAY)
-        tutorial_button = Button((400, 350), "TUTORIALS", get_font(50), WHITE, GRAY)
-        scores_button = Button((400, 400), "SCORES", get_font(50), WHITE, GRAY)
-        settings_button = Button((400, 450), "SETTINGS", get_font(50), WHITE, GRAY)
+        start_button = Button((650, 300), "NEW GAME", get_font(50), WHITE, GRAY)
+        tutorial_button = Button((650, 350), "TUTORIALS", get_font(50), WHITE, GRAY)
+        scores_button = Button((650, 400), "SCORES", get_font(50), WHITE, GRAY)
+        quit_button = Button((650, 450), "QUIT", get_font(50), WHITE, GRAY)
     
 
         # Change button color based on mouse position
         start_button.change_color(mouse_pos)
         tutorial_button.change_color(mouse_pos)
         scores_button.change_color(mouse_pos)
-        settings_button.change_color(mouse_pos)
+        quit_button.change_color(mouse_pos)
 
 
         # Draw buttons
         start_button.draw(SCREEN)
         tutorial_button.draw(SCREEN)
         scores_button.draw(SCREEN)
-        settings_button.draw(SCREEN)
+        quit_button.draw(SCREEN)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -89,9 +89,10 @@ def main_menu():
                 if tutorial_button.check_for_input(mouse_pos):
                     print("Start the tutorial")
                 if scores_button.check_for_input(mouse_pos):
-                    print("Show the scores")
-                if settings_button.check_for_input(mouse_pos):
-                    print("Show the settings")
+                    print("Show scores")
+                if quit_button.check_for_input(mouse_pos):
+                    pygame.quit()
+                    sys.exit()
                 
 
         pygame.display.update()
