@@ -5,6 +5,10 @@ class Animation:
     def __init__(self, frames):
         self.frames = frames
 
+    ###class Animation:
+    ###def __init__(self, frames):
+    ###    self.frames = frames
+
 # Initialize Pygame
 pygame.init()
 
@@ -17,12 +21,12 @@ clock = pygame.time.Clock()
 
 # Load the sprite animation frames into a list
 sprite_frames = [
-    pygame.image.load('pumpking_attack_1.png'),
-    pygame.image.load('pumpking_attack_2.png'),
-    pygame.image.load('pumpking_attack_3.png'),
-    pygame.image.load('pumpking_attack_4.png'),
-    pygame.image.load('pumpking_attack_5.png'),
-    pygame.image.load('pumpking_attack_6.png')
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_1.png'),
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_2.png'),
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_3.png'),
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_4.png'),
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_5.png'),
+    pygame.image.load('Game Testing\ENEMY TESTING\pump_king_attack\pumpking_attack_6.png')
 ]
 
 pump = Animation(sprite_frames)
