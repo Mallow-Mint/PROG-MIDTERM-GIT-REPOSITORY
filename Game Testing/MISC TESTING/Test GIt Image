@@ -1,5 +1,5 @@
 import pygame
-image_proper = pygame.image.load('Game Testing/Assets/Wizard Pack/Fall.png')
+image_proper = pygame.image.load('Assets/Wizard Pack/Fall.png')
 
 # Initialize Pygame
 pygame.init()
