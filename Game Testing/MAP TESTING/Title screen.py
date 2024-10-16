@@ -4,6 +4,7 @@ import sys
 # Initialize Pygame
 pygame.init()
 
+Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
 # Set up display
 SCREEN = pygame.display.set_mode((1300, 650))
 pygame.display.set_caption("Spell Book")
@@ -50,20 +51,21 @@ class Button:
 def main_menu():
     while True:
         SCREEN.fill(BLACK)
+        SCREEN.blit(Title_BG, (-100, 0))
 
         # Get mouse position
         mouse_pos = pygame.mouse.get_pos()
 
         # Title text
-        title_text = get_font(100).render("SPELL BOOK", True, WHITE)
+        title_text = get_font(100).render("SPELL BOOK", True, BLACK)
         title_rect = title_text.get_rect(center=(650, 200))
         SCREEN.blit(title_text, title_rect)
 
         # Create buttons
-        start_button = Button((650, 300), "NEW GAME", get_font(50), WHITE, GRAY)
-        tutorial_button = Button((650, 350), "TUTORIALS", get_font(50), WHITE, GRAY)
-        scores_button = Button((650, 400), "SCORES", get_font(50), WHITE, GRAY)
-        quit_button = Button((650, 450), "QUIT", get_font(50), WHITE, GRAY)
+        start_button = Button((650, 300), "NEW GAME", get_font(50), BLACK, GRAY)
+        tutorial_button = Button((650, 350), "TUTORIALS", get_font(50), BLACK, GRAY)
+        scores_button = Button((650, 400), "SCORES", get_font(50), BLACK, GRAY)
+        quit_button = Button((650, 450), "QUIT", get_font(50), BLACK, GRAY)
     
 
         # Change button color based on mouse position
