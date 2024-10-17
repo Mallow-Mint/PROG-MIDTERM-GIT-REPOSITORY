@@ -172,3 +172,5 @@ def battle_interface():
 
         # Update display
         update_game_screen()
+
+battle_interface()
