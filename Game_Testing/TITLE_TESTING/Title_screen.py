@@ -99,4 +99,3 @@ def main_menu():
         pygame.display.update()
 
 # Run the main menu
-main_menu()

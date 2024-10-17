@@ -24,12 +24,14 @@ font = pygame.font.Font(None, 36)
 
 # Read Positions of Letters in Text File
 Key_Updater = {}
+Valid_Keys = []
 
 Letter_Positions_File = open('Keyboard Tests/Letter Positions.txt' , "r")
 Letter_Positions_File_Lines = Letter_Positions_File.readlines()
 
 for line in Letter_Positions_File_Lines:
     letter = line[0]
+    Valid_Keys.append(letter)
     if line[7] == ",":
         position_x = int(line[4:7])
         position_y = int(line[9:12])
@@ -60,18 +62,25 @@ def validWordChecker(current_typed_word:str):
     else:
         return False
 
-# Define the Functions for keyboard updates
-
 # Key press counts
 key_press_counts = {key: 5 for key in Key_Updater.keys()}
 
-# Typing area variables
 # Intalize Variable for Printing 
 typing_area_height = 50
 typing_area_y = 280
 typed_text = ""
 cursor_position = 0
 max_character_count = 20
+
+# Define the Functions for keyboard updates
+
+class Keyboard:
+    def __init__(self, typed_text, curor_position, max_character_count):
+        self.typed_text = typed_text
+        self.cursor_position = cursor_position
+        self.max_character_count = max_character_count
+    
+
 
 # Game loop
 character_counter = font.render(str(max_character_count), True, white)
@@ -117,6 +126,10 @@ while running:
                         invalid_word_popup = font.render("Word Not in your Dictionary", True, white) 
                         interface_layer.blit(invalid_word_popup, (480, 200))
             elif max_character_count == 0:
+                if key in Key_Updater:
+                    interface_layer.fill(black)
+                    no_characters_left_warning = font.render("You Have No Characters Left!", True, white)
+                    interface_layer.blit(no_characters_left_warning, (460, 200))
                 if key == 'backspace':
                     interface_layer.fill(black)
                     deleted_key = typed_text[cursor_position - 1]  # Store the deleted key
@@ -137,10 +150,7 @@ while running:
                         interface_layer.fill(black)
                         invalid_word_popup = font.render("Word Not in your Dictionary", True, white) 
                         interface_layer.blit(invalid_word_popup, (480, 200))
-                if key in Key_Updater:
-                    interface_layer.fill(black)
-                    no_characters_left_warning = font.render("You Have No Characters Left!", True, white)
-                    interface_layer.blit(no_characters_left_warning, (460, 200))
+
             character_counter = font.render(str(max_character_count), True, white)
             interface_layer.blit(character_counter, (1050, 50))
 # Printing Graphics Areaaaaaaaaaaa
@@ -165,6 +175,3 @@ while running:
 
     # Update display
     update_game_screen()
-
-# Quit pygame
-pygame.quit()
