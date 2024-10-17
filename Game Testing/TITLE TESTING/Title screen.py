@@ -16,7 +16,7 @@ GRAY = (200, 200, 200)
 
 # Load font
 def get_font(size):
-    return pygame.font.Font(None, size)
+    return pygame.font.Font('Fonts/minercraftory/Minercraftory.ttf', 32)
 
 # Button class
 class Button:
