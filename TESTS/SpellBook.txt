@@ -1,0 +1,8 @@
+fire
+water
+earth
+air
+test
+lightning
+heal
+shield

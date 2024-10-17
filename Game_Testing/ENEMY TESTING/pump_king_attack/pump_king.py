@@ -6,8 +6,10 @@ class Animation:
         self.frames = frames
 
     ###class Animation:
-    ###def __init__(self, frames):
-    ###    self.frames = frames
+    ###def __init__(self, spritesheet):
+    ###    self.spritesheet = spritesheet
+    ###def playanim(self):
+    ###     pygame.spritemethod(self.spritesheet)
 
 # Initialize Pygame
 pygame.init()
