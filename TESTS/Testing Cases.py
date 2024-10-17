@@ -15,5 +15,3 @@ match lang:
 
     case "Java":
         print("You can become a mobile app developer")
-        
-        
