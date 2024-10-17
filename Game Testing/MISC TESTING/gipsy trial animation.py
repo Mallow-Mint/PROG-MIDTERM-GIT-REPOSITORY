@@ -6,7 +6,7 @@ screenSize(600, 600)
 setBackgroundColour("pink")
 
 # Load the sprite
-testSprite = makeSprite("C:\\Users\\litch\\Downloads\\Spell-Break\\assets\\links.gif", 32)  # links.gif contains 32 separate frames of animation.
+testSprite = makeSprite('Assets/trial gif zelda/links.gif', 32)  # links.gif contains 32 separate frames of animation.
 moveSprite(testSprite, 300, 300, True)
 showSprite(testSprite)
 
