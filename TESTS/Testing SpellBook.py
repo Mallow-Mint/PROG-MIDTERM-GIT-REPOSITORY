@@ -1,19 +1,13 @@
-Key_Updater = {}
+text_key_inputs = open("TESTS/Letters.txt", "r")
+keys_inputs = text_key_inputs.read() 
+keys = keys_inputs.split("\n")
+text_key_inputs.close()
 
-Letter_Positions_File = open('TESTS/Letter Positions.txt' , "r")
-Letter_Positions_File_Lines = Letter_Positions_File.readlines()
 
-for line in Letter_Positions_File_Lines:
-    letter = line[0]
-    if letter == "p":
-        position_x = int(line[4:8])
-        position_y = int(line[10:13])
-    else: 
-        position_x = int(line[4:7])
-        position_y = int(line[9:12])
+def Test_Key_Input(pressed_key:str, valid_keys:list = keys):
+    match pressed_key:
+        case pressed_key if pressed_key in valid_keys:
+            print("You pressed", pressed_key)
+        case _:
+            print("Not a valid Key")
 
-    Key_Updater[letter] = (position_x, position_y)
-
-print(Key_Updater)
-
-Letter_Positions_File.close()
