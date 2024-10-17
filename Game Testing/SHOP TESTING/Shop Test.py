@@ -1,13 +1,11 @@
 import pygame
-import os
-os.chdir('/Users/Tina Miranda/Documents/AIM/PROG/MIDTERMS/TESTS/Shop Testing')
 
 pygame.init()
 
 # Set up the display window 1861, 876
 win = pygame.display.set_mode((1861, 876))
 #Background for the shop
-BG = pygame.image.load("Assets/Shop Bg.jpg")
+BG = pygame.image.load("Game Testing/SHOP TESTING/Assets/Shop Bg.jpg")
 
 background_layer = pygame.Surface((1861, 876))
 shop_layer = pygame.Surface((1861, 876))
@@ -21,7 +19,7 @@ inventory_layer.fill(PURPLE_COLOR_KEY)
 inventory_layer.set_colorkey((255,0,255))
 
 # Make Dictionary of Letters and Cost
-Letter_Cost_File = open('Assets/Letter Costs.txt' , "r")
+Letter_Cost_File = open('Game Testing/SHOP TESTING/Assets/Letter Costs.txt' , "r")
 Letter_Cost_File_Lines = Letter_Cost_File.readlines()
 Letter_Cost_Dictionary = {}
 
@@ -62,7 +60,7 @@ YELLOW = (248, 255, 33)
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Assets/Shop Font.ttf", size)
+    return pygame.font.Font("Game Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=WHITE):
