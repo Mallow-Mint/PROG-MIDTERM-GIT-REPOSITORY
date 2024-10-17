@@ -6,7 +6,7 @@ screenSize(600, 600)
 setBackgroundColour("cyan")
 
 # Load the sprite
-link_gif_game = 'Link gif/gipsy spritesheet 24.png'
+link_gif_game = 'Link gif/gipsy spritesheet 24 2x.png'
 testSprite = makeSprite(link_gif_game, 24)  # links.gif contains 32 separate frames of animation.
 moveSprite(testSprite, 300, 300, True)
 showSprite(testSprite)
@@ -20,9 +20,6 @@ while True:
     if clock() > nextFrame:  # We only animate our character every 80ms.
         frame = (frame + 1) % 24  # There are 8 frames of animation in each direction
         nextFrame += 80  # so the modulus 8 allows it to loop
-
-    # Get key states using pygame key handling
-    keys = pygame.key.get_pressed()
 
     # Handling movement and sprite animation based on key presses
     if rolling_mode == 2:  # Right arrow (keypad 6)
