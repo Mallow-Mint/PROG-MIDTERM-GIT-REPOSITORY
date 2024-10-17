@@ -5,16 +5,14 @@ os.chdir('/Users/Tina Miranda/Documents/AIM/PROG/MIDTERMS/TESTS')
 pygame.init()
 
 # Create Display Window For Game
-screen_width = 1280
-screen_height = 800
-display_width = 1280
-display_height = 720
+screen_width = 1600
+screen_height = 900
 game_window = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Keyboard Battle")
 
 # Set Colors used for Textures
-background_layer = pygame.Surface((display_width, display_height))
-interface_layer = pygame.Surface((display_width, display_height))
+background_layer = pygame.Surface((screen_width, screen_height))
+interface_layer = pygame.Surface((screen_width, screen_height))
 
 # Set Colors used for Textures
 white = (255, 255, 255)
@@ -62,8 +60,7 @@ def validWordChecker(current_typed_word:str):
     else:
         return False
 
-# Keyboard layout
-
+# Define the Functions for keyboard updates
 
 # Key press counts
 key_press_counts = {key: 5 for key in Key_Updater.keys()}
