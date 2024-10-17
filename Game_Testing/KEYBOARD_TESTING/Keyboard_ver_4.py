@@ -134,40 +134,43 @@ keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 
 # Game loop
-character_counter = font.render(str(keyboard.max_character_count), True, white)
-interface_layer.blit(character_counter, (1050, 50))
-running = True
-keyboard.key_amounts()
-keyboard.keyboard_position()
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            key = pygame.key.name(event.key)
-            keyboard.key_press_action(key)
-            character_counter = font.render(str(keyboard.max_character_count), True, white)
-            interface_layer.blit(character_counter, (1050, 50))
+def battle_interface():
+    character_counter = font.render(str(keyboard.max_character_count), True, white)
+    interface_layer.blit(character_counter, (1050, 50))
+    running = True
+    keyboard.key_amounts()
+    keyboard.keyboard_position()
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                key = pygame.key.name(event.key)
+                keyboard.key_press_action(key)
+                character_counter = font.render(str(keyboard.max_character_count), True, white)
+                interface_layer.blit(character_counter, (1050, 50))
 
-# Printing Graphics Areaaaaaaaaaaa
+    # Printing Graphics Areaaaaaaaaaaa
 
-    # Black Background
-    background_layer.fill(black)
+        # Black Background
+        background_layer.fill(black)
 
-    # Make Typing Area Grey Rectangle
-    pygame.draw.rect(interface_layer, white, (380, typing_area_y, 520, typing_area_height))
+        # Make Typing Area Grey Rectangle
+        pygame.draw.rect(interface_layer, white, (380, typing_area_y, 520, typing_area_height))
 
-    # Draw typed text and cursor
-    typed_text_surface = font.render(keyboard.typed_text, True, black)
-    interface_layer.blit(typed_text_surface, (400, typing_area_y + 12))
+        # Draw typed text and cursor
+        typed_text_surface = font.render(keyboard.typed_text, True, black)
+        interface_layer.blit(typed_text_surface, (400, typing_area_y + 12))
 
-    # Draw keyboard and key counts
-    for key, pos in keyboard.Key_Position.items():
-        pygame.draw.rect(interface_layer, white, (pos[0], pos[1], 80, 100))
-        key_text = font.render(key, True, black)
-        count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
-        interface_layer.blit(key_text, (pos[0] + 30, pos[1] + 20))
-        interface_layer.blit(count_text, (pos[0] + 30, pos[1] + 70))
+        # Draw keyboard and key counts
+        for key, pos in keyboard.Key_Position.items():
+            pygame.draw.rect(interface_layer, white, (pos[0], pos[1], 80, 100))
+            key_text = font.render(key, True, black)
+            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
+            interface_layer.blit(key_text, (pos[0] + 30, pos[1] + 20))
+            interface_layer.blit(count_text, (pos[0] + 30, pos[1] + 70))
 
-    # Update display
-    update_game_screen()
+        # Update display
+        update_game_screen()
+
+battle_interface()
