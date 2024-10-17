@@ -7,9 +7,9 @@ setBackgroundColour("cyan")
 
 # Load the sprite
 link_gif_game = 'Link gif/gipsy spritesheet 24 2x.png'
-testSprite = makeSprite(link_gif_game, 24)  # links.gif contains 32 separate frames of animation.
-moveSprite(testSprite, 300, 300, True)
-showSprite(testSprite)
+test_sprite = makeSprite(link_gif_game, 24)  # links.gif contains 32 separate frames of animation.
+moveSprite(test_sprite, 300, 300, True)
+showSprite(test_sprite)
 
 # Set up frame variables
 nextFrame = clock()
@@ -23,7 +23,7 @@ while True:
 
     # Handling movement and sprite animation based on key presses
     if rolling_mode == 2:  # Right arrow (keypad 6)
-        changeSpriteImage(testSprite, 0 * 24 + frame)  # 0*8 because right animations are the 0th set in the sprite sheet
+        changeSpriteImage(test_sprite, 0 * 24 + frame)  # 0*8 because right animations are the 0th set in the sprite sheet
 
     tick(24)
 
