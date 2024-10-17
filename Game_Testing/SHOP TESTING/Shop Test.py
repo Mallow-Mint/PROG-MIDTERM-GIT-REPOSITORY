@@ -11,6 +11,11 @@ background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
 inventory_layer = pygame.Surface((1600, 900))
 
+nextFrame = clock()
+frame = 0
+potion_XL_SS = 'Assets/XL healing potion 14 MS.png'
+test_sprite_1 = makeSprite(potion_XL_SS, 24)
+
 # Make Surfaces Transparent With Purple Color Key
 PURPLE_COLOR_KEY = (255, 0, 255)
 shop_layer.fill(PURPLE_COLOR_KEY)
@@ -113,7 +118,6 @@ class Shop:
     def display_potions(self, shop_layer):
         draw_text(shop_layer, "Potions", 20, 300, 150)
 
-        # 2x2 grid setup for potion boxes
         potion_box_width = 150
         potion_box_height = 150
         grid_start_x = 270
@@ -130,14 +134,17 @@ class Shop:
             pygame.draw.rect(shop_layer, PURPLE_COLOR_KEY, (x, y, potion_box_width, potion_box_height))
 
             # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 15, x , y - 25, BLACK)
+            draw_text(shop_layer, potion.name, 15, x, y - 25, BLACK)
 
-            # Draw the "Buy for $price" rectangle below the potion box
+            # Draw the animated sprite instead of the brown box
             buy_box_x = x
             buy_box_y = y + potion_box_height + 10
-            buy_box_width = potion_box_width
-            buy_box_height = 30
-            pygame.draw.rect(shop_layer, YELLOW, (buy_box_x, buy_box_y, buy_box_width, buy_box_height))
+
+            if potion.name == "Healing Potion S":  # Example condition for specific potion
+                changeSpriteImage(test_sprite_1, 0 * 14 + frame)  # Update frame for animation
+                moveSprite(test_sprite_1, buy_box_x, buy_box_y, True)  # Move to position
+                showSprite(test_sprite_1)  # Display the sprite
+
             draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
 
     def display_letters(self, shop_layer):
@@ -164,7 +171,6 @@ class Shop:
                     return letter
         return None
 
-
     def switch_category(self, mx, my):
         if pygame.Rect(80, 50, 160, 50).collidepoint(mx, my):
             shop_layer.fill(PURPLE_COLOR_KEY)
@@ -175,6 +181,7 @@ class Shop:
             inventory_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Letters"
             self.shop_type = self.active_category
+
 
 # Class for inventory
 class Inventory:
@@ -253,17 +260,16 @@ clock = pygame.time.Clock()
 # Initialize the shop and inventory
 shop = Shop()
 inventory = Inventory(inventory_slots)
-
+running = True
 # Create reset button
 reset_button = Button(1420, 640, 150, 50, "Reset", RED)  # Adjusted button position for new resolution
 
-while run:
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
-
             shop.switch_category(mx, my)
 
             clicked_item = shop.get_clicked_item(mx, my)
@@ -276,6 +282,10 @@ while run:
                 player_currency = default_currency
                 inventory.clear_inventory()
 
+if clock() > nextFrame:  # To animate the sprite
+    frame = (frame + 1) % 24  # Update the frame for animation
+    nextFrame += 80  # Timing for the animation
+            
     shop.display_shop(shop_layer)
     display_currency(inventory_layer, player_currency)
 
