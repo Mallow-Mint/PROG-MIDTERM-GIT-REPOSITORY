@@ -41,6 +41,6 @@ while True:
     else:
         changeSpriteImage(testSprite, 1 * 8 + 5)  # the static facing front look
 
-    tick(120)
+    tick(24)
 
 endWait()
