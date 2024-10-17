@@ -16,7 +16,7 @@ GRAY = (200, 200, 200)
 
 # Load font
 def get_font(size):
-    return pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 32)
+    return pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', size)
 
 # Button class
 class Button:
@@ -61,10 +61,10 @@ def main_menu():
         SCREEN.blit(title_text, title_rect)
 
         # Create buttons
-        start_button = Button((650, 300), "NEW GAME", get_font(50), BLACK, GRAY)
-        tutorial_button = Button((650, 350), "TUTORIALS", get_font(50), BLACK, GRAY)
-        scores_button = Button((650, 400), "SCORES", get_font(50), BLACK, GRAY)
-        quit_button = Button((650, 450), "QUIT", get_font(50), BLACK, GRAY)
+        start_button = Button((650, 300), "NEW GAME", get_font(32), BLACK, GRAY)
+        tutorial_button = Button((650, 350), "TUTORIALS", get_font(32), BLACK, GRAY)
+        scores_button = Button((650, 400), "SCORES", get_font(32), BLACK, GRAY)
+        quit_button = Button((650, 450), "QUIT", get_font(32), BLACK, GRAY)
     
 
         # Change button color based on mouse position
@@ -86,7 +86,7 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.check_for_input(mouse_pos):
-                    print("Start the game!")  # Replace with your game starting function
+                    print("Start the game")  # Replace with your game starting function
                 if tutorial_button.check_for_input(mouse_pos):
                     print("Start the tutorial")
                 if scores_button.check_for_input(mouse_pos):
