@@ -92,7 +92,6 @@ class Shop:
         self.active_category = "Potions"
         self.shop_type = self.active_category
 
-        # Define renamed potions and letters
         self.potions = [
             ShopItem("Healing Potion S", 20, "Potion"),
             ShopItem("Healing Potion XL", 50, "Potion"),
@@ -102,13 +101,11 @@ class Shop:
         self.letters = [ShopItem(letter, price, "Letter") for letter, price in Letter_Cost_Dictionary.items()]
 
     def display_shop(self, shop_layer):
-        # Display category tabs
         for i, category in enumerate(self.categories):
             color = LIGHT_GREY if category == self.active_category else WHITE
             pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
             draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
 
-        # Display items from the active category
         if self.active_category == "Potions":
             self.display_potions(shop_layer)
             inventory.display_inventory(inventory_layer)
@@ -130,28 +127,24 @@ class Shop:
             x = grid_start_x + col * spacing
             y = grid_start_y + row * spacing
 
-            # Draw potion asset box
             pygame.draw.rect(shop_layer, PURPLE_COLOR_KEY, (x, y, potion_box_width, potion_box_height))
-
-            # Draw potion name above the box
             draw_text(shop_layer, potion.name, 15, x, y - 25, BLACK)
 
-            # Draw the animated sprite instead of the brown box
             buy_box_x = x
             buy_box_y = y + potion_box_height + 10
 
-            if potion.name == "Healing Potion S":  # Example condition for specific potion
-                changeSpriteImage(test_sprite_1, 0 * 14 + frame)  # Update frame for animation
-                moveSprite(test_sprite_1, buy_box_x, buy_box_y, True)  # Move to position
-                showSprite(test_sprite_1)  # Display the sprite
+            if potion.name == "Healing Potion S":
+                changeSpriteImage(test_sprite_1, 0 * 14 + frame)
+                moveSprite(test_sprite_1, buy_box_x, buy_box_y, True)
+                showSprite(test_sprite_1)
 
             draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
 
     def display_letters(self, shop_layer):
         draw_text(shop_layer, "Letters", 30, 130, 150)
         for i, letter in enumerate(self.letters):
-            x_offset = (i % 7) * 100  # Horizontal spacing between boxes
-            y_offset = (i // 7) * 80   # Vertical spacing between rows
+            x_offset = (i % 7) * 100
+            y_offset = (i // 7) * 80
             letter.display(shop_layer, 130 + x_offset, 200 + y_offset, 90, 50)
 
     def get_clicked_item(self, mx, my):
