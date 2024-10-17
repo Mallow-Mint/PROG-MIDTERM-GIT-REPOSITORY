@@ -5,7 +5,7 @@ pygame.init()
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
 # Background for the shop
-BG = pygame.image.load("Game_Testing/SHOP TESTING/Assets/wooden shop bg.png")
+BG = pygame.image.load("Assets/wooden shop bg.png")
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
@@ -19,7 +19,7 @@ inventory_layer.fill(PURPLE_COLOR_KEY)
 inventory_layer.set_colorkey((255, 0, 255))
 
 # Make Dictionary of Letters and Cost
-Letter_Cost_File = open('Game_Testing/SHOP TESTING/Assets/Letter Costs.txt', "r")
+Letter_Cost_File = open('Assets/Letter Costs.txt', "r")
 Letter_Cost_File_Lines = Letter_Cost_File.readlines()
 Letter_Cost_Dictionary = {}
 
@@ -59,7 +59,7 @@ TRANSPARENT = (0, 0, 0,)
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
+    return pygame.font.Font("Assets/Shop Font.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=WHITE):
@@ -180,11 +180,6 @@ class Shop:
 class Inventory:
     def __init__(self, slots):
         self.slots = [None] * slots
-        self.link_gif_game = 'Link gif/gipsy spritesheet 24.png'  # Path to your sprite sheet
-        self.testSprite = makeSprite(self.link_gif_game, 24)  # Load the sprite sheet with 24 frames
-        self.frame = 0
-        self.nextFrame = clock()
-        self.rolling_mode = 0 + 2  # Set initial rolling mode
 
     def add_to_inventory(self, item, shop_type):
         if shop.shop_type == "Potions":
@@ -200,32 +195,29 @@ class Inventory:
         self.slots = [None] * len(self.slots)
 
     def display_inventory(self, inventory_layer):
-        inv_x_start = 1300  # Starting x position (right side of the screen)
-        inv_y_start = 50    # Starting y position
+        # Place the inventory in the top right corner in a 2x3 grid
+        inv_x_start = 1000  # Starting x position (near the right side of the screen)
+        inv_y_start = 190  # Starting y position (upper part of the screen)
 
+        # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 20, inv_x_start, inv_y_start - 30)
 
+        # Iterate over each inventory slot and position it in a 2x3 grid
         for i in range(len(self.slots)):
-            row = i // 2  # Two columns
-            col = i % 2   # Two columns
+            row = i // 2  # There are 2 columns, so the row is calculated based on index // 2
+            col = i % 2   # Column is either 0 (left) or 1 (right)
 
-            x_pos = inv_x_start + col * 175  # 175 px spacing
-            y_pos = inv_y_start + row * 100  # 100 px spacing
+            # Adjust positions for the 2x3 layout
+            x_pos = inv_x_start + col * 175  # 175 px spacing between columns
+            y_pos = inv_y_start + row * 100  # 100 px spacing between rows
 
-            # Animate the sprite instead of drawing a rectangle
-            if self.slots[i] is not None:  # If there is an item in this slot
-                # Update sprite animation
-                if self.rolling_mode == 2:  # Example for the right animation
-                    changeSpriteImage(self.testSprite, 0 * 24 + self.frame)  # Change frame for right animation
+            # Draw a slot (adjusted size for better fit)
+            pygame.draw.rect(inventory_layer, YELLOW, (x_pos, y_pos, 150, 80), 5)
 
-                # Move the sprite to the correct position
-                moveSprite(self.testSprite, x_pos + 75, y_pos + 40)  # Center the sprite in the box (adjust y for height)
-                showSprite(self.testSprite)
+            # If an item exists in this slot, display its name
+            if self.slots[i] is not None:
+                draw_text(inventory_layer, self.slots[i].name, 15, x_pos + 5, y_pos + 30)
 
-        # Increment the frame for the animation
-        if clock() > self.nextFrame:  # Control animation speed
-            self.frame = (self.frame + 1) % 24  # Loop through frames
-            self.nextFrame += 80  # Control frame timing
 
 
 # Function to display the player's currency
