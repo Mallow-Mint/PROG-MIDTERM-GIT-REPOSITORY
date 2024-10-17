@@ -1,4 +1,5 @@
 import pygame
+from os import *
 from pygame_functions import *
 
 # Initialize the screen
@@ -6,7 +7,8 @@ screenSize(600, 600)
 setBackgroundColour("pink")
 
 # Load the sprite
-testSprite = makeSprite('Assets/trial gif zelda/links.gif', 32)  # links.gif contains 32 separate frames of animation.
+link_gif_game = 'Link gif/links.gif'
+testSprite = makeSprite(link_gif_game, 32)  # links.gif contains 32 separate frames of animation.
 moveSprite(testSprite, 300, 300, True)
 showSprite(testSprite)
 
