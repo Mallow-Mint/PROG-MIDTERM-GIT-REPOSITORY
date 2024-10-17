@@ -15,5 +15,5 @@ match lang:
 
     case "Java":
         print("You can become a mobile app developer")
-    case _:
-        print("The language doesn't matter, what matters is solving problems.")
+        
+        
