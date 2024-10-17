@@ -6,7 +6,7 @@ pygame.init()
 
 Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
 # Set up display
-SCREEN = pygame.display.set_mode((1300, 650))
+SCREEN = pygame.display.set_mode((1600, 900))
 pygame.display.set_caption("Spell Book")
 
 # Define colors
@@ -48,54 +48,59 @@ class Button:
         return self.rect.collidepoint(mouse_pos)
 
 # Main function
-def main_menu():
-    while True:
-        SCREEN.fill(BLACK)
-        SCREEN.blit(Title_BG, (-100, 0))
-        # Get mouse position
-        mouse_pos = pygame.mouse.get_pos()
+class MainMenu:
+    def __init__(self):
+        
+        self.new_game_condition = False
 
-        # Title text
-        title_text = get_font(100).render("SPELL BOOK", True, BLACK)
-        title_rect = title_text.get_rect(center=(650, 200))
-        SCREEN.blit(title_text, title_rect)
+    def main_menu_display(self):
+        while True:
+            SCREEN.fill(BLACK)
+            SCREEN.blit(Title_BG, (0, 0))
+            # Get mouse position
+            mouse_pos = pygame.mouse.get_pos()
 
-        # Create buttons
-        start_button = Button((650, 300), "NEW GAME", get_font(30), BLACK, GRAY)
-        tutorial_button = Button((650, 350), "TUTORIALS", get_font(30), BLACK, GRAY)
-        scores_button = Button((650, 400), "SCORES", get_font(30), BLACK, GRAY)
-        quit_button = Button((650, 450), "QUIT", get_font(30), BLACK, GRAY)
-    
+            # Title text
+            title_text = get_font(100).render("SPELL BOOK", True, BLACK)
+            title_rect = title_text.get_rect(center=(650, 200))
+            SCREEN.blit(title_text, title_rect)
 
-        # Change button color based on mouse position
-        start_button.change_color(mouse_pos)
-        tutorial_button.change_color(mouse_pos)
-        scores_button.change_color(mouse_pos)
-        quit_button.change_color(mouse_pos)
+            # Create buttons
+            start_button = Button((650, 300), "NEW GAME", get_font(30), BLACK, GRAY)
+            tutorial_button = Button((650, 350), "TUTORIALS", get_font(30), BLACK, GRAY)
+            scores_button = Button((650, 400), "SCORES", get_font(30), BLACK, GRAY)
+            quit_button = Button((650, 450), "QUIT", get_font(30), BLACK, GRAY)
+        
+
+            # Change button color based on mouse position
+            start_button.change_color(mouse_pos)
+            tutorial_button.change_color(mouse_pos)
+            scores_button.change_color(mouse_pos)
+            quit_button.change_color(mouse_pos)
 
 
-        # Draw buttons
-        start_button.draw(SCREEN)
-        tutorial_button.draw(SCREEN)
-        scores_button.draw(SCREEN)
-        quit_button.draw(SCREEN)
+            # Draw buttons
+            start_button.draw(SCREEN)
+            tutorial_button.draw(SCREEN)
+            scores_button.draw(SCREEN)
+            quit_button.draw(SCREEN)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if start_button.check_for_input(mouse_pos):
-                    print("Start the game!")  # Replace with your game starting function
-                if tutorial_button.check_for_input(mouse_pos):
-                    print("Start the tutorial")
-                if scores_button.check_for_input(mouse_pos):
-                    print("Show scores")
-                if quit_button.check_for_input(mouse_pos):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if start_button.check_for_input(mouse_pos):
+                        print("Start the game!")  # Replace with your game starting function
+                        self.new_game_condition = True
+                    if tutorial_button.check_for_input(mouse_pos):
+                        print("Start the tutorial")
+                    if scores_button.check_for_input(mouse_pos):
+                        print("Show scores")
+                    if quit_button.check_for_input(mouse_pos):
+                        pygame.quit()
+                        sys.exit()
+                    
 
-        pygame.display.update()
-
-# Run the main menu
+            pygame.display.update()
+main_menu = MainMenu()
