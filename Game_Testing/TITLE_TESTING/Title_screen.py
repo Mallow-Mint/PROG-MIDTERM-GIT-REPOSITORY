@@ -6,6 +6,9 @@ pygame.init()
 
 Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
 # Set up display
+SCREEN = pygame.display.set_mode((1600, 900))
+pygame.display.set_caption("Spell Book")
+
 # Define colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -44,14 +47,10 @@ class Button:
     def check_for_input(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)
 
-SCREEN_WIDTH = 1600
-SCREEN_HEIGHT = 900
 # Main function
 class MainMenu:
     def __init__(self):
-        self.SCREEN = pygame.display.set_mode((1600, 900))
-        pygame.display.set_caption("Spell Book")
-
+        
         self.new_game_condition = False
 
     def main_menu_display(self):
@@ -104,5 +103,4 @@ class MainMenu:
                     
 
             pygame.display.update()
-
 main_menu = MainMenu()
