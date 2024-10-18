@@ -18,7 +18,7 @@ black = (0, 0, 0)
 gray = (130, 130, 130)
 
 # Set fonts Used for Text
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
 
 # Define the Functions for keyboard updates
 class Valid_Dictionary:
