@@ -1,0 +1,21 @@
+(42,80)
+(60,80), self.keyboard_default_key_sprite[1])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (78,80), self.keyboard_default_key_sprite[2])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (96,80), self.keyboard_default_key_sprite[3])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (114,80), self.keyboard_default_key_sprite[4])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (132,80), self.keyboard_default_key_sprite[5])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (150,80), self.keyboard_default_key_sprite[6])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (168,80), self.keyboard_default_key_sprite[7])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (186,80), self.keyboard_default_key_sprite[8])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (204,80), self.keyboard_default_key_sprite[9])
+
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (50,97), self.keyboard_default_key_sprite[10])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (68,97), self.keyboard_default_key_sprite[11])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (86,97), self.keyboard_default_key_sprite[12])
+
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (176,97), self.keyboard_default_key_sprite[17])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (194,97), self.keyboard_default_key_sprite[18])
+
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (68,114), self.keyboard_default_key_sprite[19])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (86,114), self.keyboard_default_key_sprite[20])
+        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (176,114), self.keyboard_default_key_sprite[25])

@@ -15,8 +15,10 @@ black = (0, 0, 0)
 gray = (130, 130, 130)
 KEY_PURPLE = (255, 0, 255)
 
+
 # Set fonts Used for Text
 font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
+big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 
 # Set Layers Class
 class Layers:
@@ -45,8 +47,8 @@ class Keyboard:
         self.cursor_position = 0
         self.max_character_count = 20
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
-                              'a', 's', 'd', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-                              'x', 'c', 'v', 'b', 'n', 'm' ]
+                              'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+                              'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
         
         self.no_letter_left = font.render("You Have None of this Character Left!", True, white)
         self.no_character_left = font.render("You Have No Characters Left!", True, white)   
@@ -55,7 +57,7 @@ class Keyboard:
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
 
-        self.Letter_Positions_File = open('TESTS/Letter Positions.txt' , "r")
+        self.Letter_Positions_File = open('TESTS/Letter_Amount_Positions.txt' , "r")
         self.Letter_Positions_File_Lines = self.Letter_Positions_File.readlines()
 
         for line in self.Letter_Positions_File_Lines:
@@ -81,45 +83,50 @@ class Keyboard:
             self.Key_Count_Remaining[self.letter_count] = int(self.letter_amount)
         self.Letter_Amounts_File.close
     
-    def keyboard_display(self):
+    def keyboard_sprites(self):
         self.keyboard_sprite_sheet = pygame.image.load('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png').convert_alpha()
 
         self.keyboard_default_key_sprite = []
         self.keyboard_pressed_key_sprite = []
 
         qwerty_number = 0
-
-        self.key_position_changer = 0
-        self.key_default_sprite_changer = 0
+        self.sprite_mover = 0
 
         for key in self.valid_letters:
-            self.keyboard_default_key_sprite.append((0 + (35*qwerty_number), 0 , 17, 16))
+            self.keyboard_default_key_sprite.append((0 + (34*qwerty_number), 0 , 17, 16))
+            self.keyboard_pressed_key_sprite.append((17 + (34*qwerty_number), 0 , 17, 16))
             qwerty_number += 1
         
-        layer.keyboard_layer.blit(self.keyboard_sprite_sheet, (0,0), (34,0,17,16))
-        print(self.keyboard_default_key_sprite[1])
-
+        self.sprite_display_positions = [(42,80), (60, 80), (78,80), (96, 80), (114,80), (132,80), (150,80), (168,80), (186,80), (204,80),
+                                         (50,97), (68, 97), (86,97), (104,97), (122,97), (140,97), (158, 97), (176,97), (194,97),
+                                         (68,114), (86,114), (104,114), (122,114), (140,114), (158,114), (176,114)]
+        
+    def display_keyboard(self):
+        for key in self.valid_letters:
+            layer.keyboard_layer.blit(self.keyboard_sprite_sheet, self.sprite_display_positions[0 + self.sprite_mover], 
+                                      self.keyboard_default_key_sprite[0 + self.sprite_mover])
+            self.sprite_mover += 1
 
     def key_press_action(self, key:str,):
         self.pressed_key = key
         match self.pressed_key:
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
-                    layer.interface_layer.fill(black)
+                    layer.interface_layer.fill(KEY_PURPLE)
                     self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                     self.cursor_position += 1
                     self.Key_Count_Remaining[self.pressed_key] -= 1
                     self.max_character_count -=1
                 else:
-                    layer.interface_layer.fill(black)
-                    layer.interface_layer.blit(self.no_letter_left, (420, 200))
+                    layer.interface_layer.fill(KEY_PURPLE)
+                    layer.interface_layer.blit(self.no_letter_left, (530, 350))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
-                layer.interface_layer.fill(black)
-                layer.interface_layer.blit(self.no_character_left, (460, 200))
+                layer.interface_layer.fill(KEY_PURPLE)
+                layer.interface_layer.blit(self.no_character_left, (560, 350))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
-                layer.interface_layer.fill(black)
+                layer.interface_layer.fill(KEY_PURPLE)
                 self.deleted_key = self.typed_text[self.cursor_position - 1]  # Store the deleted key
                 self.typed_text = self.typed_text[:self.cursor_position - 1] + self.typed_text[self.cursor_position:]
                 self.cursor_position -= 1
@@ -131,14 +138,14 @@ class Keyboard:
             case self.pressed_key if self.pressed_key == 'return':
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
-                    layer.interface_layer.fill(black)
+                    layer.interface_layer.fill(KEY_PURPLE)
                     self.displayed_text = font.render(self.typed_text, True, white) 
                     layer.interface_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
-                    layer.interface_layer.fill(black)
-                    layer.interface_layer.blit(self.not_in_dictionary, (480, 200))
+                    layer.interface_layer.fill(KEY_PURPLE)
+                    layer.interface_layer.blit(self.not_in_dictionary, ((600), 350))
 
 def update_game_screen():
     '''
@@ -146,16 +153,17 @@ def update_game_screen():
     '''
     game_window.fill(black)
     game_window.blit(layer.background_layer, (0,0))
-    game_window.blit(layer.interface_layer, (0,0))
-    layer.interface_layer = pygame.transform.scale(layer.keyboard_layer, (SCREEN_WIDTH*4, SCREEN_HEIGHT*4))
-
+    layer.keyboard_layer = pygame.transform.scale(layer.keyboard_layer, (SCREEN_WIDTH*6, SCREEN_HEIGHT*6))
+    layer.keyboard_layer.set_colorkey(KEY_PURPLE)
     game_window.blit(layer.keyboard_layer, (0,0))
+    game_window.blit(layer.interface_layer, (0,0))
+
 
     pygame.display.update()
 
 # Intalize Variable for Typing Area
 typing_area_height = 50
-typing_area_y = 280
+typing_area_y = 400
 
 # Initalizes Variables from Classes
 
@@ -165,14 +173,15 @@ layer = Layers()
 
 # Game loop
 def battle_interface():
-    character_counter = font.render(str(keyboard.max_character_count), True, white)
-    layer.interface_layer.blit(character_counter, (1050, 50))
     running = True
-    layer.keyboard_layer.set_colorkey((KEY_PURPLE))
     layer.keyboard_layer.fill((KEY_PURPLE))
+    layer.interface_layer.fill((KEY_PURPLE))
+    layer.keyboard_layer.set_colorkey(KEY_PURPLE)
+    layer.interface_layer.set_colorkey(KEY_PURPLE)
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
-    keyboard.keyboard_display()
+    keyboard.keyboard_sprites()
+    keyboard.display_keyboard()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -189,19 +198,20 @@ def battle_interface():
         layer.background_layer.fill(black)
 
         # Make Typing Area Grey Rectangle
-        pygame.draw.rect(layer.interface_layer, white, (380, typing_area_y, 520, typing_area_height))
+        pygame.draw.rect(layer.interface_layer, white, (520, typing_area_y, 520, typing_area_height))
 
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text, True, black)
-        layer.interface_layer.blit(typed_text_surface, (400, typing_area_y + 12))
+        layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
+
+        character_counter = font.render(str(keyboard.max_character_count), True, white)
+        layer.interface_layer.blit(character_counter, (1050, 50))
+
+        for key, pos in keyboard.Key_Amount_Position.items():
+            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
+            layer.interface_layer.blit(count_text, (pos[0], pos[1]))
 
         # Draw keyboard and key counts
-        for key, pos in keyboard.Key_Amount_Position.items():
-            pygame.draw.rect(layer.interface_layer, white, (pos[0], pos[1], 80, 100))
-            key_text = font.render(key, True, black)
-            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
-            layer.interface_layer.blit(key_text, (pos[0] + 30, pos[1] + 20))
-            layer.interface_layer.blit(count_text, (pos[0] + 30, pos[1] + 70))
 
         # Update display
         update_game_screen()
