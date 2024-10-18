@@ -57,14 +57,14 @@ def main_menu():
 
         # Title text
         title_text = get_font(100).render("SPELL BOOK", True, BLACK)
-        title_rect = title_text.get_rect(center=(650, 200))
+        title_rect = title_text.get_rect(center=(650, 150))
         SCREEN.blit(title_text, title_rect)
 
         # Create buttons
-        start_button = Button((650, 300), "NEW GAME", get_font(32), BLACK, GRAY)
-        tutorial_button = Button((650, 350), "TUTORIALS", get_font(32), BLACK, GRAY)
-        scores_button = Button((650, 400), "SCORES", get_font(32), BLACK, GRAY)
-        quit_button = Button((650, 450), "QUIT", get_font(32), BLACK, GRAY)
+        start_button = Button((650, 250), "NEW GAME", get_font(32), BLACK, GRAY)
+        tutorial_button = Button((650, 300), "TUTORIALS", get_font(32), BLACK, GRAY)
+        scores_button = Button((650, 350), "SCORES", get_font(32), BLACK, GRAY)
+        quit_button = Button((650, 400), "QUIT", get_font(32), BLACK, GRAY)
     
 
         # Change button color based on mouse position

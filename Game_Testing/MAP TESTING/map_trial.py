@@ -3,7 +3,7 @@ import pygame
 # Node class definition with unlocked connections from earlier
 class Node:
     def __init__(self, x, y, radius, state="locked", screen_type=None):
-        self.x = x
+        self.x = x 
         self.y = y
         self.radius = radius
         self.state = state
