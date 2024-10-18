@@ -145,7 +145,14 @@ class Keyboard:
                     self.cursor_position = 0
                 else:
                     layer.interface_layer.fill(KEY_PURPLE)
-                    layer.interface_layer.blit(self.not_in_dictionary, ((600), 350))
+                    layer.interface_layer.blit(self.not_in_dictionary, ((600), 350))    
+                    
+
+            case self.pressed_key if self.pressed_key == "space":
+                layer.interface_layer.fill(KEY_PURPLE)
+                self.typed_text = self.typed_text[:self.cursor_position] + " " + self.typed_text[self.cursor_position:]
+                self.cursor_position += 1
+
 
 def update_game_screen():
     '''
@@ -175,13 +182,18 @@ layer = Layers()
 def battle_interface():
     running = True
     layer.keyboard_layer.fill((KEY_PURPLE))
+
     layer.interface_layer.fill((KEY_PURPLE))
     layer.keyboard_layer.set_colorkey(KEY_PURPLE)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
+
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
     keyboard.keyboard_sprites()
     keyboard.display_keyboard()
+
+    frame_rate = pygame.time.Clock()
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -213,5 +225,6 @@ def battle_interface():
 
         # Update display
         update_game_screen()
+        frame_rate.tick(24)
 
 battle_interface()
