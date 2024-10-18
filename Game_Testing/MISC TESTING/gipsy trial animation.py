@@ -6,8 +6,8 @@ screenSize(600, 600)
 setBackgroundColour("cyan")
 
 # Load the sprite
-link_gif_game = 'Link gif/XL healing potion 14.png'
-test_sprite = makeSprite(link_gif_game, 15)  # links.gif contains 32 separate frames of animation.
+gif_test = 'Link gif/XL healing potion 14.png'
+test_sprite = makeSprite(gif_test, 15)  # links.gif contains 32 separate frames of animation.
 moveSprite(test_sprite, 300, 300, True)
 showSprite(test_sprite)
 
