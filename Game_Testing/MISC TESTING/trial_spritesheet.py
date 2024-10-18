@@ -9,7 +9,7 @@ SCREEN_HEIGHT = 900
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Spritesheets')
 
-sprite_sheet_image = pygame.image.load('Link gif/XL healing potion 14.png').convert_alpha()
+sprite_sheet_image = pygame.image.load('Game_Testing\MISC TESTING\Link gif\XL healing potion 14.png').convert_alpha()
 sprite_sheet = spritesheet.SpriteSheet(sprite_sheet_image)
 
 BG = (50, 50, 50)
@@ -17,7 +17,7 @@ BLACK = (0, 0, 0)
 
 #Creating animation list
 animation_list = []
-animation_steps = [4, 4]  # Example: two animations with 4 frames each
+animation_steps = [15]  # Example: two animations with 7 frames each
 last_update = pygame.time.get_ticks()
 action = 0
 animation_cooldown = 100  # Time in milliseconds between frames
@@ -28,7 +28,7 @@ step_counter = 0
 for animation in animation_steps:
     temp_img_list = []
     for _ in range(animation):
-        temp_img_list.append(sprite_sheet.get_image(step_counter, 19, 38, 3, BLACK))  # Adjust frame size as needed
+        temp_img_list.append(sprite_sheet.get_image(step_counter, 57, 114, 1, BLACK))  # Adjust frame size as needed
         step_counter += 1
     animation_list.append(temp_img_list)
 
