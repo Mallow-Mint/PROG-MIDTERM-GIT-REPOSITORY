@@ -130,9 +130,10 @@ class Keyboard:
                 self.deleted_key = self.typed_text[self.cursor_position - 1]  # Store the deleted key
                 self.typed_text = self.typed_text[:self.cursor_position - 1] + self.typed_text[self.cursor_position:]
                 self.cursor_position -= 1
-                self.max_character_count += 1
                 if self.deleted_key in self.valid_letters:
                     self.Key_Count_Remaining[self.deleted_key] += 1  # Add 1 to the count of the deleted key
+                    self.max_character_count += 1
+
 
     
             case self.pressed_key if self.pressed_key == 'return':
@@ -146,12 +147,7 @@ class Keyboard:
                 else:
                     layer.interface_layer.fill(KEY_PURPLE)
                     layer.interface_layer.blit(self.not_in_dictionary, ((600), 350))    
-                    
-
-            case self.pressed_key if self.pressed_key == "space":
-                layer.interface_layer.fill(KEY_PURPLE)
-                self.typed_text = self.typed_text[:self.cursor_position] + " " + self.typed_text[self.cursor_position:]
-                self.cursor_position += 1
+                
 
 
 def update_game_screen():
