@@ -189,8 +189,6 @@ def battle_interface():
             elif event.type == pygame.KEYDOWN:
                 key = pygame.key.name(event.key)
                 keyboard.key_press_action(key)
-                character_counter = font.render(str(keyboard.max_character_count), True, white)
-                layer.interface_layer.blit(character_counter, (1050, 50))
 
     # Printing Graphics Areaaaaaaaaaaa
 
@@ -204,8 +202,8 @@ def battle_interface():
         typed_text_surface = font.render(keyboard.typed_text, True, black)
         layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
 
-        character_counter = font.render(str(keyboard.max_character_count), True, white)
-        layer.interface_layer.blit(character_counter, (1050, 50))
+        character_counter = big_font.render(str(keyboard.max_character_count), True, white)
+        layer.interface_layer.blit(character_counter, (1350, 50))
 
         for key, pos in keyboard.Key_Amount_Position.items():
             count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
