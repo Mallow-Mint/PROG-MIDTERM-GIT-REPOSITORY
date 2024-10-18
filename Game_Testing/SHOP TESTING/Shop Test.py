@@ -260,7 +260,7 @@ reset_button = Button(1420, 640, 150, 50, "Reset", RED)  # Adjusted button posit
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
             shop.switch_category(mx, my)
@@ -275,20 +275,20 @@ while running:
                 player_currency = default_currency
                 inventory.clear_inventory()
 
-if clock() > nextFrame:  # To animate the sprite
-    frame = (frame + 1) % 24  # Update the frame for animation
-    nextFrame += 80  # Timing for the animation
-            
-    shop.display_shop(shop_layer)
-    display_currency(inventory_layer, player_currency)
+    if clock() > nextFrame:  # To animate the sprite
+        frame = (frame + 1) % 24  # Update the frame for animation
+        nextFrame += 80  # Timing for the animation
+                
+        shop.display_shop(shop_layer)
+        display_currency(inventory_layer, player_currency)
 
-    # Draw the reset button
-    reset_button.draw(shop_layer)
+        # Draw the reset button
+        reset_button.draw(shop_layer)
 
-    # Call to display the inventory
-    inventory.display_inventory(inventory_layer)
+        # Call to display the inventory
+        inventory.display_inventory(inventory_layer)
 
-    screen_updater()
-    clock.tick(30)
+        screen_updater()
+        clock.tick(30)
 
-pygame.quit()
+    pygame.quit()
