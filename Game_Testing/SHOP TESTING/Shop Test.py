@@ -63,14 +63,24 @@ LIGHT_BROWN = (196, 164, 132)
 YELLOW = (248, 255, 33)
 TRANSPARENT = (0, 0, 0,)
 
-#Creating animation list
+# Creating animation list
 animation_list = []
-animation_steps = [4, 4]  # Example: two animations with 4 frames each
+animation_steps = [15]  # Example: adjust this number to match your frames
 last_update = pygame.time.get_ticks()
 action = 0
 animation_cooldown = 100  # Time in milliseconds between frames
 frame = 0
 step_counter = 0
+
+# Populate the animation_list based on the frames in animation_steps
+for animation in animation_steps:
+    temp_img_list = []
+    for _ in range(animation):
+        img = sprite_sheet_HpXL.get_image(step_counter, 57, 114, 1, BLACK)  # Adjust parameters as needed
+        if img is not None:  # Ensure we have a valid image
+            temp_img_list.append(img)
+        step_counter += 1
+    animation_list.append(temp_img_list)
 
 # Function to load and return the custom font
 def get_font(size):
@@ -135,6 +145,7 @@ class Shop:
         grid_start_y = 220
         spacing = 250
 
+        # Draw each potion in the 2x2 grid
         for i, potion in enumerate(self.potions):
             row = i // 2
             col = i % 2
@@ -145,7 +156,7 @@ class Shop:
             pygame.draw.rect(shop_layer, PURPLE_COLOR_KEY, (x, y, potion_box_width, potion_box_height))
 
             # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 13, x - 20 , y - 25, BLACK)
+            draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
 
             # Draw the "Buy for $price" rectangle below the potion box
             buy_box_x = x
@@ -154,6 +165,13 @@ class Shop:
             buy_box_height = 30
             pygame.draw.rect(shop_layer, YELLOW, (buy_box_x, buy_box_y, buy_box_width, buy_box_height))
             draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
+
+            # Draw the sprite for Healing Potion XL in the correct position
+            if potion.name == "Healing Potion S":  # Check if this is the target potion
+                sprite_x = x + 15  # X position for the sprite (same as potion box)
+                sprite_y = y  # Y position for the sprite (same as potion box)
+                shop_layer.blit(animation_list[0][frame], (sprite_x, sprite_y))  # Blit the sprite at the potion position
+
 
     def display_letters(self, shop_layer):
         draw_text(shop_layer, "Letters", 20, 400, 150)
@@ -288,6 +306,13 @@ inventory = Inventory(inventory_slots)
 reset_button = Button(1420, 640, 150, 50, "Reset", RED)  # Adjusted button position for new resolution
 
 while run:
+    current_time = pygame.time.get_ticks()
+    if current_time - last_update >= animation_cooldown:
+        frame += 1
+        last_update = current_time
+        if frame >= len(animation_list[action]):
+            frame = 0
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
