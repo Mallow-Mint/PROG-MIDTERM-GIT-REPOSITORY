@@ -5,17 +5,24 @@ pygame.init()
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
 # Background for everything in the shop
-shop_bg = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden shop bg.png')
+shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial wood shop bg.png')
 currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
+item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
+item_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/item frames.png')
 currency_BG = pygame.transform.scale(currency_BG_normal, (600 // 2, 300 // 2))
+item_BG = pygame.transform.scale(item_BG_normal, (568 , 750 ))
+shop_bg = pygame.transform.scale(shop_bg_normal, (1600 , 1117 * 0.81 ))
+item_frame = pygame.transform.scale(item_frame_normal, (200, 200))
 
 #variables for the sprites
-sprite_sheet_image_1 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/XL healing potion 14 MS.png').convert_alpha()
-sprite_sheet_HpXL = spritesheet.SpriteSheet(sprite_sheet_image_1) 
+sprite_sheet_image = pygame.image.load('Game_Testing/SHOP TESTING/Assets/Healing potion OG.png').convert_alpha()
+sprite_sheet_HpXL = spritesheet.SpriteSheet(sprite_sheet_image) 
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
 inventory_layer = pygame.Surface((1600, 900))
+sprite_layer = pygame.Surface((1600,900))
+misc_layer = pygame.Surface((1600,900))
 
 # Make Surfaces Transparent With Purple Color Key
 PURPLE_COLOR_KEY = (255, 0, 255)
@@ -23,6 +30,8 @@ shop_layer.fill(PURPLE_COLOR_KEY)
 shop_layer.set_colorkey((255, 0, 255))
 inventory_layer.fill(PURPLE_COLOR_KEY)
 inventory_layer.set_colorkey((255, 0, 255))
+misc_layer.fill(PURPLE_COLOR_KEY)
+misc_layer.set_colorkey((255, 0, 255))
 
 # Make Dictionary of Letters and Cost
 Letter_Cost_File = open('Game_Testing/SHOP TESTING/Assets/Letter Costs.txt', 'r')
@@ -39,6 +48,7 @@ def screen_updater():
     win.fill(BLACK)
     background_layer.blit(shop_bg, (0, 0))
     win.blit(background_layer, (0, 0))
+    win.blit(misc_layer, (0, 0))
     win.blit(shop_layer, (0, 0))
     win.blit(inventory_layer, (0, 0))
 
@@ -51,7 +61,7 @@ inventory_slots = 6
 inventory = [None] * inventory_slots
 
 # Define colors
-WHITE = (255, 255, 255)
+PURPLE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -76,7 +86,7 @@ step_counter = 0
 for animation in animation_steps:
     temp_img_list = []
     for _ in range(animation):
-        img = sprite_sheet_HpXL.get_image(step_counter, 57, 114, 1, BLACK)  # Adjust parameters as needed
+        img = sprite_sheet_HpXL.get_image(step_counter, 19, 38, 2.2, BLACK)  # Adjust parameters as needed
         if img is not None:  # Ensure we have a valid image
             temp_img_list.append(img)
         step_counter += 1
@@ -87,7 +97,7 @@ def get_font(size):
     return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
 
 # Function to draw text using the custom font
-def draw_text(shop_layer, text, font_size, x, y, color=WHITE):
+def draw_text(shop_layer, text, font_size, x, y, color=PURPLE):
     font = get_font(font_size)
     render = font.render(text, True, color)
     shop_layer.blit(render, (x, y))
@@ -124,7 +134,7 @@ class Shop:
     def display_shop(self, shop_layer):
         # Display category tabs
         for i, category in enumerate(self.categories):
-            color = LIGHT_GREY if category == self.active_category else WHITE
+            color = LIGHT_GREY if category == self.active_category else PURPLE
             pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
             draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
 
@@ -168,9 +178,10 @@ class Shop:
 
             # Draw the sprite for Healing Potion XL in the correct position
             if potion.name == "Healing Potion S":  # Check if this is the target potion
-                sprite_x = x + 15  # X position for the sprite (same as potion box)
+                sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(animation_list[0][frame], (sprite_x, sprite_y))  # Blit the sprite at the potion position
+                shop_layer.blit(animation_list[0][frame], (sprite_x + 15, sprite_y + 25))  # Blit the sprite at the potion position
+                misc_layer.blit(item_frame, (sprite_x - 63, sprite_y - 25))
 
 
     def display_letters(self, shop_layer):
@@ -236,11 +247,12 @@ class Inventory:
 
     def display_inventory(self, inventory_layer):
         # Place the inventory in the top right corner in a 2x3 grid
-        inv_x_start = 1000  # Starting x position (near the right side of the screen)
-        inv_y_start = 190  # Starting y position (upper part of the screen)
+        inv_x = 1000  # Starting x position (near the right side of the screen)
+        inv_y = 190  # Starting y position (upper part of the screen)
+        inventory_layer.blit(item_BG, (881, -20))
 
         # Draw the inventory label
-        draw_text(inventory_layer, "Inventory", 20, inv_x_start, inv_y_start - 30)
+        draw_text(inventory_layer, "Inventory", 20, inv_x + 75, inv_y - 87)
 
         # Iterate over each inventory slot and position it in a 2x3 grid
         for i in range(len(self.slots)):
@@ -248,8 +260,8 @@ class Inventory:
             col = i % 2   # Column is either 0 (left) or 1 (right)
 
             # Adjust positions for the 2x3 layout
-            x_pos = inv_x_start + col * 175  # 175 px spacing between columns
-            y_pos = inv_y_start + row * 100  # 100 px spacing between rows
+            x_pos = inv_x + col * 175  # 175 px spacing between columns
+            y_pos = inv_y + row * 130  # 100 px spacing between rows
 
             # Draw a slot (adjusted size for better fit)
             pygame.draw.rect(inventory_layer, YELLOW, (x_pos, y_pos, 150, 80), 5)
@@ -257,6 +269,7 @@ class Inventory:
             # If an item exists in this slot, display its name
             if self.slots[i] is not None:
                 draw_text(inventory_layer, self.slots[i].name, 15, x_pos + 5, y_pos + 30)
+                
 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
