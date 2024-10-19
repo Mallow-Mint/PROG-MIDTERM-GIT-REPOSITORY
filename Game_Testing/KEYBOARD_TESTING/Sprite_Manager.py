@@ -17,9 +17,9 @@ class SpriteSheet():
     def get_keyboard_sprites(self):
         self.keyboard_default_key_sprite = []
         self.keyboard_pressed_key_sprite = []
-        self.sprite_display_positions = [(42,80), (60, 80), (78,80), (96, 80), (114,80), (132,80), (150,80), (168,80), (186,80), (204,80),
-                                         (50,97), (68, 97), (86,97), (104,97), (122,97), (140,97), (158, 97), (176,97), (194,97),
-                                         (68,114), (86,114), (104,114), (122,114), (140,114), (158,114), (176,114)]
+        self.sprite_display_positions = [(42,90), (60, 90), (78,90), (96, 90), (114, 90), (132,90), (150,90), (168,90), (186,90), (204,90),
+                                         (50,107), (68, 107), (86,107), (104,107), (122,107), (140,107), (158, 107), (176,107), (194,107),
+                                         (68,124), (86,124), (104,124), (122,124), (140,124), (158,124), (176,124)]
 
         self.qwerty_number = 0
         self.sprite_mover = 0
@@ -32,6 +32,7 @@ class SpriteSheet():
     def keyboard_default_sprite(self, scale ,WIDTH=1600, HEIGHT=900):
         self.sprite_mover = 0
         self.keyboard_sprites = pygame.Surface((WIDTH,HEIGHT)).convert_alpha()
+        self.keyboard_sprites.fill(GREEN)
         for key in keyboard.valid_letters:
             self.keyboard_sprites.blit(self.sheet, self.sprite_display_positions[0+self.sprite_mover], 
                                           self.keyboard_default_key_sprite[0+self.sprite_mover])
@@ -41,6 +42,7 @@ class SpriteSheet():
     
     def pressed_key_animation(self, key, scale, WIDTH=1600, HEIGHT=900):
         self.keyboard_sprites = pygame.Surface((WIDTH,HEIGHT)).convert_alpha()
+        self.keyboard_sprites.fill(GREEN)
         self.pressed_key_index = keyboard.valid_letters.index(key)
         self.sprite_mover = 0
 

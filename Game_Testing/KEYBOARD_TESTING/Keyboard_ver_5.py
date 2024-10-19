@@ -32,6 +32,7 @@ class Layers:
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
+        self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
 
 # Define the Functions for keyboard updates
 class Valid_Dictionary:
@@ -96,6 +97,7 @@ class Keyboard:
         match self.pressed_key:
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
+                layer.popup_layer.fill(KEY_PURPLE)
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key, 6)
                     self.key_state = 0
@@ -108,18 +110,15 @@ class Keyboard:
                         self.cursor_position += 1
                         self.Key_Count_Remaining[self.pressed_key] -= 1
                         self.max_character_count -=1
-                        layer.interface_layer.fill(KEY_PURPLE)
 
                 else:
-                    layer.interface_layer.fill(KEY_PURPLE)
                     layer.interface_layer.blit(self.no_letter_left, (530, 350))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
-                layer.interface_layer.fill(KEY_PURPLE)
-                layer.interface_layer.blit(self.no_character_left, (580, 350))
+                layer.popup_layer.blit(self.no_character_left, (580, 350))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
-                layer.interface_layer.fill(KEY_PURPLE)
+                layer.popup_layer.fill(KEY_PURPLE)
                 self.deleted_key = self.typed_text[self.cursor_position - 1]  # Store the deleted key
                 self.typed_text = self.typed_text[:self.cursor_position - 1] + self.typed_text[self.cursor_position:]
                 self.cursor_position -= 1
@@ -130,24 +129,25 @@ class Keyboard:
 
     
             case self.pressed_key if self.pressed_key == 'return':
+                layer.popup_layer.fill(KEY_PURPLE)
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
-                    layer.interface_layer.fill(KEY_PURPLE)
                     self.displayed_text = font.render(self.typed_text, True, white) 
-                    layer.interface_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
+                    layer.popup_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
-                    layer.interface_layer.fill(KEY_PURPLE)
-                    layer.interface_layer.blit(self.not_in_dictionary, ((600), 350))
+                    layer.popup_layer.blit(self.not_in_dictionary, ((600), 350))
                 
 def update_game_screen():
     '''
     Updates Game Window and associated Layers in order
     '''
-    game_window.fill(black)
+    game_window.fill(GREEN)
     game_window.blit(layer.background_layer, (0,0))
+    keyboard_sprite_sheet.keyboard_sprites.set_colorkey(GREEN)
     game_window.blit(layer.keyboard_layer, (0,0))
+    game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
 
 
@@ -155,7 +155,7 @@ def update_game_screen():
 
 # Intalize Variable for Typing Area
 typing_area_height = 50
-typing_area_y = 400
+typing_area_y = 480
 
 # Initalizes Variables from Classes
 
@@ -168,6 +168,8 @@ def battle_interface():
     running = True
     layer.interface_layer.fill((KEY_PURPLE))
     layer.interface_layer.set_colorkey(KEY_PURPLE)
+    layer.popup_layer.fill(KEY_PURPLE)
+    layer.popup_layer.set_colorkey(KEY_PURPLE)
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
 
@@ -183,16 +185,16 @@ def battle_interface():
 
     # Printing Graphics Areaaaaaaaaaaa
 
-        # Black Background
-        layer.background_layer.fill(black)
+        # Black Background'
+        pygame.draw.rect(layer.background_layer, GREEN, (0, 0, 1600, 450))
 
-        # Make Typing Area Grey Rectangle
+        # Make Typing Area
+        layer.interface_layer.fill(KEY_PURPLE)
         pygame.draw.rect(layer.interface_layer, white, (520, typing_area_y, 520, typing_area_height))
 
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text, True, black)
         layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
-
         character_counter = big_font.render(str(keyboard.max_character_count), True, white)
         layer.interface_layer.blit(character_counter, (1350, 50))
 
@@ -204,6 +206,5 @@ def battle_interface():
 
         # Update display
         update_game_screen()
-        frame_rate.tick(30)
 
 battle_interface()
