@@ -1,20 +1,15 @@
 import pygame
-from pygame_functions_shop import *
+
 pygame.init()
 
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
 # Background for the shop
-BG = pygame.image.load("Assets/wooden shop bg.png")
+BG = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden shop bg.png')
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
 inventory_layer = pygame.Surface((1600, 900))
-
-nextFrame = clock()
-frame = 0
-potion_XL_SS = 'Assets/XL healing potion 14 MS.png'
-test_sprite_1 = makeSprite(potion_XL_SS, 24)
 
 # Make Surfaces Transparent With Purple Color Key
 PURPLE_COLOR_KEY = (255, 0, 255)
@@ -24,7 +19,7 @@ inventory_layer.fill(PURPLE_COLOR_KEY)
 inventory_layer.set_colorkey((255, 0, 255))
 
 # Make Dictionary of Letters and Cost
-Letter_Cost_File = open('Assets/Letter Costs.txt', "r")
+Letter_Cost_File = open('Game_Testing/SHOP TESTING/Assets/Letter Costs.txt', 'r')
 Letter_Cost_File_Lines = Letter_Cost_File.readlines()
 Letter_Cost_Dictionary = {}
 
@@ -64,7 +59,7 @@ TRANSPARENT = (0, 0, 0,)
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Assets/Shop Font.ttf", size)
+    return pygame.font.Font("Game_Testing\SHOP TESTING\Assets\Shop Font.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=WHITE):
@@ -92,6 +87,7 @@ class Shop:
         self.active_category = "Potions"
         self.shop_type = self.active_category
 
+        # Define renamed potions and letters
         self.potions = [
             ShopItem("Healing Potion S", 20, "Potion"),
             ShopItem("Healing Potion XL", 50, "Potion"),
@@ -101,11 +97,13 @@ class Shop:
         self.letters = [ShopItem(letter, price, "Letter") for letter, price in Letter_Cost_Dictionary.items()]
 
     def display_shop(self, shop_layer):
+        # Display category tabs
         for i, category in enumerate(self.categories):
             color = LIGHT_GREY if category == self.active_category else WHITE
             pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
             draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
 
+        # Display items from the active category
         if self.active_category == "Potions":
             self.display_potions(shop_layer)
             inventory.display_inventory(inventory_layer)
@@ -115,6 +113,7 @@ class Shop:
     def display_potions(self, shop_layer):
         draw_text(shop_layer, "Potions", 20, 300, 150)
 
+        # 2x2 grid setup for potion boxes
         potion_box_width = 150
         potion_box_height = 150
         grid_start_x = 270
@@ -127,24 +126,25 @@ class Shop:
             x = grid_start_x + col * spacing
             y = grid_start_y + row * spacing
 
+            # Draw potion asset box
             pygame.draw.rect(shop_layer, PURPLE_COLOR_KEY, (x, y, potion_box_width, potion_box_height))
-            draw_text(shop_layer, potion.name, 15, x, y - 25, BLACK)
 
+            # Draw potion name above the box
+            draw_text(shop_layer, potion.name, 15, x , y - 25, BLACK)
+
+            # Draw the "Buy for $price" rectangle below the potion box
             buy_box_x = x
             buy_box_y = y + potion_box_height + 10
-
-            if potion.name == "Healing Potion S":
-                changeSpriteImage(test_sprite_1, 0 * 14 + frame)
-                moveSprite(test_sprite_1, buy_box_x, buy_box_y, True)
-                showSprite(test_sprite_1)
-
+            buy_box_width = potion_box_width
+            buy_box_height = 30
+            pygame.draw.rect(shop_layer, YELLOW, (buy_box_x, buy_box_y, buy_box_width, buy_box_height))
             draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
 
     def display_letters(self, shop_layer):
         draw_text(shop_layer, "Letters", 30, 130, 150)
         for i, letter in enumerate(self.letters):
-            x_offset = (i % 7) * 100
-            y_offset = (i // 7) * 80
+            x_offset = (i % 7) * 100  # Horizontal spacing between boxes
+            y_offset = (i // 7) * 80   # Vertical spacing between rows
             letter.display(shop_layer, 130 + x_offset, 200 + y_offset, 90, 50)
 
     def get_clicked_item(self, mx, my):
@@ -164,6 +164,7 @@ class Shop:
                     return letter
         return None
 
+
     def switch_category(self, mx, my):
         if pygame.Rect(80, 50, 160, 50).collidepoint(mx, my):
             shop_layer.fill(PURPLE_COLOR_KEY)
@@ -174,7 +175,6 @@ class Shop:
             inventory_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Letters"
             self.shop_type = self.active_category
-
 
 # Class for inventory
 class Inventory:
@@ -253,16 +253,17 @@ clock = pygame.time.Clock()
 # Initialize the shop and inventory
 shop = Shop()
 inventory = Inventory(inventory_slots)
-running = True
+
 # Create reset button
 reset_button = Button(1420, 640, 150, 50, "Reset", RED)  # Adjusted button position for new resolution
 
-while running:
+while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
+
             shop.switch_category(mx, my)
 
             clicked_item = shop.get_clicked_item(mx, my)
@@ -275,20 +276,16 @@ while running:
                 player_currency = default_currency
                 inventory.clear_inventory()
 
-    if clock() > nextFrame:  # To animate the sprite
-        frame = (frame + 1) % 24  # Update the frame for animation
-        nextFrame += 80  # Timing for the animation
-                
-        shop.display_shop(shop_layer)
-        display_currency(inventory_layer, player_currency)
+    shop.display_shop(shop_layer)
+    display_currency(inventory_layer, player_currency)
 
-        # Draw the reset button
-        reset_button.draw(shop_layer)
+    # Draw the reset button
+    reset_button.draw(shop_layer)
 
-        # Call to display the inventory
-        inventory.display_inventory(inventory_layer)
+    # Call to display the inventory
+    inventory.display_inventory(inventory_layer)
 
-        screen_updater()
-        clock.tick(30)
+    screen_updater()
+    clock.tick(30)
 
-    pygame.quit()
+pygame.quit()
