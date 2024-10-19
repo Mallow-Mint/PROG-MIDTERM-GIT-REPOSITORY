@@ -94,26 +94,29 @@ class Keyboard:
     def key_press_action(self, key:str,):
         self.pressed_key = key
         match self.pressed_key:
+
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key, 6)
                     self.key_state = 0
                     update_game_screen()
+
                     while self.key_state < 1:
                         self.key_state += 1
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
                         self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                         self.cursor_position += 1
-                        layer.interface_layer.fill(KEY_PURPLE)
                         self.Key_Count_Remaining[self.pressed_key] -= 1
                         self.max_character_count -=1
+                        layer.interface_layer.fill(KEY_PURPLE)
+
                 else:
                     layer.interface_layer.fill(KEY_PURPLE)
                     layer.interface_layer.blit(self.no_letter_left, (530, 350))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
                 layer.interface_layer.fill(KEY_PURPLE)
-                layer.interface_layer.blit(self.no_character_left, (560, 350))
+                layer.interface_layer.blit(self.no_character_left, (580, 350))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
                 layer.interface_layer.fill(KEY_PURPLE)
