@@ -19,43 +19,43 @@ def load_sprites():
         # Create a dictionary to hold the sprite animations
         sprite_animations = {
             "idle": [
-                pygame.image.load('warrior_idle_1.png').convert_alpha(),
-                pygame.image.load('warrior_idle_2.png').convert_alpha(),
-                pygame.image.load('warrior_idle_3.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_idle_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_idle_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_idle_3.png').convert_alpha()
             ],
             "attack_1": [
-                pygame.image.load('warrior_normal_attack_1.png').convert_alpha(),
-                pygame.image.load('warrior_normal_attack_2.png').convert_alpha(),
-                pygame.image.load('warrior_normal_attack_3.png').convert_alpha(),
-                pygame.image.load('warrior_normal_attack_4.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_normal_attack_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_normal_attack_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_normal_attack_3.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_normal_attack_4.png').convert_alpha()
             ],
             "attack_2": [
-                pygame.image.load('warrior_heavy_attack_1.png').convert_alpha(),
-                pygame.image.load('warrior_heavy_attack_2.png').convert_alpha(),
-                pygame.image.load('warrior_heavy_attack_3.png').convert_alpha(),
-                pygame.image.load('warrior_heavy_attack_4.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_heavy_attack_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_heavy_attack_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_heavy_attack_3.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_heavy_attack_4.png').convert_alpha()
             ],
             "attack_3": [
-                pygame.image.load('warrior_special_attack_1.png').convert_alpha(),
-                pygame.image.load('warrior_special_attack_2.png').convert_alpha(),
-                pygame.image.load('warrior_special_attack_3.png').convert_alpha(),
-                pygame.image.load('warrior_special_attack_4.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_special_attack_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_special_attack_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_special_attack_3.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_special_attack_4.png').convert_alpha()
             ],
             "hit": [
-                pygame.image.load('warrior_hit_1.png').convert_alpha(),
-                pygame.image.load('warrior_hit_2.png').convert_alpha(),
-                pygame.image.load('warrior_hit_3.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_hit_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_hit_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_hit_3.png').convert_alpha()
             ],
             "death": [
-                pygame.image.load('warrior_death_1.png').convert_alpha(),
-                pygame.image.load('warrior_death_2.png').convert_alpha(),
-                pygame.image.load('warrior_death_3.png').convert_alpha(),
-                pygame.image.load('warrior_death_4.png').convert_alpha(),
-                pygame.image.load('warrior_death_5.png').convert_alpha(),
-                pygame.image.load('warrior_death_6.png').convert_alpha(),
-                pygame.image.load('warrior_death_7.png').convert_alpha(),
-                pygame.image.load('warrior_death_8.png').convert_alpha(),
-                pygame.image.load('warrior_death_9.png').convert_alpha()
+                pygame.image.load('Medieval_Warrior\warrior_death_1.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_2.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_3.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_4.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_5.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_6.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_7.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_8.png').convert_alpha(),
+                pygame.image.load('Medieval_Warrior\warrior_death_9.png').convert_alpha()
             ],
         }
     except pygame.error as e:
