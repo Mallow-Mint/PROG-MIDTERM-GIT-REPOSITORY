@@ -7,6 +7,7 @@ class Button:
 		self.elevation = elevation
 		self.dynamic_elecation = elevation
 		self.original_y_pos = pos[1]
+		self.counter = 0
 
 		# top rectangle 
 		self.top_rect = pygame.Rect(pos,(width,height))
@@ -42,7 +43,8 @@ class Button:
 			else:
 				self.dynamic_elecation = self.elevation
 				if self.pressed == True:
-					print('click')
+					self.counter +=1
+					print(self.counter)
 					self.pressed = False
 		else:
 			self.dynamic_elecation = self.elevation
