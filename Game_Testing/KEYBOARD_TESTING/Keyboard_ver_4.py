@@ -140,8 +140,8 @@ class Keyboard:
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
                     layer.interface_layer.fill(KEY_PURPLE)
-                    self.displayed_text = font.render(self.typed_text, True, white) 
-                    layer.interface_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
+                    self.displayed_text = big_font.render(self.typed_text, True, white) 
+                    layer.interface_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*15)), 50))
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
