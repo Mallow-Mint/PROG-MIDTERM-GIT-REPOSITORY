@@ -1,11 +1,17 @@
 import pygame
-
+import spritesheet 
 pygame.init()
 
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
-# Background for the shop
-BG = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden shop bg.png')
+# Background for everything in the shop
+shop_bg = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden shop bg.png')
+currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
+currency_BG = pygame.transform.scale(currency_BG_normal, (600 // 2, 300 // 2))
+
+#variables for the sprites
+sprite_sheet_image_1 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/XL healing potion 14 MS.png').convert_alpha()
+sprite_sheet_HpXL = spritesheet.SpriteSheet(sprite_sheet_image_1) 
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
@@ -31,7 +37,7 @@ Letter_Cost_File.close()
 
 def screen_updater():
     win.fill(BLACK)
-    background_layer.blit(BG, (0, 0))
+    background_layer.blit(shop_bg, (0, 0))
     win.blit(background_layer, (0, 0))
     win.blit(shop_layer, (0, 0))
     win.blit(inventory_layer, (0, 0))
@@ -57,9 +63,18 @@ LIGHT_BROWN = (196, 164, 132)
 YELLOW = (248, 255, 33)
 TRANSPARENT = (0, 0, 0,)
 
+#Creating animation list
+animation_list = []
+animation_steps = [4, 4]  # Example: two animations with 4 frames each
+last_update = pygame.time.get_ticks()
+action = 0
+animation_cooldown = 100  # Time in milliseconds between frames
+frame = 0
+step_counter = 0
+
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Game_Testing\SHOP TESTING\Assets\Shop Font.ttf", size)
+    return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=WHITE):
@@ -111,7 +126,7 @@ class Shop:
             self.display_letters(shop_layer)
 
     def display_potions(self, shop_layer):
-        draw_text(shop_layer, "Potions", 20, 300, 150)
+        draw_text(shop_layer, "Potions", 20, 400, 150)
 
         # 2x2 grid setup for potion boxes
         potion_box_width = 150
@@ -130,7 +145,7 @@ class Shop:
             pygame.draw.rect(shop_layer, PURPLE_COLOR_KEY, (x, y, potion_box_width, potion_box_height))
 
             # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 15, x , y - 25, BLACK)
+            draw_text(shop_layer, potion.name, 13, x - 20 , y - 25, BLACK)
 
             # Draw the "Buy for $price" rectangle below the potion box
             buy_box_x = x
@@ -141,36 +156,43 @@ class Shop:
             draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
 
     def display_letters(self, shop_layer):
-        draw_text(shop_layer, "Letters", 30, 130, 150)
+        draw_text(shop_layer, "Letters", 20, 400, 150)
         for i, letter in enumerate(self.letters):
-            x_offset = (i % 7) * 100  # Horizontal spacing between boxes
-            y_offset = (i // 7) * 80   # Vertical spacing between rows
-            letter.display(shop_layer, 130 + x_offset, 200 + y_offset, 90, 50)
+            x_offset = (i % 5) * 120  # Horizontal spacing between boxes
+            y_offset = (i // 5) * 80   # Vertical spacing between rows
+            letter.display(shop_layer, 200 + x_offset, 220 + y_offset, 90, 50)
 
     def get_clicked_item(self, mx, my):
         if self.active_category == "Potions":
             for i, potion in enumerate(self.potions):
                 row = i // 2
                 col = i % 2
-                x = 130 + col * 200
-                y = 220 + row * 200
-                if pygame.Rect(x, y, 150, 150).collidepoint(mx, my):
+                x = 270 + col * 250  # Adjusted to match the x position of the potion boxes
+                y = 220 + row * 250 + 150 + 10  # Adjusted to the "Buy" box position (below the potion box)
+                if pygame.Rect(x, y, 150, 30).collidepoint(mx, my):
                     return potion
         elif self.active_category == "Letters":
             for i, letter in enumerate(self.letters):
-                x_offset = (i % 7) * 100
-                y_offset = (i // 7) * 80
-                if pygame.Rect(130 + x_offset, 200 + y_offset, 90, 50).collidepoint(mx, my):
+                x_offset = (i % 5) * 120  # Horizontal spacing between boxes
+                y_offset = (i // 5) * 80   # Vertical spacing between rows
+                if pygame.Rect(200 + x_offset, 220 + y_offset, 90, 50).collidepoint(mx, my):
                     return letter
         return None
 
 
     def switch_category(self, mx, my):
-        if pygame.Rect(80, 50, 160, 50).collidepoint(mx, my):
+        # Adjust the x and y positions of the category tabs to match the positions in the shop
+        potions_tab_rect = pygame.Rect(160, 50, 180, 60)  # Coordinates for the "Potions" tab
+        letters_tab_rect = pygame.Rect(320, 50, 180, 60)  # Coordinates for the "Letters" tab
+
+        # Check if the user clicked on the "Potions" tab
+        if potions_tab_rect.collidepoint(mx, my):
             shop_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Potions"
             self.shop_type = self.active_category
-        elif pygame.Rect(240, 50, 160, 50).collidepoint(mx, my):
+
+        # Check if the user clicked on the "Letters" tab
+        elif letters_tab_rect.collidepoint(mx, my):
             shop_layer.fill(PURPLE_COLOR_KEY)
             inventory_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Letters"
@@ -218,11 +240,19 @@ class Inventory:
             if self.slots[i] is not None:
                 draw_text(inventory_layer, self.slots[i].name, 15, x_pos + 5, y_pos + 30)
 
-
-
-# Function to display the player's currency
+# Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
-    draw_text(inventory_layer, f"Currency: ${currency}", 20, 350, 750)
+    # Coordinates where you want to display the currency background and the currency text
+    currency_bg_x = 310
+    currency_bg_y = 730  # Adjust the Y position to place it slightly above the edge
+    text_x = currency_bg_x + 48  # Add a small padding to position the text nicely within the background
+    text_y = currency_bg_y + 67  # Adjust the Y position to center the text within the background
+
+    # First, blit the currency background
+    inventory_layer.blit(currency_BG, (currency_bg_x, currency_bg_y))
+
+    # Then, draw the player's currency text on top of the background
+    draw_text(inventory_layer, f"Currency: ${currency}", 15, text_x, text_y,)
 
 # Function to handle item purchase
 def purchase_item(item, inventory, currency, shop_type):
