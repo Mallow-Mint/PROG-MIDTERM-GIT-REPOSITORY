@@ -107,7 +107,7 @@ step_counter_4 = 0
 animation_cooldown = 75  # Time in milliseconds between frames
 
 """ DONT JUDGE ME FOR THIS SECTION, TINATAMAD AKO GUMAWA NG CLASS OKAY!!!! IT WORKSSSSSSS!!"""
-
+button1 = Button('Click me',200,40,(200,250),5)
 # Rolling for the First Sprite Image
 for animation_1 in animation_steps_1:
     temp_img_list_1 = []
