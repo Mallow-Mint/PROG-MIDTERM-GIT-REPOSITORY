@@ -170,123 +170,6 @@ class ShopItem:
 
 # Class for the shop with categories
 # Modify the Shop class to display potions in a 2x2 grid with potion boxes
-class Shop:
-    def __init__(self):
-        self.categories = ["Potions", "Letters"]
-        self.active_category = "Potions"
-        self.shop_type = self.active_category
-
-        # Define renamed potions and letters
-        self.potions = [
-            ShopItem("Healing Potion S", 20, "Potion"),
-            ShopItem("Healing Potion XL", 50, "Potion"),
-            ShopItem("Letter Potion", 25, "Potion"),
-            ShopItem("All Letter Potion", 50, "Potion")
-        ]
-        self.letters = [ShopItem(letter, price, "Letter") for letter, price in Letter_Cost_Dictionary.items()]
-
-    def display_shop(self, shop_layer):
-        # Display category tabs
-        for i, category in enumerate(self.categories):
-            color = LIGHT_GREY if category == self.active_category else PURPLE
-            pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
-            draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
-
-        # Display items from the active category
-        if self.active_category == "Potions":
-            self.display_potions(shop_layer)
-            inventory.display_inventory(inventory_layer)
-        elif self.active_category == "Letters":
-            self.display_letters(shop_layer)
-
-    def display_potions(self, shop_layer):
-        draw_text(shop_layer, "Potions", 20, 400, 150)
-
-        # 2x2 grid setup for potion boxes
-        potion_box_width = 150
-        potion_box_height = 150
-        grid_start_x = 270
-        grid_start_y = 220
-        spacing = 250
-
-        # Draw each potion in the 2x2 grid
-        for i, potion in enumerate(self.potions):
-            row = i // 2
-            col = i % 2
-            x = grid_start_x + col * spacing
-            y = grid_start_y + row * spacing
-
-            # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
-
-            # Draw the sprite for Healing Potion XL in the correct position
-            if potion.name == "Healing Potion S":  # Check if this is the target potion
-                sprite_x = x + 40  # X position for the sprite (same as potion box)
-                sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(animation_list_1[0][frame_1], (sprite_x + 18, sprite_y + 18))  # Blit the sprite at the potion position
-                misc_layer.blit(item_frame, (sprite_x - 63, sprite_y - 25))
-                misc_layer.blit(item_frame, (sprite_x + 185, sprite_y + 223))
-                misc_layer.blit(item_frame, (sprite_x - 63, sprite_y + 223))
-                misc_layer.blit(item_frame, (sprite_x + 185, sprite_y - 25))
-            if potion.name == "Healing Potion XL":  # Check if this is the target potion
-                sprite_x = x + 40  # X position for the sprite (same as potion box)
-                sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(animation_list_2[0][frame_2], (sprite_x + 15, sprite_y + 23))  # Blit the sprite at the potion position
-            if potion.name == "All Letter Potion":  # Check if this is the target potion
-                sprite_x = x + 40  # X position for the sprite (same as potion box)
-                sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(animation_list_3[0][frame_3], (sprite_x + 21, sprite_y + 8))  # Blit the sprite at the potion position
-            if potion.name == "Letter Potion":  # Check if this is the target potion
-                sprite_x = x + 40  # X position for the sprite (same as potion box)
-                sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(animation_list_4[0][frame_4], (sprite_x + 15, sprite_y + 20))  # Blit the sprite at the potion position
-
-
-
-    def display_letters(self, shop_layer):
-        draw_text(shop_layer, "Letters", 20, 400, 150)
-        for i, letter in enumerate(self.letters):
-            x_offset = (i % 5) * 120  # Horizontal spacing between boxes
-            y_offset = (i // 5) * 80   # Vertical spacing between rows
-            letter.display(shop_layer, 200 + x_offset, 220 + y_offset, 90, 50)
-
-    def get_clicked_item(self, mx, my):
-        if self.active_category == "Potions":
-            for i, potion in enumerate(self.potions):
-                row = i // 2
-                col = i % 2
-                x = 270 + col * 250  # Adjusted to match the x position of the potion boxes
-                y = 220 + row * 250 + 160 + 10  # Adjusted to the "Buy" box position (below the potion box)
-                if pygame.Rect(x, y, 150, 30).collidepoint(mx, my):
-                    return potion
-        elif self.active_category == "Letters":
-            for i, letter in enumerate(self.letters):
-                x_offset = (i % 5) * 120  # Horizontal spacing between boxes
-                y_offset = (i // 5) * 80   # Vertical spacing between rows
-                if pygame.Rect(200 + x_offset, 220 + y_offset, 90, 50).collidepoint(mx, my):
-                    return letter
-        return None
-
-
-    def switch_category(self, mx, my):
-        # Adjust the x and y positions of the category tabs to match the positions in the shop
-        potions_tab_rect = pygame.Rect(160, 50, 180, 60)  # Coordinates for the "Potions" tab
-        letters_tab_rect = pygame.Rect(320, 50, 180, 60)  # Coordinates for the "Letters" tab
-
-        # Check if the user clicked on the "Potions" tab
-        if potions_tab_rect.collidepoint(mx, my):
-            shop_layer.fill(PURPLE_COLOR_KEY)
-            self.active_category = "Potions"
-            self.shop_type = self.active_category
-
-        # Check if the user clicked on the "Letters" tab
-        elif letters_tab_rect.collidepoint(mx, my):
-            shop_layer.fill(PURPLE_COLOR_KEY)
-            inventory_layer.fill(PURPLE_COLOR_KEY)
-            misc_layer.fill(PURPLE_COLOR_KEY)
-            self.active_category = "Letters"
-            self.shop_type = self.active_category
-# Define button class
 class Button:
 	def __init__(self,text,width,height,pos,elevation):
 		#Core attributes 
@@ -340,6 +223,131 @@ button1 = Button('Buy for 20',150,40,(270,390),5)
 button2 = Button('Buy for 50',150,40,(520,390),5)
 button3 = Button('Buy for 25',150,40,(270, 638),5)
 button4 = Button('Buy for 50',150,40,(520,638),5)
+
+class Shop:
+    def __init__(self):
+        self.categories = ["Potions", "Letters"]
+        self.active_category = "Potions"
+        self.shop_type = self.active_category
+
+        # Define renamed potions and letters
+        self.potions = [
+            ShopItem("Healing Potion S", 20, "Potion"),
+            ShopItem("Healing Potion XL", 50, "Potion"),
+            ShopItem("Letter Potion", 25, "Potion"),
+            ShopItem("All Letter Potion", 50, "Potion")
+        ]
+        self.letters = [ShopItem(letter, price, "Letter") for letter, price in Letter_Cost_Dictionary.items()]
+
+    def display_shop(self, shop_layer):
+        # Display category tabs
+        for i, category in enumerate(self.categories):
+            color = LIGHT_GREY if category == self.active_category else PURPLE
+            pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
+            draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
+
+        # Display items from the active category
+        if self.active_category == "Potions":
+            self.display_potions(shop_layer)
+            inventory.display_inventory(inventory_layer)
+
+        elif self.active_category == "Letters":
+            self.display_letters(shop_layer)
+
+    def display_potions(self, shop_layer):
+        draw_text(shop_layer, "Potions", 20, 400, 150)
+
+        # 2x2 grid setup for potion boxes
+        potion_box_width = 150
+        potion_box_height = 150
+        grid_start_x = 270
+        grid_start_y = 220
+        spacing = 250
+
+        # Draw each potion in the 2x2 grid
+        for i, potion in enumerate(self.potions):
+            row = i // 2
+            col = i % 2
+            x = grid_start_x + col * spacing
+            y = grid_start_y + row * spacing
+
+            # Draw potion name above the box
+            draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
+
+            # Draw the sprite for Healing Potion XL in the correct position
+            if potion.name == "Healing Potion S":  # Check if this is the target potion
+                sprite_x = x + 40  # X position for the sprite (same as potion box)
+                sprite_y = y  # Y position for the sprite (same as potion box)
+                shop_layer.blit(animation_list_1[0][frame_1], (sprite_x + 18, sprite_y + 18))  # Blit the sprite at the potion position
+                misc_layer.blit(item_frame, (sprite_x - 63, sprite_y - 25))
+                misc_layer.blit(item_frame, (sprite_x + 185, sprite_y + 223))
+                misc_layer.blit(item_frame, (sprite_x - 63, sprite_y + 223))
+                misc_layer.blit(item_frame, (sprite_x + 185, sprite_y - 25))
+                button1.draw()
+                button2.draw()
+                button3.draw()
+                button4.draw()
+            if potion.name == "Healing Potion XL":  # Check if this is the target potion
+                sprite_x = x + 40  # X position for the sprite (same as potion box)
+                sprite_y = y  # Y position for the sprite (same as potion box)
+                shop_layer.blit(animation_list_2[0][frame_2], (sprite_x + 15, sprite_y + 23))  # Blit the sprite at the potion position
+            if potion.name == "All Letter Potion":  # Check if this is the target potion
+                sprite_x = x + 40  # X position for the sprite (same as potion box)
+                sprite_y = y  # Y position for the sprite (same as potion box)
+                shop_layer.blit(animation_list_3[0][frame_3], (sprite_x + 21, sprite_y + 8))  # Blit the sprite at the potion position
+            if potion.name == "Letter Potion":  # Check if this is the target potion
+                sprite_x = x + 40  # X position for the sprite (same as potion box)
+                sprite_y = y  # Y position for the sprite (same as potion box)
+                shop_layer.blit(animation_list_4[0][frame_4], (sprite_x + 15, sprite_y + 20))  # Blit the sprite at the potion position
+
+
+
+    def display_letters(self, shop_layer):
+        draw_text(shop_layer, "Letters", 20, 400, 150)
+        for i, letter in enumerate(self.letters):
+            x_offset = (i % 5) * 120  # Horizontal spacing between boxes
+            y_offset = (i // 5) * 80   # Vertical spacing between rows
+            letter.display(shop_layer, 200 + x_offset, 220 + y_offset, 90, 50)
+
+    def get_clicked_item(self, mx, my):
+        if self.active_category == "Potions":
+            for i, potion in enumerate(self.potions):
+                row = i // 2
+                col = i % 2
+                x = 270 + col * 250  # Adjusted to match the x position of the potion boxes
+                y = 220 + row * 250 + 160 + 10  # Adjusted to the "Buy" box position (below the potion box)
+                if pygame.Rect(x, y, 150, 30).collidepoint(mx, my):
+                    return potion
+        elif self.active_category == "Letters":
+            for i, letter in enumerate(self.letters):
+                x_offset = (i % 5) * 120  # Horizontal spacing between boxes
+                y_offset = (i // 5) * 80   # Vertical spacing between rows
+                if pygame.Rect(200 + x_offset, 220 + y_offset, 90, 50).collidepoint(mx, my):
+                    return letter
+        return None
+
+
+
+    def switch_category(self, mx, my):
+        # Adjust the x and y positions of the category tabs to match the positions in the shop
+        potions_tab_rect = pygame.Rect(160, 50, 180, 60)  # Coordinates for the "Potions" tab
+        letters_tab_rect = pygame.Rect(320, 50, 180, 60)  # Coordinates for the "Letters" tab
+
+        # Check if the user clicked on the "Potions" tab
+        if potions_tab_rect.collidepoint(mx, my):
+            shop_layer.fill(PURPLE_COLOR_KEY)
+            self.active_category = "Potions"
+            self.shop_type = self.active_category
+
+        # Check if the user clicked on the "Letters" tab
+        elif letters_tab_rect.collidepoint(mx, my):
+            shop_layer.fill(PURPLE_COLOR_KEY)
+            inventory_layer.fill(PURPLE_COLOR_KEY)
+            misc_layer.fill(PURPLE_COLOR_KEY)
+            self.active_category = "Letters"
+            self.shop_type = self.active_category
+# Define button class
+
 # Class for inventory
 class Inventory:
     def __init__(self, slots):
@@ -469,10 +477,6 @@ while run:
             clicked_item = shop.get_clicked_item(mx, my)
             if clicked_item is not None:
                 player_currency = purchase_item(clicked_item, inventory, player_currency, shop.shop_type)
-        button1.draw()
-        button2.draw()
-        button3.draw()
-        button4.draw()
     screen_updater()
     clock.tick(60)
 
