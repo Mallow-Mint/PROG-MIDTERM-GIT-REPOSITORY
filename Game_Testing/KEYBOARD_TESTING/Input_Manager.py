@@ -24,6 +24,7 @@ class Spell:
         self.valid_words = self.shared_dictionary.read() 
         self.valid_words = self.valid_words.split("\n")
         self.shared_dictionary.close()
+        selected_enemy = None
 
     def spellcast(self, spell):
         self.current_spell = spell
