@@ -9,9 +9,8 @@ class Keyboard:
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
         
-        
 class SpriteSheet():
-    def __init__(self, image):
+    def __init__(self, image):  
         self.sheet = image
 
     def get_keyboard_sprites(self):
