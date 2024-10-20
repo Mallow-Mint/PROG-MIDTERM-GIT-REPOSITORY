@@ -1,5 +1,8 @@
 import pygame
+import random
 from Sprite_Manager import *
+from Input_Manager import *
+from Character_Manager import *
 # START PYGAME WOOOOO pygame
 pygame.init()
 
@@ -11,9 +14,10 @@ game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Keyboard Battle")
 
 # Set Colors used for Textures
-white = (255, 255, 255)
-black = (0, 0, 0)
-gray = (130, 130, 130)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREY = (130, 130, 130)
+RED = (255, 0, 0)
 KEY_PURPLE = (255, 0, 255)
 
 
@@ -30,6 +34,7 @@ keyboard_sprite_sheet.get_keyboard_sprites()
 class Layers:
     def __init__(self):
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.combat_layer = character.enemy_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
@@ -59,9 +64,9 @@ class Keyboard:
         self.key_state = 1 #1 is default 0 is pressed
 
         
-        self.no_letter_left = font.render("You Have None of this Character Left!", True, white)
-        self.no_character_left = font.render("You Have No Characters Left!", True, white)   
-        self.not_in_dictionary = font.render("Word Not in your Dictionary", True, white)
+        self.no_letter_left = font.render("You Have None of this Character Left!", True, WHITE)
+        self.no_character_left = font.render("You Have No Characters Left!", True, WHITE)   
+        self.not_in_dictionary = font.render("Word Not in your Dictionary", True, WHITE)
 
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
@@ -106,10 +111,10 @@ class Keyboard:
                     while self.key_state < 1:
                         self.key_state += 1
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
-                        self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
-                        self.cursor_position += 1
-                        self.Key_Count_Remaining[self.pressed_key] -= 1
-                        self.max_character_count -=1
+                    self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
+                    self.cursor_position += 1
+                    self.Key_Count_Remaining[self.pressed_key] -= 1
+                    self.max_character_count -=1
 
                 else:
                     layer.interface_layer.blit(self.no_letter_left, (530, 350))
@@ -132,20 +137,30 @@ class Keyboard:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
-                    self.displayed_text = font.render(self.typed_text, True, white) 
+                    self.displayed_text = font.render(self.typed_text, True, WHITE) 
                     layer.popup_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
+                    spell.spellcast(self.typed_text)
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 350))
                 
+class Battle_State:
+    def __init__(self):
+        pass
+    def amount_of_enemies(self):
+        self.enemy_count = random.randint(1,4)
+        return self.enemy_count
+
 def update_game_screen():
     '''
     Updates Game Window and associated Layers in order
     '''
     game_window.blit(layer.background_layer, (0,0))
-    keyboard_sprite_sheet.keyboard_sprites.set_colorkey(GREEN)
+    layer.combat_layer.set_colorkey(KEY_GREEN)
+    keyboard_sprite_sheet.keyboard_sprites.set_colorkey(KEY_GREEN)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
+    game_window.blit(layer.combat_layer, (0,0))
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
@@ -162,6 +177,7 @@ typing_area_y = 480
 keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 layer = Layers()
+battle = Battle_State()
 
 # Game loop
 def battle_interface():
@@ -170,10 +186,12 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
+    character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
 
-    frame_rate = pygame.time.Clock()
+    #Intialize amount of enemies
+
 
     while running:
         for event in pygame.event.get():
@@ -185,20 +203,20 @@ def battle_interface():
 
     # Printing Graphics Areaaaaaaaaaaa
 
-        # Black Background'
+        # BLACK Background'
 
         # Make Typing Area
         layer.interface_layer.fill(KEY_PURPLE)
-        pygame.draw.rect(layer.interface_layer, white, (520, typing_area_y, 520, typing_area_height))
+        pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
 
         # Draw typed text and cursor
-        typed_text_surface = font.render(keyboard.typed_text, True, black)
+        typed_text_surface = font.render(keyboard.typed_text, True, BLACK)
         layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
-        character_counter = big_font.render(str(keyboard.max_character_count), True, white)
+        character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
         layer.interface_layer.blit(character_counter, (1350, 50))
 
         for key, pos in keyboard.Key_Amount_Position.items():
-            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, black)
+            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
             layer.interface_layer.blit(count_text, (pos[0], pos[1]))
 
         # Draw keyboard and key counts
