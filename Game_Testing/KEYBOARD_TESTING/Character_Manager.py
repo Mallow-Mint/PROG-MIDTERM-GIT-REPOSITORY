@@ -13,13 +13,13 @@ class Character:
         self.mobs_list = {'skeleton': WHITE, 'zombie': DARK_GREEN, 'orc':DARK_RED , 'goblin': RED}
         self.enemy_layer = pygame.Surface((1600,900))
 
-    def enemy_color(self, enemy_type):
-        self.enemy_clr = enemy_type
-        return self.enemy_clr
-
     def random_enemy_type(self):
         self.mob_list_type = list(self.mobs_list.keys())
         return self.mob_list_type[random.randint(0,3)]
+    
+    def enemy_color(self, enemy_type):
+        self.enemy_clr = enemy_type
+        return self.enemy_clr
     
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):

@@ -27,8 +27,9 @@ font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
 big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 
 # Get Sprite Sheet for Keyboard
-keyboard_sprite_sheet_image = pygame.image.load('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png').convert_alpha()
-keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
+keyboard_sprite_sheet_image_base = pygame.image.load('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png').convert_alpha()
+keyboard_sprite_sheet_image_scaled = pygame.transform.scale_by(keyboard_sprite_sheet_image_base, 6)
+keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image_scaled)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
 # Set Layers Class
@@ -37,7 +38,7 @@ class Layers:
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.combat_layer = character.enemy_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
-        self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
+        self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
 
 # Define the Functions for keyboard updates
@@ -104,16 +105,16 @@ class Keyboard:
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
-                    layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key, 6)
+                    layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
                     self.key_state = 0
                     update_game_screen()
                     while self.key_state < 1:
-                        self.key_state += 1
-                        layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
-                        self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
-                        self.cursor_position += 1
-                        self.Key_Count_Remaining[self.pressed_key] -= 1
-                        self.max_character_count -=1
+                        self.key_state += 0.5
+                        layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
+                    self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
+                    self.cursor_position += 1
+                    self.Key_Count_Remaining[self.pressed_key] -= 1
+                    self.max_character_count -=1
                 else:
                     layer.popup_layer.blit(self.no_letter_left, (530, 425))
 
@@ -133,7 +134,7 @@ class Keyboard:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
-                    self.displayed_text = font.render(self.typed_text, True, WHITE) 
+                    self.displayed_text = font.render(self.typed_text.upper(), True, WHITE) 
                     layer.popup_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
                     spell.spellcast(self.typed_text)
                     self.typed_text = ""
