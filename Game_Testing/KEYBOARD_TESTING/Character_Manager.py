@@ -1,7 +1,6 @@
 import pygame
 import random
 
-
 RED = (255, 0, 0)
 BLUE = (0, 0, 145)
 WHITE = (255, 255, 255)

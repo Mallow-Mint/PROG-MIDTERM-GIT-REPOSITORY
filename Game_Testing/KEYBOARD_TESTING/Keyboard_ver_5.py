@@ -188,9 +188,6 @@ def battle_interface():
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
 
-    #Intialize amount of enemies
-
-
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
