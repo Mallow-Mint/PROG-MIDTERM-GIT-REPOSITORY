@@ -18,40 +18,40 @@ def load_sprites():
         # Create a dictionary to hold the sprite animations
         sprite_animations = {
             "idle": [
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Idle/Medieval_Leader_Warrior_Idle_1.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Idle/Medieval_Leader_Warrior_Idle_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Idle/Medieval_Leader_Warrior_Idle_3.png').convert_alpha()
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_idle_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_idle_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_idle_3.png').convert_alpha()
             ],
             "attack_1": [
-                pygame.image.load('Assets\Medieval_Characters\Medieval_Characters_For_Demo\Medieval_Leader_Warrior\Attack_1\Medieval_Leader_Warrior_Normal_Attack_1.png').convert_alpha(),
-                pygame.image.load('Assets\Medieval_Characters\Medieval_Characters_For_Demo\Medieval_Leader_Warrior\Attack_1\Medieval_Leader_Warrior_Normal_Attack_2.png').convert_alpha(),
-                pygame.image.load('Assets\Medieval_Characters\Medieval_Characters_For_Demo\Medieval_Leader_Warrior\Attack_1\Medieval_Leader_Warrior_Normal_Attack_3.png').convert_alpha(),
-                pygame.image.load('Assets\Medieval_Characters\Medieval_Characters_For_Demo\Medieval_Leader_Warrior\Attack_1\Medieval_Leader_Warrior_Normal_Attack_4.png').convert_alpha()
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_normal_attack_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_normal_attack_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_normal_attack_3.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_normal_attack_4.png').convert_alpha()
             ],
             "attack_2": [
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_2/Medieval_Leader_Warrior_Heavy_Attack_1.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_2/Medieval_Leader_Warrior_Heavy_Attack_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_2/Medieval_Leader_Warrior_Heavy_Attack_3.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_2/Medieval_Leader_Warrior_Heavy_Attack_4.png').convert_alpha()
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_heavy_attack_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_heavy_attack_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_heavy_attack_3.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_heavy_attack_4.png').convert_alpha()
             ],
             "attack_3": [
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_4/Medieval_Leader_Warrior_Special_Attack_1.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_4/Medieval_Leader_Warrior_Special_Attack_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_4/Medieval_Leader_Warrior_Special_Attack_3.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Attack_4/Medieval_Leader_Warrior_Special_Attack_4.png').convert_alpha()
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_special_attack_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_special_attack_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_special_attack_3.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_special_attack_4.png').convert_alpha()
             ],
             "hit": [
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Hit/Medieval_Leader_Warrior_Hit_1.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Hit/Medieval_Leader_Warrior_Hit_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Hit/Medieval_Leader_Warrior_Hit_3.png').convert_alpha()
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_hit_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_hit_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_hit_3.png').convert_alpha()
             ],
             "death": [
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_2.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_3.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_4.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_5.png').convert_alpha(),
-                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Leader_Warrior/Death/Medieval_Leader_Warrior_Death_6.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_1.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_2.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_3.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_4.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_5.png').convert_alpha(),
+                pygame.image.load('Assets/Medieval_Characters/Medieval_Characters_For_Demo/Medieval_Boss_King/boss_king_death_6.png').convert_alpha()
             ],
         }
     except pygame.error as e:
@@ -131,7 +131,7 @@ class Character:
     def is_alive(self):
         return self.current_hp > 0
 
-player = Character(name="Medieval_Leader_Warrior", hp=100, sprite_animations=sprite_animations)
+player = Character(name="Medieval_Boss_King", hp=100, sprite_animations=sprite_animations)
 
 # Main game loop
 while True:

@@ -77,7 +77,8 @@ LIGHT_GREY = (211, 211, 211)
 BROWN = (150, 75, 0)
 LIGHT_BROWN = (196, 164, 132)
 YELLOW = (248, 255, 33)
-TRANSPARENT = (0, 0, 0,)
+DARK_GREY = (100, 100, 100)
+WHITE = (255, 255, 255)
 
 # Creating animation list
 animation_list_1 = []
@@ -107,7 +108,7 @@ step_counter_4 = 0
 animation_cooldown = 75  # Time in milliseconds between frames
 
 """ DONT JUDGE ME FOR THIS SECTION, TINATAMAD AKO GUMAWA NG CLASS OKAY!!!! IT WORKSSSSSSS!!"""
-button1 = Button('Click me',200,40,(200,250),5)
+
 # Rolling for the First Sprite Image
 for animation_1 in animation_steps_1:
     temp_img_list_1 = []
@@ -169,6 +170,60 @@ class ShopItem:
 
 # Class for the shop with categories
 # Modify the Shop class to display potions in a 2x2 grid with potion boxes
+class Button:
+	def __init__(self,text,width,height,pos,elevation):
+		#Core attributes 
+		self.pressed = False
+		self.elevation = elevation
+		self.dynamic_elecation = elevation
+		self.original_y_pos = pos[1]
+		self.counter = 0
+
+		# top rectangle 
+		self.top_rect = pygame.Rect(pos,(width,height))
+		self.top_color = '#475F77'
+
+		# bottom rectangle 
+		self.bottom_rect = pygame.Rect(pos,(width,height))
+		self.bottom_color = '#354B5E'
+		#text
+		self.text_surf = gui_font.render(text,True,'#FFFFFF')
+		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
+
+	def draw(self):
+		# elevation logic 
+		self.top_rect.y = self.original_y_pos - self.dynamic_elecation
+		self.text_rect.center = self.top_rect.center 
+
+		self.bottom_rect.midtop = self.top_rect.midtop
+		self.bottom_rect.height = self.top_rect.height + self.dynamic_elecation
+
+		pygame.draw.rect(misc_layer,self.bottom_color, self.bottom_rect,border_radius = 12)
+		pygame.draw.rect(misc_layer,self.top_color, self.top_rect,border_radius = 12)
+		misc_layer.blit(self.text_surf, self.text_rect)
+		self.check_click()
+
+	def check_click(self):
+		mouse_pos = pygame.mouse.get_pos()
+		if self.top_rect.collidepoint(mouse_pos):
+			self.top_color = '#D74B4B'
+			if pygame.mouse.get_pressed()[0]:
+				self.dynamic_elecation = 0
+				self.pressed = True
+			else:
+				self.dynamic_elecation = self.elevation
+				if self.pressed == True:
+					self.counter +=0
+					self.pressed = False
+		else:
+			self.dynamic_elecation = self.elevation
+			self.top_color = '#475F77'
+gui_font = pygame.font.Font(None,30)
+button1 = Button('Buy for 20',150,40,(270,390),5)
+button2 = Button('Buy for 50',150,40,(520,390),5)
+button3 = Button('Buy for 25',150,40,(270, 638),5)
+button4 = Button('Buy for 50',150,40,(520,638),5)
+
 class Shop:
     def __init__(self):
         self.categories = ["Potions", "Letters"]
@@ -195,6 +250,7 @@ class Shop:
         if self.active_category == "Potions":
             self.display_potions(shop_layer)
             inventory.display_inventory(inventory_layer)
+
         elif self.active_category == "Letters":
             self.display_letters(shop_layer)
 
@@ -218,14 +274,6 @@ class Shop:
             # Draw potion name above the box
             draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
 
-            # Draw the "Buy for $price" rectangle below the potion box
-            buy_box_x = x
-            buy_box_y = y + potion_box_height + 10
-            buy_box_width = potion_box_width
-            buy_box_height = 30
-            pygame.draw.rect(shop_layer, YELLOW, (buy_box_x, buy_box_y, buy_box_width, buy_box_height))
-            draw_text(shop_layer, f"Buy for ${potion.price}", 13, buy_box_x + 5, buy_box_y + 10, GREY)
-
             # Draw the sprite for Healing Potion XL in the correct position
             if potion.name == "Healing Potion S":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
@@ -235,6 +283,10 @@ class Shop:
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x - 63, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y - 25))
+                button1.draw()
+                button2.draw()
+                button3.draw()
+                button4.draw()
             if potion.name == "Healing Potion XL":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
@@ -263,7 +315,7 @@ class Shop:
                 row = i // 2
                 col = i % 2
                 x = 270 + col * 250  # Adjusted to match the x position of the potion boxes
-                y = 220 + row * 250 + 150 + 10  # Adjusted to the "Buy" box position (below the potion box)
+                y = 220 + row * 250 + 160 + 10  # Adjusted to the "Buy" box position (below the potion box)
                 if pygame.Rect(x, y, 150, 30).collidepoint(mx, my):
                     return potion
         elif self.active_category == "Letters":
@@ -273,6 +325,7 @@ class Shop:
                 if pygame.Rect(200 + x_offset, 220 + y_offset, 90, 50).collidepoint(mx, my):
                     return letter
         return None
+
 
 
     def switch_category(self, mx, my):
@@ -293,6 +346,7 @@ class Shop:
             misc_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Letters"
             self.shop_type = self.active_category
+# Define button class
 
 # Class for inventory
 class Inventory:
@@ -361,7 +415,7 @@ def purchase_item(item, inventory, currency, shop_type):
     return currency
 
 # Button class for creating buttons
-class Button:
+class Button_1:
     def __init__(self, x, y, w, h, text, color):
         self.rect = pygame.Rect(x, y, w, h)
         self.text = text
@@ -382,10 +436,8 @@ clock = pygame.time.Clock()
 shop = Shop()
 inventory = Inventory(inventory_slots)
 
-# Create reset button
-reset_button = Button(1200, 700, 150, 50, "Reset", RED)  # Adjusted button position for new resolution
-
 while run:
+
     current_time_1 = pygame.time.get_ticks()
     current_time_2 = pygame.time.get_ticks()
     current_time_3 = pygame.time.get_ticks()
@@ -413,6 +465,10 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.QUIT:
+            run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
 
@@ -421,23 +477,15 @@ while run:
             clicked_item = shop.get_clicked_item(mx, my)
             if clicked_item is not None:
                 player_currency = purchase_item(clicked_item, inventory, player_currency, shop.shop_type)
-
-            if reset_button.is_clicked(mx, my):
-                shop_layer.fill(PURPLE_COLOR_KEY)
-                inventory_layer.fill(PURPLE_COLOR_KEY)
-                player_currency = default_currency
-                inventory.clear_inventory()
+    screen_updater()
+    clock.tick(60)
 
     shop.display_shop(shop_layer)
     display_currency(inventory_layer, player_currency)
 
-    # Draw the reset button
-    reset_button.draw(shop_layer)
-
     # Call to display the inventory
     inventory.display_inventory(inventory_layer)
 
-    screen_updater()
-    clock.tick(30)
+
 
 pygame.quit()
