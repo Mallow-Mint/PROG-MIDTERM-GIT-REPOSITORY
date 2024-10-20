@@ -11,10 +11,7 @@ KEY_GREEN = (30, 255, 0)
 
 class Character:
     def __init__(self):
-        self.mobs_list = ['skeleton',
-                          'zombie',
-                          'orc',
-                          'goblin']
+        self.mobs_list = ['skeleton', 'zombie', 'orc', 'goblin']
         self.enemy_layer = pygame.Surface((1600,900))
         self.enemy_position = 0
 
@@ -22,7 +19,7 @@ class Character:
     def enemy_initalizer(self, enemy_count):
         match enemy_count:
             case 1:
-                self.enemy_1, = self.mobs_list[random.randint(0,3)]
+                self.enemy_1 = self.mobs_list[random.randint(0,3)]
             case 2:
                 self.enemy_1 = self.mobs_list[random.randint(0,3)]
                 self.enemy_2 = self.mobs_list[random.randint(0,3)]

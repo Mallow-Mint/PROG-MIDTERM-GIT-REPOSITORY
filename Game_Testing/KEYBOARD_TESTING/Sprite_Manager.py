@@ -1,6 +1,6 @@
 import pygame
 
-#Color
+#Colors 
 GREEN = (30, 255, 0)
 
 class Keyboard:

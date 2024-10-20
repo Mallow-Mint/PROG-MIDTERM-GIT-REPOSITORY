@@ -42,7 +42,7 @@ class Layers:
 # Define the Functions for keyboard updates
 class Valid_Dictionary:
     def __init__(self):
-        self.shared_dictionary = open('TESTS/SpellBook.txt', "r")
+        self.shared_dictionary = open('Game_Testing/KEYBOARD_TESTING/SpellBook.txt', "r")
         self.valid_words = self.shared_dictionary.read() 
         self.valid_word_list = self.valid_words.split("\n")
         self.shared_dictionary.close()
@@ -63,7 +63,7 @@ class Keyboard:
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
         self.key_state = 1 #1 is default 0 is pressed
 
-        
+        # Popup Messages
         self.no_letter_left = font.render("You Have None of this Character Left!", True, WHITE)
         self.no_character_left = font.render("You Have No Characters Left!", True, WHITE)   
         self.not_in_dictionary = font.render("Word Not in your Dictionary", True, WHITE)
@@ -71,7 +71,7 @@ class Keyboard:
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
 
-        self.Letter_Positions_File = open('TESTS/Letter_Amount_Positions.txt' , "r")
+        self.Letter_Positions_File = open('Game_Testing/KEYBOARD_TESTING/Letter_Amount_Positions.txt' , "r")
         self.Letter_Positions_File_Lines = self.Letter_Positions_File.readlines()
 
         for line in self.Letter_Positions_File_Lines:
@@ -88,7 +88,7 @@ class Keyboard:
     def key_amounts(self):
         self.Key_Count_Remaining = {}
 
-        self.Letter_Amounts_File = open('TESTS/Letter_Amount.txt' , "r")
+        self.Letter_Amounts_File = open('Game_Testing/KEYBOARD_TESTING/Letter_Amount.txt' , "r")
         self.Letter_Amounts_File_Lines = self.Letter_Amounts_File.readlines()
 
         for line in self.Letter_Amounts_File_Lines:
@@ -131,8 +131,6 @@ class Keyboard:
                     self.Key_Count_Remaining[self.deleted_key] += 1  # Add 1 to the count of the deleted key
                     self.max_character_count += 1
 
-
-    
             case self.pressed_key if self.pressed_key == 'return':
                 layer.popup_layer.fill(KEY_PURPLE)
                 if dictionary.validWordChecker(self.typed_text) == True:
