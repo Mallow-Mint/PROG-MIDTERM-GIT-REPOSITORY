@@ -143,9 +143,9 @@ def update_game_screen():
     '''
     Updates Game Window and associated Layers in order
     '''
-    game_window.fill(GREEN)
     game_window.blit(layer.background_layer, (0,0))
     keyboard_sprite_sheet.keyboard_sprites.set_colorkey(GREEN)
+    layer.interface_layer.set_colorkey(KEY_PURPLE)
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
@@ -186,7 +186,6 @@ def battle_interface():
     # Printing Graphics Areaaaaaaaaaaa
 
         # Black Background'
-        pygame.draw.rect(layer.background_layer, GREEN, (0, 0, 1600, 450))
 
         # Make Typing Area
         layer.interface_layer.fill(KEY_PURPLE)
