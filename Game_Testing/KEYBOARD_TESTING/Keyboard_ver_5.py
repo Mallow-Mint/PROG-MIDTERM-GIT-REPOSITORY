@@ -47,8 +47,6 @@ class Valid_Dictionary:
         self.valid_words = self.shared_dictionary.read() 
         self.valid_word_list = self.valid_words.split("\n")
         self.shared_dictionary.close()
-
-
     
     def validWordChecker(self, current_typed_word:str):
         if current_typed_word in self.valid_word_list:
@@ -103,24 +101,21 @@ class Keyboard:
     def key_press_action(self, key:str,):
         self.pressed_key = key
         match self.pressed_key:
-
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key, 6)
                     self.key_state = 0
                     update_game_screen()
-
                     while self.key_state < 1:
                         self.key_state += 1
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite(6)
-                    self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
-                    self.cursor_position += 1
-                    self.Key_Count_Remaining[self.pressed_key] -= 1
-                    self.max_character_count -=1
-
+                        self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
+                        self.cursor_position += 1
+                        self.Key_Count_Remaining[self.pressed_key] -= 1
+                        self.max_character_count -=1
                 else:
-                    layer.interface_layer.blit(self.no_letter_left, (530, 425))
+                    layer.popup_layer.blit(self.no_letter_left, (530, 425))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
                 layer.popup_layer.blit(self.no_character_left, (580, 425))
@@ -146,7 +141,7 @@ class Keyboard:
                 else:
                     layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
-                
+            
 class Battle_State:
     def __init__(self):
         pass
@@ -196,7 +191,7 @@ def battle_interface():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
                 key = pygame.key.name(event.key)
                 keyboard.key_press_action(key)
 
@@ -211,7 +206,7 @@ def battle_interface():
         pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
 
         # Draw typed text and cursor
-        typed_text_surface = font.render(keyboard.typed_text, True, BLACK)
+        typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
         layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
         character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
         layer.interface_layer.blit(character_counter, (1350, 50))
