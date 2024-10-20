@@ -6,7 +6,7 @@ class Damage():
         pass
     def damage_range_calculator(self, base_damage):
         self.damage_dealt = round(base_damage * random.uniform(0.8, 1.6), 0)
-        return self.damage_dealt
+        return int(self.damage_dealt)
 
     def critical_checker(self, damage_dealt):
         critical_test = random.randint(1,16)
