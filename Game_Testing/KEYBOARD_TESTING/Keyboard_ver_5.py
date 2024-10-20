@@ -117,10 +117,10 @@ class Keyboard:
                     self.max_character_count -=1
 
                 else:
-                    layer.interface_layer.blit(self.no_letter_left, (530, 350))
+                    layer.interface_layer.blit(self.no_letter_left, (530, 425))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
-                layer.popup_layer.blit(self.no_character_left, (580, 350))
+                layer.popup_layer.blit(self.no_character_left, (580, 425))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
@@ -143,7 +143,7 @@ class Keyboard:
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
-                    layer.popup_layer.blit(self.not_in_dictionary, ((600), 350))
+                    layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
                 
 class Battle_State:
     def __init__(self):
