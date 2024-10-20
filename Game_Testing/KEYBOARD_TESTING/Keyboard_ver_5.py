@@ -203,7 +203,9 @@ def battle_interface():
 
     # Printing Graphics Areaaaaaaaaaaa
 
-        # BLACK Background'
+        #Draw Box for Player
+        pygame.draw.rect(layer.combat_layer, BLUE, (300, 200, 100, 200))
+
 
         # Make Typing Area
         layer.interface_layer.fill(KEY_PURPLE)
