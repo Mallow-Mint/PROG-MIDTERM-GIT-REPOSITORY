@@ -18,6 +18,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (130, 130, 130)
 RED = (255, 0, 0)
+BLUE = (0, 0, 145)
 KEY_PURPLE = (255, 0, 255)
 
 
@@ -46,6 +47,8 @@ class Valid_Dictionary:
         self.valid_words = self.shared_dictionary.read() 
         self.valid_word_list = self.valid_words.split("\n")
         self.shared_dictionary.close()
+
+
     
     def validWordChecker(self, current_typed_word:str):
         if current_typed_word in self.valid_word_list:
@@ -141,6 +144,7 @@ class Keyboard:
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
+                    layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
                 
 class Battle_State:
