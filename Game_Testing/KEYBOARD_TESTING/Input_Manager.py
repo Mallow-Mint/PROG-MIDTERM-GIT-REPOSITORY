@@ -24,14 +24,25 @@ class Spell:
         self.valid_words = self.shared_dictionary.read() 
         self.valid_words = self.valid_words.split("\n")
         self.shared_dictionary.close()
-        selected_enemy = None
+        self.enemy_selection_state = False
+        self.timer = 50000
 
     def spellcast(self, spell):
         self.current_spell = spell
         match self.current_spell:
             case 'fire':
-                self.fire_damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
-                print("You dealt", self.fire_damage_dealt, "damage")
+                pygame.event.set_blocked([pygame.KEYDOWN, pygame.KEYUP])
+                self.enemy_selection_state = True
+                while self.timer > 0:
+                    self.timer -= 1           
+                    print(self.timer)  
+                self.enemy_selection_state = False
+
+                if self.enemy_selection_state == False:
+                    pygame.event.set_allowed([pygame.KEYDOWN, pygame.KEYUP])
+                    self.fire_damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                    print("You dealt", self.fire_damage_dealt, "damage")
+
 
 
 spell = Spell()
