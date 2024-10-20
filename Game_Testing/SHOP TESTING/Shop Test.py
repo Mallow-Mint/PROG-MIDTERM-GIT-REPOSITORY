@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 import spritesheet 
 pygame.init()
 
@@ -61,8 +61,8 @@ def screen_updater():
     pygame.display.update()
 
 # Initialize the player's currency and inventory
-default_currency = 200
-player_currency = default_currency
+global_currency = 200
+player_currency = global_currency
 inventory_slots = 6
 inventory = [None] * inventory_slots
 
@@ -107,7 +107,7 @@ step_counter_4 = 0
 animation_cooldown = 75  # Time in milliseconds between frames
 
 """ DONT JUDGE ME FOR THIS SECTION, TINATAMAD AKO GUMAWA NG CLASS OKAY!!!! IT WORKSSSSSSS!!"""
-button1 = Button('Click me',200,40,(200,250),5)
+
 # Rolling for the First Sprite Image
 for animation_1 in animation_steps_1:
     temp_img_list_1 = []
@@ -147,7 +147,7 @@ for animation_4 in animation_steps_4:
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
+    return pygame.font.Font('Game_Testing/SHOP TESTING/Assets/Shop Font.ttf', size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=PURPLE):
@@ -182,6 +182,7 @@ class Shop:
             ShopItem("Letter Potion", 25, "Potion"),
             ShopItem("All Letter Potion", 50, "Potion")
         ]
+
         self.letters = [ShopItem(letter, price, "Letter") for letter, price in Letter_Cost_Dictionary.items()]
 
     def display_shop(self, shop_layer):
@@ -293,7 +294,78 @@ class Shop:
             misc_layer.fill(PURPLE_COLOR_KEY)
             self.active_category = "Letters"
             self.shop_type = self.active_category
+class Button:
+	def __init__(self,text,width,height,pos,elevation):
+		#Core attributes 
+		self.pressed = False
+		self.elevation = elevation
+		self.dynamic_elecation = elevation
+		self.original_y_pos = pos[1]
+		self.counter = 0
 
+		# top rectangle 
+		self.top_rect = pygame.Rect(pos,(width,height))
+		self.top_color = '#475F77'
+
+		# bottom rectangle 
+		self.bottom_rect = pygame.Rect(pos,(width,height))
+		self.bottom_color = '#354B5E'
+		#text
+		self.text_surf = get_font(20)
+		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
+
+	def draw(self):
+		# elevation logic 
+		self.top_rect.y = self.original_y_pos - self.dynamic_elecation
+		self.text_rect.center = self.top_rect.center 
+
+		self.bottom_rect.midtop = self.top_rect.midtop
+		self.bottom_rect.height = self.top_rect.height + self.dynamic_elecation
+
+		pygame.draw.rect(win,self.bottom_color, self.bottom_rect,border_radius = 12)
+		pygame.draw.rect(win,self.top_color, self.top_rect,border_radius = 12)
+		misc_layer.blit(self.text_surf, self.text_rect)
+		self.check_click()
+
+	def check_click(self):
+		mouse_pos = pygame.mouse.get_pos()
+		if self.top_rect.collidepoint(mouse_pos):
+			self.top_color = '#D74B4B'
+			if pygame.mouse.get_pressed()[0]:
+				self.dynamic_elecation = 0
+				self.pressed = True
+			else:
+				self.dynamic_elecation = self.elevation
+				if self.pressed == True:
+					self.counter +=1
+					print(self.counter)
+					self.pressed = False
+		else:
+			self.dynamic_elecation = self.elevation
+			self.top_color = '#475F77'
+
+buy_buttons = []
+shop_potions = [            
+            ShopItem("Healing Potion S", 20, "Potion"),
+            ShopItem("Healing Potion XL", 50, "Potion"),
+            ShopItem("Letter Potion", 25, "Potion"),
+            ShopItem("All Letter Potion", 50, "Potion")
+            ]
+      
+for i, potion in enumerate(shop_potions):
+    # Position and size for each button (adjust as needed)
+    button_pos = (100, 300 + i * 50)
+    button = Button("Buy", 150, 50, button_pos, 5)
+    buy_buttons.append(button)
+
+# In the game loop, draw the buttons instead of yellow boxes
+for button in buy_buttons:
+    button.draw(misc_layer)
+    if button.check_click():  # If the button was clicked
+        # Handle potion purchase logic here
+        if global_currency >= potion.cost:
+            global_currency -= potion.cost
+            inventory.add_item(potion)
 # Class for inventory
 class Inventory:
     def __init__(self, slots):
@@ -415,7 +487,6 @@ while run:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
-
             shop.switch_category(mx, my)
 
             clicked_item = shop.get_clicked_item(mx, my)
@@ -425,7 +496,7 @@ while run:
             if reset_button.is_clicked(mx, my):
                 shop_layer.fill(PURPLE_COLOR_KEY)
                 inventory_layer.fill(PURPLE_COLOR_KEY)
-                player_currency = default_currency
+                player_currency = global_currency
                 inventory.clear_inventory()
 
     shop.display_shop(shop_layer)
