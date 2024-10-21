@@ -16,7 +16,7 @@ GRAY = (200, 200, 200)
 
 # Load font
 def get_font(size):
-    return pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', size)
+    return pygame.font.Font('Assets/Fonts/timetwist/Timetwist-Bold.otf', size)
 
 # Button class
 class Button:
@@ -56,15 +56,15 @@ def main_menu():
         mouse_pos = pygame.mouse.get_pos()
 
         # Title text
-        title_text = get_font(100).render("SPELL BOOK", True, BLACK)
+        title_text = pygame.image.load('Assets/Background/bg_1/bg_title.png')
         title_rect = title_text.get_rect(center=(650, 150))
         SCREEN.blit(title_text, title_rect)
 
         # Create buttons
-        start_button = Button((650, 250), "NEW GAME", get_font(32), BLACK, GRAY)
-        tutorial_button = Button((650, 300), "TUTORIALS", get_font(32), BLACK, GRAY)
-        scores_button = Button((650, 350), "SCORES", get_font(32), BLACK, GRAY)
-        quit_button = Button((650, 400), "QUIT", get_font(32), BLACK, GRAY)
+        start_button = Button((650, 250), "NEW GAME", get_font(20), BLACK, GRAY)
+        tutorial_button = Button((650, 300), "TUTORIALS", get_font(20), BLACK, GRAY)
+        scores_button = Button((650, 350), "SCORES", get_font(20), BLACK, GRAY)
+        quit_button = Button((650, 400), "QUIT", get_font(20), BLACK, GRAY)
     
 
         # Change button color based on mouse position
