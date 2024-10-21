@@ -3,6 +3,7 @@ import random
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
+
 # START PYGAME WOOOOO pygame
 pygame.init()
 
@@ -19,7 +20,6 @@ BLACK = (0, 0, 0)
 GREY = (130, 130, 130)
 RED = (255, 0, 0)
 KEY_PURPLE = (255, 0, 255)
-
 
 # Set fonts Used for Text
 font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
@@ -53,6 +53,21 @@ class Valid_Dictionary:
             return True
         else:
             return False
+
+class Timer:
+    def __init__(self):
+        self.timer_duration = 60  # seconds
+        self.current_time = self.timer_duration
+        self.is_player_turn = True
+        self.start_ticks = pygame.time.get_ticks()
+
+    def update_time(self):
+        self.seconds_passed = (pygame.time.get_ticks() - self.start_ticks) / 1000
+        self.time_left = max(0, self.timer_duration - int(self.seconds_passed))
+
+    def draw(self):
+        self.time_left_text = big_font.render(str(self.time_left), True, WHITE)x
+        layer.interface_layer.blit(self.time_left_text, (5, 0))
 
 class Keyboard:
     def __init__(self):
@@ -195,6 +210,7 @@ keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 layer = Layers()
 battle = Battle_State()
+timer = Timer()
 
 # Game loop
 def battle_interface():
@@ -203,7 +219,7 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(4)
+    character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
 
@@ -229,6 +245,8 @@ def battle_interface():
         character.player_initalizer()
         character.display_enemy()
         character.draw_enemy_rectangle()
+        timer.update_time()
+        timer.draw()
 
         # Update display
         update_game_screen()
