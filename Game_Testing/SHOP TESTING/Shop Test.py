@@ -431,26 +431,6 @@ class Inventory:
                     inventory_layer.blit(animation_list_3[0][frame_3], (1228, 300))
                 elif self.slots[3].name == "Letter Potion":
                     inventory_layer.blit(animation_list_4[0][frame_4], (1228, 300))
-
-            if self.slots[4] is not None:
-                if self.slots[4].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 430))
-                elif self.slots[4].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 430))
-                elif self.slots[4].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1052, 430))
-                elif self.slots[4].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 430))
-
-            if self.slots[5] is not None:
-                if self.slots[3].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1228, 430))
-                elif self.slots[3].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1228, 430))
-                elif self.slots[3].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1228, 430))
-                elif self.slots[3].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1228, 430))
                                 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):

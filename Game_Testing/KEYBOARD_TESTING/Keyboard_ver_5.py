@@ -1,8 +1,10 @@
 import pygame
 import random
+import math
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
+
 # START PYGAME WOOOOO pygame
 pygame.init()
 
@@ -19,7 +21,6 @@ BLACK = (0, 0, 0)
 GREY = (130, 130, 130)
 RED = (255, 0, 0)
 KEY_PURPLE = (255, 0, 255)
-
 
 # Set fonts Used for Text
 font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
@@ -53,6 +54,39 @@ class Valid_Dictionary:
             return True
         else:
             return False
+
+class Timer:
+    def __init__(self):
+        self.timer_duration = 60  # seconds
+        self.current_time = self.timer_duration
+        self.is_player_turn = True
+        self.start_ticks = pygame.time.get_ticks()
+        self.center_x = 120
+        self.center_y = 50
+        self.radius = 30
+        self.line_thickness =5
+
+    def update_time(self):
+        self.seconds_passed = (pygame.time.get_ticks() - self.start_ticks) / 1000
+        self.time_left = max(0, self.timer_duration - int(self.seconds_passed))
+        angle = (self.time_left / self.timer_duration) * 2 * math.pi
+        self.hand_x = self.center_x + self.radius * math.cos(-angle + math.pi / 2)
+        self.hand_y = self.center_y + self.radius * math.sin(-angle + math.pi / 2)
+
+        if self.time_left <= 0:
+            self.time_left = 60
+            self.is_player_turn = True if self.is_player_turn == False else False  # Switch player
+            self.start_ticks = pygame.time.get_ticks()
+
+    def draw(self):
+        if self.is_player_turn == True:
+            self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
+        else:
+            self.time_left_text = big_font.render(str(self.time_left), True, RED)
+
+        layer.interface_layer.blit(self.time_left_text, (15, 15))
+        pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
+        pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
 
 class Keyboard:
     def __init__(self):
@@ -195,6 +229,7 @@ keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 layer = Layers()
 battle = Battle_State()
+timer = Timer()
 
 # Game loop
 def battle_interface():
@@ -203,25 +238,27 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(4)
+    character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
 
     while running:
-        mouse_pos = pygame.mouse.get_pos()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if timer.is_player_turn == True:
+                mouse_pos = pygame.mouse.get_pos()
+                if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                    key = pygame.key.name(event.key)
+                    keyboard.key_press_action(key)
+                    print(event)
 
-            if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                key = pygame.key.name(event.key)
-                keyboard.key_press_action(key)
-                print(event)
+                elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                    print(event)
+                    spell.targeted_enemy(mouse_pos, character.amount_of_enemies)
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                print(event)
-                spell.targeted_enemy(mouse_pos)
+            elif timer.is_player_turn == False:
+                print("currently_enmey_turn")
 
     # Printing Graphics Areaaaaaaaaaaa
 
@@ -229,6 +266,8 @@ def battle_interface():
         character.player_initalizer()
         character.display_enemy()
         character.draw_enemy_rectangle()
+        timer.update_time()
+        timer.draw()
 
         # Update display
         update_game_screen()
