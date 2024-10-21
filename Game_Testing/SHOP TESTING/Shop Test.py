@@ -4,6 +4,14 @@ pygame.init()
 
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
+#Set up of bg music
+shop_bg_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
+shop_bg_music.play()
+shop_bg_music.set_volume(0.4)
+
+# Set up buying sound 
+buy_sfx = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')
+
 # Background for everything in the shop
 shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial wood shop bg.png')
 currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
@@ -213,7 +221,7 @@ class Button:
 			else:
 				self.dynamic_elecation = self.elevation
 				if self.pressed == True:
-					self.counter +=0
+					buy_sfx.play()
 					self.pressed = False
 		else:
 			self.dynamic_elecation = self.elevation
@@ -384,7 +392,7 @@ class Inventory:
 
             # If an item exists in this slot, display its name
             if self.slots[i] is not None:
-                draw_text(inventory_layer, self.slots[i].name, 1, x_pos + 50, y_pos + 30)
+                draw_text(inventory_layer, self.slots[i].name, 1, x_pos + 60, y_pos + 30)
                 if self.slots[0].name == "Healing Potion S":
                     inventory_layer.blit(animation_list_1[0][frame_1], (1052, 170))
                 elif self.slots[0].name == "Healing Potion XL":
