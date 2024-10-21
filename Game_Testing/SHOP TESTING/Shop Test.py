@@ -300,8 +300,6 @@ class Shop:
                 sprite_y = y  # Y position for the sprite (same as potion box)
                 shop_layer.blit(animation_list_4[0][frame_4], (sprite_x + 15, sprite_y + 20))  # Blit the sprite at the potion position
 
-
-
     def display_letters(self, shop_layer):
         draw_text(shop_layer, "Letters", 20, 400, 150)
         for i, letter in enumerate(self.letters):
@@ -384,14 +382,48 @@ class Inventory:
             x_pos = inv_x + col * 175  # 175 px spacing between columns
             y_pos = inv_y + row * 130  # 100 px spacing between rows
 
-            # Draw a slot (adjusted size for better fit)
-            pygame.draw.rect(inventory_layer, YELLOW, (x_pos, y_pos, 150, 80), 5)
-
             # If an item exists in this slot, display its name
             if self.slots[i] is not None:
-                draw_text(inventory_layer, self.slots[i].name, 15, x_pos + 5, y_pos + 30)
-                
+                draw_text(inventory_layer, self.slots[i].name, 1, x_pos + 50, y_pos + 30)
+                if self.slots[0].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 170))
+                elif self.slots[0].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 170))
+                elif self.slots[0].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1052, 170))
+                elif self.slots[0].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 170))
 
+            if self.slots[1] is not None:
+                if self.slots[1].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1228, 170))
+                elif self.slots[1].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1228, 170))
+                elif self.slots[1].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1228, 170))
+                elif self.slots[1].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1228, 170))
+
+            if self.slots[2] is not None:
+                if self.slots[2].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 300))
+                elif self.slots[2].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 300))
+                elif self.slots[2].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1052, 300))
+                elif self.slots[2].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 300))
+
+            if self.slots[3] is not None:
+                if self.slots[3].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1228, 300))
+                elif self.slots[3].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1228, 300))
+                elif self.slots[3].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1228, 300))
+                elif self.slots[3].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1228, 300))
+                                
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
     # Coordinates where you want to display the currency background and the currency text
@@ -436,8 +468,7 @@ clock = pygame.time.Clock()
 shop = Shop()
 inventory = Inventory(inventory_slots)
 
-while run:
-
+while run:  
     current_time_1 = pygame.time.get_ticks()
     current_time_2 = pygame.time.get_ticks()
     current_time_3 = pygame.time.get_ticks()
@@ -485,7 +516,3 @@ while run:
 
     # Call to display the inventory
     inventory.display_inventory(inventory_layer)
-
-
-
-pygame.quit()
