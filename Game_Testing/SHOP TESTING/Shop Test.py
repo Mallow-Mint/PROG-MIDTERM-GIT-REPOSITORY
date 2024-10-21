@@ -115,7 +115,7 @@ animation_steps_1 = [15]  # Example: adjust this number to match your frames
 animation_steps_2 = [24]
 animation_steps_3 = [14]
 animation_steps_4 = [22]
-animation_steps_5 = [27]
+animation_steps_5 = [26]
 last_update_1 = pygame.time.get_ticks()
 last_update_2 = pygame.time.get_ticks()
 last_update_3 = pygame.time.get_ticks()
@@ -176,6 +176,7 @@ for animation_4 in animation_steps_4:
             temp_img_list_4.append(img_4)
         step_counter_4 += 1
     animation_list_4.append(temp_img_list_4)
+# #rolling for the frog sprite image
 for animation_5 in animation_steps_5:
     temp_img_list_5 = []
     for _ in range(animation_5):
@@ -417,7 +418,7 @@ class Inventory:
         sprite_layer.blit(inventory_frame, (1170, 290))
         sprite_layer.blit(inventory_frame, (990, 430))
         sprite_layer.blit(inventory_frame, (1170, 430))
-        sprite_layer.blit(animation_list_5[0][frame_5], (1000, 40))  
+        sprite_layer.blit(animation_list_5[0][frame_5], (600, 40))
 
         # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 20, inv_x + 75, inv_y - 87)
@@ -540,7 +541,6 @@ shop = Shop()
 inventory = Inventory(inventory_slots)
 
 while run:
-
     current_time_1 = pygame.time.get_ticks()
     current_time_2 = pygame.time.get_ticks()
     current_time_3 = pygame.time.get_ticks()
@@ -570,12 +570,8 @@ while run:
         frame_5 += 1
         last_update_5 = current_time_5
         if frame_5 >= len(animation_list_5[action_5]):
-            frame_5 = 0      
+            frame_5 = 0
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.QUIT:
-            run = False
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
