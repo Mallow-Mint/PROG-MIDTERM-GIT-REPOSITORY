@@ -27,8 +27,8 @@ timer_duration = 60  # 30 second countdown
 start_ticks = pygame.time.get_ticks()  # Record start time
 
 # Circular clock settings
-center_x, center_y = 200, 100  # Position the center of the circle near the top-left corner
-radius = 50  # Radius of the clock
+center_x, center_y = 200, 50  # Position the center of the circle near the top-left corner
+radius = 40  # Radius of the clock
 line_thickness = 10  # Thickness of the clock hand
 
 # Main loop

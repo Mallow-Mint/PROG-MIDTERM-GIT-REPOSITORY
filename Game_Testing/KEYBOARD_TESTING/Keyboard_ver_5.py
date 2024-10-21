@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
@@ -60,14 +61,24 @@ class Timer:
         self.current_time = self.timer_duration
         self.is_player_turn = True
         self.start_ticks = pygame.time.get_ticks()
+        self.center_x = 120
+        self.center_y = 50
+        self.radius = 30
+        self.line_thickness =5
 
     def update_time(self):
         self.seconds_passed = (pygame.time.get_ticks() - self.start_ticks) / 1000
         self.time_left = max(0, self.timer_duration - int(self.seconds_passed))
+        angle = (self.time_left / self.timer_duration) * 2 * math.pi
+        self.hand_x = self.center_x + self.radius * math.cos(-angle + math.pi / 2)
+        self.hand_y = self.center_y + self.radius * math.sin(-angle + math.pi / 2)
 
     def draw(self):
         self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
-        layer.interface_layer.blit(self.time_left_text, (5, 0))
+        layer.interface_layer.blit(self.time_left_text, (15, 15))
+
+        pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
+        pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
 
 class Keyboard:
     def __init__(self):
