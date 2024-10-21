@@ -56,7 +56,9 @@ def main_menu():
         mouse_pos = pygame.mouse.get_pos()
 
         # Title text
-        title_text = pygame.image.load('Assets/Background/bg_1/')
+        title_text = get_font(100).render("SPELL BOOK", True, BLACK)
+        title_rect = title_text.get_rect(center=(650, 150))
+        SCREEN.blit(title_text, title_rect)
 
         # Create buttons
         start_button = Button((650, 250), "NEW GAME", get_font(32), BLACK, GRAY)
