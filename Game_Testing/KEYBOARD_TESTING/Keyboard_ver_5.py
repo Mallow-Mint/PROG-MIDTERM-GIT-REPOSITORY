@@ -18,7 +18,6 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (130, 130, 130)
 RED = (255, 0, 0)
-BLUE = (0, 0, 145)
 KEY_PURPLE = (255, 0, 255)
 
 
@@ -36,7 +35,7 @@ keyboard_sprite_sheet.get_keyboard_sprites()
 class Layers:
     def __init__(self):
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.combat_layer = character.enemy_layer
+        self.combat_layer = character.combat_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
@@ -69,6 +68,7 @@ class Keyboard:
         self.no_letter_left = font.render("You Have None of this Character Left!", True, WHITE)
         self.no_character_left = font.render("You Have No Characters Left!", True, WHITE)   
         self.not_in_dictionary = font.render("Word Not in your Dictionary", True, WHITE)
+        self.select_target = font.render("Please Select a Target", True, WHITE)
 
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
@@ -135,11 +135,13 @@ class Keyboard:
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
                     self.displayed_text = font.render(self.typed_text.upper(), True, WHITE) 
-                    layer.popup_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
+                    layer.popup_layer.blit(self.select_target, (650, 50))
                     update_game_screen()
                     spell.spellcast(self.typed_text)
                     self.typed_text = ""
                     self.cursor_position = 0
+                    layer.popup_layer.fill(KEY_PURPLE)
+
                 else:
                     layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
@@ -186,6 +188,7 @@ def battle_interface():
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
     character.enemy_initalizer(random.randint(1,4))
+    character.player_initalizer()
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
 
@@ -193,18 +196,18 @@ def battle_interface():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN:
-                key = pygame.key.name(event.key)
-                keyboard.key_press_action(key)
-                print(event)
 
+            if spell.enemy_selection_state == False:
+                if event.type == pygame.KEYDOWN:
+                    key = pygame.key.name(event.key)
+                    keyboard.key_press_action(key)
+                    print(event)
+                    
+            elif spell.enemy_selection_state == True:
+                pass
 
 
     # Printing Graphics Areaaaaaaaaaaa
-
-        #Draw Box for Player
-        pygame.draw.rect(layer.combat_layer, BLUE, (300, 200, 100, 200))
-
 
         # Make Typing Area
         layer.interface_layer.fill(KEY_PURPLE)
