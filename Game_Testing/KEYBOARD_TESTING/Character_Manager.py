@@ -1,7 +1,5 @@
 import pygame
 import random
-from Input_Manager import *
-
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -57,6 +55,7 @@ class Character:
         self.selection_layer = pygame.Surface((1600,900))
         self.selected_enemy = 0
         self.current_enemies_alive_hp = []
+        self.player_current_health = []
 
     def random_enemy_type(self):
         self.mob_list_type = list(self.mobs_list_color.keys())
@@ -126,21 +125,16 @@ class Character:
             case 1:
                 self.enemy_1_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
-                spell.reset_keyboard()
             case 2:
                 self.enemy_2_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
-                spell.reset_keyboard()
             case 3:
                 self.enemy_3_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
-                spell.reset_keyboard()
             case 4:
                 self.enemy_4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
-                spell.reset_keyboard()
 
-        
     def draw_enemy_rectangle(self):
         self.selection_layer.fill(KEY_GREEN)
         for enemy in range(self.amount_of_enemies):
@@ -157,22 +151,19 @@ class Character:
                 self.enemy_4_selector = Button(1350, 150, 100, 200)
                 self.enemy_4_selector.draw(self.selection_layer)
 
-    def targeted_enemy(self, mouse_pos):
-        if character.enemy_1_selector.check_for_input(mouse_pos):
-            character.do_damage_single_target(spell.damage_dealt, 1)
-        elif character.enemy_2_selector.check_for_input(mouse_pos):
-            character.do_damage_single_target(spell.damage_dealt, 2)
-        elif character.enemy_3_selector.check_for_input(mouse_pos):
-            character.do_damage_single_target(spell.damage_dealt, 3)
-        elif character.enemy_4_selector.check_for_input(mouse_pos):
-            character.do_damage_single_target(spell.damage_dealt, 4)
-        else:
-            pass
 
-    def player_initalizer(self, hp=40):
+    def player_initalizer(self, hp=50):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
+        self.player_current_health.append(self.player_hp_health_bar.current_hp)
         self.player_hp_health_bar.draw(self.combat_layer)
         pygame.draw.rect(self.combat_layer, BLUE, (300, 200, 100, 200))
+
+    def player_heal(self, hp_healed, hp_change=0):
+        hp_change = self.player_current_health[0]
+        hp_change += hp_healed
+        self.player_current_health[0] = hp_change
+        self.player_hp_health_bar.current_hp = self.player_current_health[0]
+        self.player_hp_health_bar.draw(self.combat_layer)
 
 character = Character()
 

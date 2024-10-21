@@ -221,7 +221,7 @@ def battle_interface():
 
             elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
                 print(event)
-                character.targeted_enemy(mouse_pos)
+                spell.targeted_enemy(mouse_pos)
 
     # Printing Graphics Areaaaaaaaaaaa
 
