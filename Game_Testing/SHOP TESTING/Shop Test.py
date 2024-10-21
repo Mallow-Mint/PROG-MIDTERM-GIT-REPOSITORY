@@ -18,6 +18,14 @@ currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currenc
 item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
 item_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/item frames.png')
 inventory_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/inventory_frame.png')
+gold_currency = pygame.image.load('Game_Testing/SHOP TESTING/Assets/gold_stack.png')
+gold_coin_2_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/2 gold coin.png')
+gold_coin_3_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/3 gold stack.png')
+trial_bg_potions_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial bg potions.png')
+trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 // 1, 458 // 1))
+gold_coin_3 = pygame.transform.scale(gold_coin_3_normal, (387 // 5, 297 // 5))
+gold_coin_2 = pygame.transform.scale(gold_coin_2_normal, (387 // 7, 297 // 7))
+gold_stack  = pygame.transform.scale(gold_currency, (523 // 7, 477 // 7))
 inventory_frame  = pygame.transform.scale(inventory_frame_normal, (500 // 3, 500 // 3))
 currency_BG = pygame.transform.scale(currency_BG_normal, (600 // 2, 300 // 2))
 item_BG = pygame.transform.scale(item_BG_normal, (568 , 750 ))
@@ -194,13 +202,13 @@ class Button:
 
 		# top rectangle 
 		self.top_rect = pygame.Rect(pos,(width,height))
-		self.top_color = '#475F77'
+		self.top_color = 'BROWN'
 
 		# bottom rectangle 
 		self.bottom_rect = pygame.Rect(pos,(width,height))
-		self.bottom_color = '#354B5E'
+		self.bottom_color = '#967969'
 		#text
-		self.text_surf = gui_font.render(text,True,'#FFFFFF')
+		self.text_surf = gui_font.render(text,True,'BLACK')
 		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
 
 	def draw(self):
@@ -219,7 +227,7 @@ class Button:
 	def check_click(self):
 		mouse_pos = pygame.mouse.get_pos()
 		if self.top_rect.collidepoint(mouse_pos):
-			self.top_color = '#D74B4B'
+			self.top_color = '#FFFFCC'
 			if pygame.mouse.get_pressed()[0]:
 				self.dynamic_elecation = 0
 				self.pressed = True
@@ -230,12 +238,12 @@ class Button:
 					self.pressed = False
 		else:
 			self.dynamic_elecation = self.elevation
-			self.top_color = '#475F77'
-gui_font = pygame.font.Font(None,30)
-button1 = Button('Buy for 20',150,40,(270,390),5)
-button2 = Button('Buy for 50',150,40,(520,390),5)
-button3 = Button('Buy for 25',150,40,(270, 638),5)
-button4 = Button('Buy for 50',150,40,(520,638),5)
+			self.top_color = '#CC7722'
+gui_font = get_font(15)
+button1 = Button('20    ',150,40,(270,390),5)
+button2 = Button('50    ',150,40,(520,390),5)
+button3 = Button('25    ',150,40,(270, 638),5)
+button4 = Button('50    ',150,40,(520,638),5)
 
 class Shop:
     def __init__(self):
@@ -284,7 +292,7 @@ class Shop:
             y = grid_start_y + row * spacing
 
             # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
+            draw_text(shop_layer, potion.name, 13, x - 20, y - 30, BLACK)
 
             # Draw the sprite for Healing Potion XL in the correct position
             if potion.name == "Healing Potion S":  # Check if this is the target potion
@@ -295,6 +303,10 @@ class Shop:
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x - 63, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y - 25))
+                inventory_layer.blit(gold_coin_2, (350, 385))
+                inventory_layer.blit(gold_coin_3, (570, 375))
+                inventory_layer.blit(gold_coin_2, (350, 635))
+                inventory_layer.blit(gold_coin_3, (570, 623))
                 button1.draw()
                 button2.draw()
                 button3.draw()
@@ -472,9 +484,10 @@ def display_currency(inventory_layer, currency):
 
     # First, blit the currency background
     inventory_layer.blit(currency_BG, (currency_bg_x, currency_bg_y))
+    inventory_layer.blit(gold_stack, (currency_bg_x + 40, currency_bg_y + 44))
 
     # Then, draw the player's currency text on top of the background
-    draw_text(inventory_layer, f"Currency: ${currency}", 15, text_x, text_y,)
+    draw_text(inventory_layer, f"    {currency}", 27, text_x - 10, text_y - 5,)
 
 # Function to handle item purchase
 def purchase_item(item, inventory, currency, shop_type):
