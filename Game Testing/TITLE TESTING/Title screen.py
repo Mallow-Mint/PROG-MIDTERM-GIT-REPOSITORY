@@ -56,7 +56,7 @@ def main_menu():
         mouse_pos = pygame.mouse.get_pos()
 
         # Title text
-        title_text = pygame.image.load('Assets/Background/bg_1/bg_final.png')
+        title_text = pygame.image.load('Assets/Background/bg_1/bg_title.png')
         title_rect = title_text.get_rect(center=(800, 150))
         SCREEN.blit(title_text, title_rect)
 
