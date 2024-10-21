@@ -66,7 +66,7 @@ class Timer:
         self.time_left = max(0, self.timer_duration - int(self.seconds_passed))
 
     def draw(self):
-        self.time_left_text = big_font.render(str(self.time_left), True, WHITE)x
+        self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
         layer.interface_layer.blit(self.time_left_text, (5, 0))
 
 class Keyboard:
