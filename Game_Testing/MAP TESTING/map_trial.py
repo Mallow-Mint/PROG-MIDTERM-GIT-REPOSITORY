@@ -98,14 +98,19 @@ def main():
 
     # Create the nodes with associated screen types
     node1 = Node(100, 300, 30, state="available", screen_type="battle")  # Starting node on map screen
-    node2 = Node(400, 300, 30, state="locked", screen_type="battle")  # Battle screen node
-    node3 = Node(700, 300, 30, state="locked", screen_type="shop")    # Shop screen node
+    node2 = Node(250, 300, 30, state="locked", screen_type="battle")  # Battle screen node
+    node3 = Node(400, 300, 30, state="locked", screen_type="shop")    # Shop screen node
+    node4 = Node(550, 300, 30, state="locked", screen_type="battle")
+    node5 = Node(700, 300, 30, state="locked", screen_type="battle")
 
     # Set up connections (which nodes unlock others)
     node1.connected_nodes = [node2]  # Clicking node1 unlocks node2 
     node2.connected_nodes = [node3]  # Clicking node2 unlocks node3
+    node3.connected_nodes = [node4] 
+    node4.connected_nodes = [node5] 
 
-    nodes = [node1, node2, node3]
+
+    nodes = [node1, node2, node3, node4, node5]
 
     # Initial screen state
     current_screen = "map"
