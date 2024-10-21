@@ -40,14 +40,14 @@ while running:
             running = False
 
     # Clear screen with white
-    screen.fill(WHITE)
+    screen.fill(BLACK)
 
     # Calculate the time remaining (since get_ticks gives time in milliseconds)
     seconds_passed = (pygame.time.get_ticks() - start_ticks) / 1000
     time_left = max(0, timer_duration - int(seconds_passed))
 
     # Render the timer text (position it near the top left)
-    timer_text = font.render(f"{time_left:02d}", True, BLACK)
+    timer_text = font.render(f"{time_left:02d}", True, WHITE)
     screen.blit(timer_text, (50, 50))  # Position text at (50, 50) near top-left
 
     # Calculate the angle of the clock hand based on time remaining
@@ -58,7 +58,7 @@ while running:
     hand_y = center_y + radius * math.sin(-angle + math.pi / 2)
 
     # Draw the clock circle (positioned at top left)
-    pygame.draw.circle(screen, BLACK, (center_x, center_y), radius, line_thickness)
+    pygame.draw.circle(screen, WHITE, (center_x, center_y), radius, line_thickness)
 
     # Draw the clock hand (line from center to calculated hand position)
     pygame.draw.line(screen, RED, (center_x, center_y), (hand_x, hand_y), line_thickness)
