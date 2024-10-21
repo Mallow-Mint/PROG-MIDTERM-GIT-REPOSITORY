@@ -186,9 +186,7 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(4)
-    character.display_enemy()
-    character.player_initalizer()
+    character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position()
 
@@ -222,6 +220,9 @@ def battle_interface():
         for key, pos in keyboard.Key_Amount_Position.items():
             count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
             layer.interface_layer.blit(count_text, (pos[0], pos[1]))
+        
+        character.display_enemy()
+        character.player_initalizer()
 
         # Draw keyboard and key counts
 

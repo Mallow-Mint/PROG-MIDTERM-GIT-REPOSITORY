@@ -1,12 +1,12 @@
 import pygame
 import random
-from Input_Manager import *
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
 DARK_GREEN = (0, 102, 17)
 DARK_RED = (100, 0, 5)
 BLUE = (0, 0, 145)
+YELLOW = (255, 255, 0)
 KEY_GREEN = (30, 255, 0)
 
 class HealthBar:
@@ -23,6 +23,7 @@ class HealthBar:
     ratio = self.current_hp / self.max_hp
     pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
     pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
+
 
 class Character:
     def __init__(self):
@@ -42,6 +43,12 @@ class Character:
     def enemy_hp(self, enemy_hp):
         self.current_enemy_hp = enemy_hp
         return self.current_enemy_hp 
+    
+    def is_alive(self, enemy_hp):
+        if enemy_hp > 0:
+            return True
+        else:
+            return False
     
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
@@ -88,16 +95,26 @@ class Character:
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
 
+    def do_damage_single_target(self, damage_dealt, enemy_targeted):
+        match enemy_targeted:
+            case 1:
+                self.enemy_1_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+            case 2:
+                self.enemy_2_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+            case 3:
+                self.enemy_3_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+            case 4:
+                self.enemy_4_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+
     def player_initalizer(self, hp=40):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_hp_health_bar.draw(self.combat_layer)
         pygame.draw.rect(self.combat_layer, BLUE, (300, 200, 100, 200))
 
-    def enemy_alive(self, hp):
-        if hp >= 0:
-            return True
-        else:
-            return False
 
 character = Character()
 
