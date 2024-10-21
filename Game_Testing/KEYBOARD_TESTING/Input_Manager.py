@@ -25,25 +25,21 @@ class Spell:
         self.valid_words = self.valid_words.split("\n")
         self.shared_dictionary.close()
         self.enemy_selection_state = False
-        self.timer = 50000
+        self.damage_dealt = 0
+
+    def reset_keyboard(self):
+        self.enemy_selection_state = False
+        self.damage_dealt = 0
+
 
     def spellcast(self, spell):
         self.current_spell = spell
         match self.current_spell:
             case 'fire':
                 self.enemy_selection_state = True
-                while self.timer > 0:
-                    self.timer -= 1           
-                    print(self.timer)
-                self.timer = 50000
-                self.enemy_selection_state = False
-                pygame.event.clear(pygame.KEYDOWN)
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
 
-                if self.enemy_selection_state == False:
-                    self.fire_damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
-                    print("You dealt", self.fire_damage_dealt, "damage")
-
-
+    
 
 spell = Spell()
 damage = Damage()

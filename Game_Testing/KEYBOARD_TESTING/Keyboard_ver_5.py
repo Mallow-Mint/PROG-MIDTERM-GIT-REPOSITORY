@@ -35,6 +35,7 @@ class Layers:
     def __init__(self):
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.combat_layer = character.combat_layer
+        self.selection_layer = character.selection_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
@@ -139,11 +140,26 @@ class Keyboard:
                     spell.spellcast(self.typed_text)
                     self.typed_text = ""
                     self.cursor_position = 0
-                    layer.popup_layer.fill(KEY_PURPLE)
-
                 else:
                     layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
+
+    def keyboard_display(self):
+        # Make Typing Area
+        layer.interface_layer.fill(KEY_PURPLE)
+        pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
+        pygame.draw.rect(layer.interface_layer, RED, (520, 880, 520, typing_area_height))
+
+
+        # Draw typed text and cursor
+        typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
+        layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
+        character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
+        layer.interface_layer.blit(character_counter, (1050, 473))
+
+        for key, pos in keyboard.Key_Amount_Position.items():
+            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
+            layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
 class Battle_State:
     def __init__(self):
@@ -158,13 +174,14 @@ def update_game_screen():
     '''
     game_window.blit(layer.background_layer, (0,0))
     layer.combat_layer.set_colorkey(KEY_GREEN)
+    layer.selection_layer.set_colorkey(KEY_GREEN)
     keyboard_sprite_sheet.keyboard_sprites.set_colorkey(KEY_GREEN)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
-    game_window.blit(layer.combat_layer, (0,0))
+    game_window.blit(layer.combat_layer,(0,0))
+    game_window.blit(layer.selection_layer, (0,0))
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
-
 
     pygame.display.update()
 
@@ -186,45 +203,32 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(random.randint(1,4))
+    character.enemy_initalizer(4)
     keyboard.key_amounts()
-    keyboard.keyboard_amount_position()
+    keyboard.keyboard_amount_position() 
 
     while running:
+        mouse_pos = pygame.mouse.get_pos()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-            if spell.enemy_selection_state == False:
-                if event.type == pygame.KEYDOWN:
-                    key = pygame.key.name(event.key)
-                    keyboard.key_press_action(key)
-                    print(event)
-                    
-            elif spell.enemy_selection_state == True:
-                pass
+            if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                key = pygame.key.name(event.key)
+                keyboard.key_press_action(key)
+                print(event)
 
+            elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                print(event)
+                character.targeted_enemy(mouse_pos)
 
     # Printing Graphics Areaaaaaaaaaaa
 
-        # Make Typing Area
-        layer.interface_layer.fill(KEY_PURPLE)
-        pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
-
-        # Draw typed text and cursor
-        typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
-        layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
-        character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
-        layer.interface_layer.blit(character_counter, (1050, 473))
-
-        for key, pos in keyboard.Key_Amount_Position.items():
-            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
-            layer.interface_layer.blit(count_text, (pos[0], pos[1]))
-        
-        character.display_enemy()
+        keyboard.keyboard_display()
         character.player_initalizer()
-
-        # Draw keyboard and key counts
+        character.display_enemy()
+        character.draw_enemy_rectangle()
 
         # Update display
         update_game_screen()

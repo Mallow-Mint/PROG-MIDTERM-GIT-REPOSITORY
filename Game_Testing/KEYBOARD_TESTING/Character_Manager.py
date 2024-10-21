@@ -1,5 +1,7 @@
 import pygame
 import random
+from Input_Manager import *
+
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -24,12 +26,36 @@ class HealthBar:
     pygame.draw.rect(surface, "red", (self.x, self.y, self.w, self.h))
     pygame.draw.rect(surface, "green", (self.x, self.y, self.w * ratio, self.h))
 
+import pygame
+
+class Button:
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.button_color = KEY_GREEN
+        self.hover_color = YELLOW
+        self.rect = pygame.Rect(x, y, width, height)
+
+    def draw(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            pygame.draw.rect(screen, self.hover_color, self.rect)  # Fill the rect with the color
+        else:
+            pygame.draw.rect(screen, self.button_color, self.rect)  # Fill the rect with the color
+
+    def check_for_input(self, mouse_pos):
+        return self.rect.collidepoint(mouse_pos)
+
 
 class Character:
     def __init__(self):
         self.mobs_list_color = {'skeleton': WHITE, 'zombie': DARK_GREEN, 'orc':DARK_RED , 'goblin': RED}
         self.mobs_list_hp = {'skeleton': 15, 'zombie': 10, 'orc': 20 , 'goblin': 10}
         self.combat_layer = pygame.Surface((1600,900))
+        self.selection_layer = pygame.Surface((1600,900))
+        self.selected_enemy = 0
         self.current_enemies_alive_hp = []
 
     def random_enemy_type(self):
@@ -94,27 +120,59 @@ class Character:
             elif enemy == 3:
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
-
+    
     def do_damage_single_target(self, damage_dealt, enemy_targeted):
         match enemy_targeted:
             case 1:
                 self.enemy_1_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+                spell.reset_keyboard()
             case 2:
                 self.enemy_2_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+                spell.reset_keyboard()
             case 3:
                 self.enemy_3_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+                spell.reset_keyboard()
             case 4:
                 self.enemy_4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+                spell.reset_keyboard()
+
+        
+    def draw_enemy_rectangle(self):
+        self.selection_layer.fill(KEY_GREEN)
+        for enemy in range(self.amount_of_enemies):
+            if enemy == 0:
+                self.enemy_1_selector = Button(900, 200, 100, 200)
+                self.enemy_1_selector.draw(self.selection_layer)
+            elif enemy == 1:
+                self.enemy_2_selector = Button(1050, 150, 100, 200)
+                self.enemy_2_selector.draw(self.selection_layer)
+            elif enemy == 2:
+                self.enemy_3_selector = Button(1200, 200, 100, 200)
+                self.enemy_3_selector.draw(self.selection_layer)
+            elif enemy == 3:
+                self.enemy_4_selector = Button(1350, 150, 100, 200)
+                self.enemy_4_selector.draw(self.selection_layer)
+
+    def targeted_enemy(self, mouse_pos):
+        if character.enemy_1_selector.check_for_input(mouse_pos):
+            character.do_damage_single_target(spell.damage_dealt, 1)
+        elif character.enemy_2_selector.check_for_input(mouse_pos):
+            character.do_damage_single_target(spell.damage_dealt, 2)
+        elif character.enemy_3_selector.check_for_input(mouse_pos):
+            character.do_damage_single_target(spell.damage_dealt, 3)
+        elif character.enemy_4_selector.check_for_input(mouse_pos):
+            character.do_damage_single_target(spell.damage_dealt, 4)
+        else:
+            pass
 
     def player_initalizer(self, hp=40):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_hp_health_bar.draw(self.combat_layer)
         pygame.draw.rect(self.combat_layer, BLUE, (300, 200, 100, 200))
-
 
 character = Character()
 
