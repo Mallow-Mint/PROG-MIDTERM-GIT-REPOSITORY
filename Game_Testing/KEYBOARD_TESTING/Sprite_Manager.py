@@ -3,12 +3,16 @@ import pygame
 #Colors 
 GREEN = (30, 255, 0)
 
+def get_image(img:str,  scale):
+    image = pygame.image.load(img).convert_alpha()
+    image = pygame.transform.scale_by(image, scale)
+    return image
+
 class Keyboard:
     def __init__(self) -> None:
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
-        
 class SpriteSheet():
     def __init__(self, image):  
         self.sheet = image

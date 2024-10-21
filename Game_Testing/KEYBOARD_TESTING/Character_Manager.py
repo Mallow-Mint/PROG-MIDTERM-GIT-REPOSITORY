@@ -8,6 +8,7 @@ DARK_RED = (100, 0, 5)
 BLUE = (0, 0, 145)
 KEY_GREEN = (30, 255, 0)
 
+
 class Character:
     def __init__(self):
         self.mobs_list = {'skeleton': WHITE, 'zombie': DARK_GREEN, 'orc':DARK_RED , 'goblin': RED}

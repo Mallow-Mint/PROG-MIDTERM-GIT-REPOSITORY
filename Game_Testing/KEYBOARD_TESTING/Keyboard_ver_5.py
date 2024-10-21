@@ -26,9 +26,8 @@ font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
 big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 
 # Get Sprite Sheet for Keyboard
-keyboard_sprite_sheet_image_base = pygame.image.load('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png').convert_alpha()
-keyboard_sprite_sheet_image_scaled = pygame.transform.scale_by(keyboard_sprite_sheet_image_base, 6)
-keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image_scaled)
+keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png', 6)
+keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
 # Set Layers Class
