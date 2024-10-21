@@ -73,10 +73,18 @@ class Timer:
         self.hand_x = self.center_x + self.radius * math.cos(-angle + math.pi / 2)
         self.hand_y = self.center_y + self.radius * math.sin(-angle + math.pi / 2)
 
-    def draw(self):
-        self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
-        layer.interface_layer.blit(self.time_left_text, (15, 15))
+        if self.time_left <= 0:
+            self.time_left = 60
+            self.is_player_turn = True if self.is_player_turn == False else False  # Switch player
+            self.start_ticks = pygame.time.get_ticks()
 
+    def draw(self):
+        if self.is_player_turn == True:
+            self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
+        else:
+            self.time_left_text = big_font.render(str(self.time_left), True, RED)
+
+        layer.interface_layer.blit(self.time_left_text, (15, 15))
         pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
         pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
 
@@ -235,20 +243,22 @@ def battle_interface():
     keyboard.keyboard_amount_position() 
 
     while running:
-        mouse_pos = pygame.mouse.get_pos()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if timer.is_player_turn == True:
+                mouse_pos = pygame.mouse.get_pos()
+                if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                    key = pygame.key.name(event.key)
+                    keyboard.key_press_action(key)
+                    print(event)
 
-            if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                key = pygame.key.name(event.key)
-                keyboard.key_press_action(key)
-                print(event)
+                elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                    print(event)
+                    spell.targeted_enemy(mouse_pos, character.amount_of_enemies)
 
-            elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                print(event)
-                spell.targeted_enemy(mouse_pos)
+            elif timer.is_player_turn == False:
+                print("currently_enmey_turn")
 
     # Printing Graphics Areaaaaaaaaaaa
 
