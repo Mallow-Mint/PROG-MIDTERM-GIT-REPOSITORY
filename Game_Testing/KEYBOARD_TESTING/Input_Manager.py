@@ -31,15 +31,15 @@ class Spell:
         self.current_spell = spell
         match self.current_spell:
             case 'fire':
-                pygame.event.set_blocked([pygame.KEYDOWN, pygame.KEYUP])
                 self.enemy_selection_state = True
                 while self.timer > 0:
                     self.timer -= 1           
-                    print(self.timer)  
+                    print(self.timer)
+                self.timer = 50000
                 self.enemy_selection_state = False
+                pygame.event.clear(pygame.KEYDOWN)
 
                 if self.enemy_selection_state == False:
-                    pygame.event.set_allowed([pygame.KEYDOWN, pygame.KEYUP])
                     self.fire_damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
                     print("You dealt", self.fire_damage_dealt, "damage")
 

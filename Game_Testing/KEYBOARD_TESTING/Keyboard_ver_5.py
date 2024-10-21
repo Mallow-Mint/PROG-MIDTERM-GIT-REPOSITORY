@@ -109,7 +109,7 @@ class Keyboard:
                     self.key_state = 0
                     update_game_screen()
                     while self.key_state < 1:
-                        self.key_state += 0.5
+                        self.key_state += 0.1
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                     self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                     self.cursor_position += 1
@@ -136,6 +136,7 @@ class Keyboard:
                 # Update Max Character Count and Display enterd word at top of Screen
                     self.displayed_text = font.render(self.typed_text.upper(), True, WHITE) 
                     layer.popup_layer.blit(self.displayed_text, ((SCREEN_WIDTH/2 - (len(self.typed_text)*5)), 50))
+                    update_game_screen()
                     spell.spellcast(self.typed_text)
                     self.typed_text = ""
                     self.cursor_position = 0
@@ -192,9 +193,12 @@ def battle_interface():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+            elif event.type == pygame.KEYDOWN:
                 key = pygame.key.name(event.key)
                 keyboard.key_press_action(key)
+                print(event)
+
+
 
     # Printing Graphics Areaaaaaaaaaaa
 
