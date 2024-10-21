@@ -13,7 +13,7 @@ shop_bg_music.set_volume(0.4)
 buy_sfx = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')
 
 # Background for everything in the shop
-shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial wood shop bg.png')
+shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
 currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
 item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
 item_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/item frames.png')
@@ -22,7 +22,9 @@ gold_currency = pygame.image.load('Game_Testing/SHOP TESTING/Assets/gold_stack.p
 gold_coin_2_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/2 gold coin.png')
 gold_coin_3_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/3 gold stack.png')
 trial_bg_potions_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial bg potions.png')
-trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 // 1, 458 // 1))
+wooden_sign_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden sign.png')
+wooden_sign = pygame.transform.scale(wooden_sign_normal, (403 // 1.5, 211 // 1.5))
+trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 * 1.65, 458 * 1.65))
 gold_coin_3 = pygame.transform.scale(gold_coin_3_normal, (387 // 5, 297 // 5))
 gold_coin_2 = pygame.transform.scale(gold_coin_2_normal, (387 // 7, 297 // 7))
 gold_stack  = pygame.transform.scale(gold_currency, (523 // 7, 477 // 7))
@@ -264,8 +266,8 @@ class Shop:
         # Display category tabs
         for i, category in enumerate(self.categories):
             color = LIGHT_GREY if category == self.active_category else PURPLE
-            pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
-            draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
+            draw_text(shop_layer, "Letters", 20, 1410, 835, WHITE)
+            draw_text(shop_layer, "Potions", 20, 60, 835, WHITE)
 
         # Display items from the active category
         if self.active_category == "Potions":
@@ -276,7 +278,7 @@ class Shop:
             self.display_letters(shop_layer)
 
     def display_potions(self, shop_layer):
-        draw_text(shop_layer, "Potions", 20, 400, 150)
+        draw_text(shop_layer, "Potions", 30, 390, 70)
         # 2x2 grid setup for potion boxes
         potion_box_width = 150
         potion_box_height = 150
@@ -325,7 +327,7 @@ class Shop:
                 shop_layer.blit(animation_list_4[0][frame_4], (sprite_x + 15, sprite_y + 20))  # Blit the sprite at the potion position
 
     def display_letters(self, shop_layer):
-        draw_text(shop_layer, "Letters", 20, 400, 150)
+        draw_text(shop_layer, "Letters", 30, 390, 70)
         for i, letter in enumerate(self.letters):
             x_offset = (i % 5) * 120  # Horizontal spacing between boxes
             y_offset = (i // 5) * 80   # Vertical spacing between rows
@@ -348,12 +350,10 @@ class Shop:
                     return letter
         return None
 
-
-
     def switch_category(self, mx, my):
         # Adjust the x and y positions of the category tabs to match the positions in the shop
-        potions_tab_rect = pygame.Rect(160, 50, 180, 60)  # Coordinates for the "Potions" tab
-        letters_tab_rect = pygame.Rect(320, 50, 180, 60)  # Coordinates for the "Letters" tab
+        potions_tab_rect = pygame.Rect(15, 810, 180, 60)  # Coordinates for the "Potions" tab
+        letters_tab_rect = pygame.Rect(1396, 810, 180, 60)  # Coordinates for the "Letters" tab
 
         # Check if the user clicked on the "Potions" tab
         if potions_tab_rect.collidepoint(mx, my):
@@ -369,6 +369,8 @@ class Shop:
             self.active_category = "Letters"
             self.shop_type = self.active_category
 # Define button class
+sprite_layer.blit(wooden_sign, (1348, 750))
+sprite_layer.blit(wooden_sign, (0, 750))
 
 # Class for inventory
 class Inventory:
@@ -483,6 +485,7 @@ def display_currency(inventory_layer, currency):
     text_y = currency_bg_y + 67  # Adjust the Y position to center the text within the background
 
     # First, blit the currency background
+    sprite_layer.blit(trial_bg_potions, (75, 17))
     inventory_layer.blit(currency_BG, (currency_bg_x, currency_bg_y))
     inventory_layer.blit(gold_stack, (currency_bg_x + 40, currency_bg_y + 44))
 
