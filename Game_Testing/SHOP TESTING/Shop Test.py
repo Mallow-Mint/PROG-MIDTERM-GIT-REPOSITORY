@@ -39,10 +39,12 @@ sprite_sheet_image_1 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/Heali
 sprite_sheet_image_2 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/XL Healing potion OG.png').convert_alpha()
 sprite_sheet_image_3 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/All Leter Potion OG.png').convert_alpha()
 sprite_sheet_image_4 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/Letter Potion OG.png').convert_alpha()
+sprite_sheet_ribit = pygame.image.load('Game_Testing/SHOP TESTING/Assets/ribit.png').convert_alpha()
 sprite_sheet_HpS = spritesheet.SpriteSheet(sprite_sheet_image_1)
 sprite_sheet_HpXL = spritesheet.SpriteSheet(sprite_sheet_image_2)
 sprite_sheet_AllLp = spritesheet.SpriteSheet(sprite_sheet_image_3)
 sprite_sheet_Lp = spritesheet.SpriteSheet(sprite_sheet_image_4)
+sprite_sheet_ribit_wee = spritesheet.SpriteSheet(sprite_sheet_ribit)
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
@@ -108,26 +110,32 @@ animation_list_1 = []
 animation_list_2 = []
 animation_list_3 = []
 animation_list_4 = []
+animation_list_5 = []
 animation_steps_1 = [15]  # Example: adjust this number to match your frames
 animation_steps_2 = [24]
 animation_steps_3 = [14]
 animation_steps_4 = [22]
+animation_steps_5 = [27]
 last_update_1 = pygame.time.get_ticks()
 last_update_2 = pygame.time.get_ticks()
 last_update_3 = pygame.time.get_ticks()
 last_update_4 = pygame.time.get_ticks()
+last_update_5 = pygame.time.get_ticks()
 action_1 = 0
 action_2 = 0
 action_3 = 0
 action_4 = 0
+action_5 = 0
 frame_1 = 0
 frame_2 = 0
 frame_3 = 0
 frame_4 = 0
+frame_5 = 0
 step_counter_1 = 0
 step_counter_2 = 0
 step_counter_3 = 0
 step_counter_4 = 0
+step_counter_5 = 0
 animation_cooldown = 75  # Time in milliseconds between frames
 
 """ DONT JUDGE ME FOR THIS SECTION, TINATAMAD AKO GUMAWA NG CLASS OKAY!!!! IT WORKSSSSSSS!!"""
@@ -168,6 +176,14 @@ for animation_4 in animation_steps_4:
             temp_img_list_4.append(img_4)
         step_counter_4 += 1
     animation_list_4.append(temp_img_list_4)
+for animation_5 in animation_steps_5:
+    temp_img_list_5 = []
+    for _ in range(animation_5):
+        img_5 = sprite_sheet_ribit_wee.get_image(step_counter_5, 16, 16, 4, BLACK)# Adjust parameters as needed
+        if img_5 is not None:  # Ensure we have a valid image
+            temp_img_list_5.append(img_5)
+        step_counter_5 += 1
+    animation_list_5.append(temp_img_list_5)
 
 # Function to load and return the custom font
 def get_font(size):
@@ -401,6 +417,7 @@ class Inventory:
         sprite_layer.blit(inventory_frame, (1170, 290))
         sprite_layer.blit(inventory_frame, (990, 430))
         sprite_layer.blit(inventory_frame, (1170, 430))
+        sprite_layer.blit(animation_list_5[0][frame_5], (1000, 40))  
 
         # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 20, inv_x + 75, inv_y - 87)
@@ -522,11 +539,13 @@ clock = pygame.time.Clock()
 shop = Shop()
 inventory = Inventory(inventory_slots)
 
-while run:  
+while run:
+
     current_time_1 = pygame.time.get_ticks()
     current_time_2 = pygame.time.get_ticks()
     current_time_3 = pygame.time.get_ticks()
     current_time_4 = pygame.time.get_ticks()
+    current_time_5 = pygame.time.get_ticks()
     if current_time_1 - last_update_1 >= animation_cooldown:
         frame_1 += 1
         last_update_1 = current_time_1
@@ -546,7 +565,12 @@ while run:
         frame_4 += 1
         last_update_4 = current_time_4
         if frame_4 >= len(animation_list_4[action_4]):
-            frame_4 = 0    
+            frame_4 = 0
+    if current_time_5 - last_update_5 >= animation_cooldown:
+        frame_5 += 1
+        last_update_5 = current_time_5
+        if frame_5 >= len(animation_list_5[action_5]):
+            frame_5 = 0      
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
