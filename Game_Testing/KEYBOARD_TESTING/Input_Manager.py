@@ -50,13 +50,14 @@ class Spell:
                 damage.heal_spell(self.damage_healed)
 
     def targeted_enemy(self, mouse_pos):
-        if character.enemy_1_selector.check_for_input(mouse_pos):
+        self.current_click = mouse_pos
+        if character.enemy_1_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 1)
-        elif character.enemy_2_selector.check_for_input(mouse_pos):
+        elif character.enemy_2_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 2)
-        elif character.enemy_3_selector.check_for_input(mouse_pos):
+        elif character.enemy_3_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 3)
-        elif character.enemy_4_selector.check_for_input(mouse_pos):
+        elif character.enemy_4_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 4)
         else:
             pass
