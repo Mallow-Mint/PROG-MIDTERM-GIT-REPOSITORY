@@ -245,6 +245,7 @@ class Keyboard:
         for key, amount in keyboard.Key_Count_Remaining.items():
             if keyboard.Key_Count_Remaining[key] < 5:
                 keyboard.Key_Count_Remaining[key] += 1
+        self.max_character_count = 20
 
 class Battle_State:
     def __init__(self):
@@ -294,7 +295,7 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(random.randint(1,4))
+    character.enemy_initalizer(1)
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()

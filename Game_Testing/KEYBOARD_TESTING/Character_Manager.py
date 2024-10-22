@@ -174,7 +174,6 @@ class Character:
             time.sleep(1)
         print(f"You have {self.player_hp_health_bar.current_hp} Hp Left")
 
-
     def player_initalizer(self, hp=50):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_current_health.append(self.player_hp_health_bar.current_hp)
@@ -196,6 +195,16 @@ class Character:
         self.player_current_health[0] = hp_change
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
+    
+    def battle_win(self):
+        self.total_enemy_hp = 0
+        for enemy_hp in range(self.amount_of_enemies):
+            self.total_enemy_hp += self.current_enemies_alive_hp[enemy_hp]
+        
+        if self.total_enemy_hp == 0:
+            print("You win")
+
+            
 
 class Enemy_Actions:
     def __init__ (self):

@@ -2,7 +2,9 @@ fire
 water
 earth
 air
-test
+arrow
+ice
+wind
 lightning
 heal
-shield
+test

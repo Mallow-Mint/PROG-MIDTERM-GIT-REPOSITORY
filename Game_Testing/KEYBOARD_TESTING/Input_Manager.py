@@ -45,10 +45,25 @@ class Spell:
         match self.current_spell:
             case 'fire':
                 self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
             case 'air':
                 self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
+            case 'water':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'wind':
+                self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+            case 'earth':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'ice':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
+            case 'arrow':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
             case 'heal':
                 self.damage_healed = random.randint(8,12)
                 damage.heal_spell(self.damage_healed)
@@ -67,6 +82,8 @@ class Spell:
             
         elif character.enemy_4_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 4)
+        character.battle_win()
+
                 
 
         spell.reset_keyboard()
