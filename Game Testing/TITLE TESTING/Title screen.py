@@ -51,7 +51,7 @@ class Button:
 def main_menu():
     while True:
         SCREEN.fill(BLACK)
-        SCREEN.blit(Title_BG, (0,0))
+        SCREEN.blit(Title_BG, (80,40))
         # Get mouse position
         mouse_pos = pygame.mouse.get_pos()
 
