@@ -4,11 +4,31 @@ pygame.init()
 
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
+#Set up of bg music
+shop_bg_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
+shop_bg_music.play()
+shop_bg_music.set_volume(0.4)
+
+# Set up buying sound 
+buy_sfx = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')
+
 # Background for everything in the shop
-shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial wood shop bg.png')
+shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
 currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
 item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
 item_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/item frames.png')
+inventory_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/inventory_frame.png')
+gold_currency = pygame.image.load('Game_Testing/SHOP TESTING/Assets/gold_stack.png')
+gold_coin_2_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/2 gold coin.png')
+gold_coin_3_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/3 gold stack.png')
+trial_bg_potions_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial bg potions.png')
+wooden_sign_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden sign.png')
+wooden_sign = pygame.transform.scale(wooden_sign_normal, (403 // 1.5, 211 // 1.5))
+trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 * 1.65, 458 * 1.65))
+gold_coin_3 = pygame.transform.scale(gold_coin_3_normal, (387 // 5, 297 // 5))
+gold_coin_2 = pygame.transform.scale(gold_coin_2_normal, (387 // 7, 297 // 7))
+gold_stack  = pygame.transform.scale(gold_currency, (523 // 7, 477 // 7))
+inventory_frame  = pygame.transform.scale(inventory_frame_normal, (500 // 3, 500 // 3))
 currency_BG = pygame.transform.scale(currency_BG_normal, (600 // 2, 300 // 2))
 item_BG = pygame.transform.scale(item_BG_normal, (568 , 750 ))
 shop_bg = pygame.transform.scale(shop_bg_normal, (1600 , 1117 * 0.81 ))
@@ -19,10 +39,12 @@ sprite_sheet_image_1 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/Heali
 sprite_sheet_image_2 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/XL Healing potion OG.png').convert_alpha()
 sprite_sheet_image_3 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/All Leter Potion OG.png').convert_alpha()
 sprite_sheet_image_4 = pygame.image.load('Game_Testing/SHOP TESTING/Assets/Letter Potion OG.png').convert_alpha()
+sprite_sheet_ribit = pygame.image.load('Game_Testing/SHOP TESTING/Assets/ribit.png').convert_alpha()
 sprite_sheet_HpS = spritesheet.SpriteSheet(sprite_sheet_image_1)
 sprite_sheet_HpXL = spritesheet.SpriteSheet(sprite_sheet_image_2)
 sprite_sheet_AllLp = spritesheet.SpriteSheet(sprite_sheet_image_3)
 sprite_sheet_Lp = spritesheet.SpriteSheet(sprite_sheet_image_4)
+sprite_sheet_ribit_wee = spritesheet.SpriteSheet(sprite_sheet_ribit)
 
 background_layer = pygame.Surface((1600, 900))
 shop_layer = pygame.Surface((1600, 900))
@@ -38,6 +60,8 @@ inventory_layer.fill(PURPLE_COLOR_KEY)
 inventory_layer.set_colorkey((255, 0, 255))
 misc_layer.fill(PURPLE_COLOR_KEY)
 misc_layer.set_colorkey((255, 0, 255))
+sprite_layer.fill(PURPLE_COLOR_KEY)
+sprite_layer.set_colorkey((255, 0, 255))  
 
 # Make Dictionary of Letters and Cost
 Letter_Cost_File = open('Game_Testing/SHOP TESTING/Assets/Letter Costs.txt', 'r')
@@ -54,6 +78,7 @@ def screen_updater():
     win.fill(BLACK)
     background_layer.blit(shop_bg, (0, 0))
     win.blit(background_layer, (0, 0))
+    win.blit(sprite_layer, (0, 0))
     win.blit(misc_layer, (0, 0))
     win.blit(shop_layer, (0, 0))
     win.blit(inventory_layer, (0, 0))
@@ -61,7 +86,7 @@ def screen_updater():
     pygame.display.update()
 
 # Initialize the player's currency and inventory
-default_currency = 200
+default_currency = 300
 player_currency = default_currency
 inventory_slots = 6
 inventory = [None] * inventory_slots
@@ -85,26 +110,32 @@ animation_list_1 = []
 animation_list_2 = []
 animation_list_3 = []
 animation_list_4 = []
+animation_list_5 = []
 animation_steps_1 = [15]  # Example: adjust this number to match your frames
 animation_steps_2 = [24]
 animation_steps_3 = [14]
 animation_steps_4 = [22]
+animation_steps_5 = [26]
 last_update_1 = pygame.time.get_ticks()
 last_update_2 = pygame.time.get_ticks()
 last_update_3 = pygame.time.get_ticks()
 last_update_4 = pygame.time.get_ticks()
+last_update_5 = pygame.time.get_ticks()
 action_1 = 0
 action_2 = 0
 action_3 = 0
 action_4 = 0
+action_5 = 0
 frame_1 = 0
 frame_2 = 0
 frame_3 = 0
 frame_4 = 0
+frame_5 = 0
 step_counter_1 = 0
 step_counter_2 = 0
 step_counter_3 = 0
 step_counter_4 = 0
+step_counter_5 = 0
 animation_cooldown = 75  # Time in milliseconds between frames
 
 """ DONT JUDGE ME FOR THIS SECTION, TINATAMAD AKO GUMAWA NG CLASS OKAY!!!! IT WORKSSSSSSS!!"""
@@ -145,6 +176,15 @@ for animation_4 in animation_steps_4:
             temp_img_list_4.append(img_4)
         step_counter_4 += 1
     animation_list_4.append(temp_img_list_4)
+# #rolling for the frog sprite image
+for animation_5 in animation_steps_5:
+    temp_img_list_5 = []
+    for _ in range(animation_5):
+        img_5 = sprite_sheet_ribit_wee.get_image(step_counter_5, 16, 16, 4, BLACK)# Adjust parameters as needed
+        if img_5 is not None:  # Ensure we have a valid image
+            temp_img_list_5.append(img_5)
+        step_counter_5 += 1
+    animation_list_5.append(temp_img_list_5)
 
 # Function to load and return the custom font
 def get_font(size):
@@ -181,13 +221,13 @@ class Button:
 
 		# top rectangle 
 		self.top_rect = pygame.Rect(pos,(width,height))
-		self.top_color = '#475F77'
+		self.top_color = 'BROWN'
 
 		# bottom rectangle 
 		self.bottom_rect = pygame.Rect(pos,(width,height))
-		self.bottom_color = '#354B5E'
+		self.bottom_color = '#967969'
 		#text
-		self.text_surf = gui_font.render(text,True,'#FFFFFF')
+		self.text_surf = gui_font.render(text,True,'BLACK')
 		self.text_rect = self.text_surf.get_rect(center = self.top_rect.center)
 
 	def draw(self):
@@ -206,23 +246,23 @@ class Button:
 	def check_click(self):
 		mouse_pos = pygame.mouse.get_pos()
 		if self.top_rect.collidepoint(mouse_pos):
-			self.top_color = '#D74B4B'
+			self.top_color = '#FFFFCC'
 			if pygame.mouse.get_pressed()[0]:
 				self.dynamic_elecation = 0
 				self.pressed = True
 			else:
 				self.dynamic_elecation = self.elevation
 				if self.pressed == True:
-					self.counter +=0
+					buy_sfx.play()
 					self.pressed = False
 		else:
 			self.dynamic_elecation = self.elevation
-			self.top_color = '#475F77'
-gui_font = pygame.font.Font(None,30)
-button1 = Button('Buy for 20',150,40,(270,390),5)
-button2 = Button('Buy for 50',150,40,(520,390),5)
-button3 = Button('Buy for 25',150,40,(270, 638),5)
-button4 = Button('Buy for 50',150,40,(520,638),5)
+			self.top_color = '#CC7722'
+gui_font = get_font(15)
+button1 = Button('20    ',150,40,(270,390),5)
+button2 = Button('50    ',150,40,(520,390),5)
+button3 = Button('25    ',150,40,(270, 638),5)
+button4 = Button('50    ',150,40,(520,638),5)
 
 class Shop:
     def __init__(self):
@@ -243,8 +283,8 @@ class Shop:
         # Display category tabs
         for i, category in enumerate(self.categories):
             color = LIGHT_GREY if category == self.active_category else PURPLE
-            pygame.draw.rect(shop_layer, color, (160 + i * 160, 50, 180, 60))
-            draw_text(shop_layer, category, 20, 174 + i * 160, 70, BLACK)
+            draw_text(shop_layer, "Letters", 20, 1410, 835, WHITE)
+            draw_text(shop_layer, "Potions", 20, 60, 835, WHITE)
 
         # Display items from the active category
         if self.active_category == "Potions":
@@ -255,8 +295,7 @@ class Shop:
             self.display_letters(shop_layer)
 
     def display_potions(self, shop_layer):
-        draw_text(shop_layer, "Potions", 20, 400, 150)
-
+        draw_text(shop_layer, "Potions", 30, 390, 70)
         # 2x2 grid setup for potion boxes
         potion_box_width = 150
         potion_box_height = 150
@@ -272,7 +311,7 @@ class Shop:
             y = grid_start_y + row * spacing
 
             # Draw potion name above the box
-            draw_text(shop_layer, potion.name, 13, x - 20, y - 25, BLACK)
+            draw_text(shop_layer, potion.name, 13, x - 20, y - 30, BLACK)
 
             # Draw the sprite for Healing Potion XL in the correct position
             if potion.name == "Healing Potion S":  # Check if this is the target potion
@@ -283,6 +322,10 @@ class Shop:
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x - 63, sprite_y + 223))
                 misc_layer.blit(item_frame, (sprite_x + 185, sprite_y - 25))
+                inventory_layer.blit(gold_coin_2, (350, 385))
+                inventory_layer.blit(gold_coin_3, (570, 375))
+                inventory_layer.blit(gold_coin_2, (350, 635))
+                inventory_layer.blit(gold_coin_3, (570, 623))
                 button1.draw()
                 button2.draw()
                 button3.draw()
@@ -301,7 +344,7 @@ class Shop:
                 shop_layer.blit(animation_list_4[0][frame_4], (sprite_x + 15, sprite_y + 20))  # Blit the sprite at the potion position
 
     def display_letters(self, shop_layer):
-        draw_text(shop_layer, "Letters", 20, 400, 150)
+        draw_text(shop_layer, "Letters", 30, 390, 70)
         for i, letter in enumerate(self.letters):
             x_offset = (i % 5) * 120  # Horizontal spacing between boxes
             y_offset = (i // 5) * 80   # Vertical spacing between rows
@@ -324,12 +367,10 @@ class Shop:
                     return letter
         return None
 
-
-
     def switch_category(self, mx, my):
         # Adjust the x and y positions of the category tabs to match the positions in the shop
-        potions_tab_rect = pygame.Rect(160, 50, 180, 60)  # Coordinates for the "Potions" tab
-        letters_tab_rect = pygame.Rect(320, 50, 180, 60)  # Coordinates for the "Letters" tab
+        potions_tab_rect = pygame.Rect(15, 810, 180, 60)  # Coordinates for the "Potions" tab
+        letters_tab_rect = pygame.Rect(1396, 810, 180, 60)  # Coordinates for the "Letters" tab
 
         # Check if the user clicked on the "Potions" tab
         if potions_tab_rect.collidepoint(mx, my):
@@ -345,6 +386,8 @@ class Shop:
             self.active_category = "Letters"
             self.shop_type = self.active_category
 # Define button class
+sprite_layer.blit(wooden_sign, (1348, 750))
+sprite_layer.blit(wooden_sign, (0, 750))
 
 # Class for inventory
 class Inventory:
@@ -368,7 +411,14 @@ class Inventory:
         # Place the inventory in the top right corner in a 2x3 grid
         inv_x = 1000  # Starting x position (near the right side of the screen)
         inv_y = 190  # Starting y position (upper part of the screen)
-        inventory_layer.blit(item_BG, (881, -20))
+        sprite_layer.blit(item_BG, (881, -20))
+        sprite_layer.blit(inventory_frame, (990, 150))
+        sprite_layer.blit(inventory_frame, (1170, 150))
+        sprite_layer.blit(inventory_frame, (990, 290))
+        sprite_layer.blit(inventory_frame, (1170, 290))
+        sprite_layer.blit(inventory_frame, (990, 430))
+        sprite_layer.blit(inventory_frame, (1170, 430))
+        sprite_layer.blit(animation_list_5[0][frame_5], (600, 40))
 
         # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 20, inv_x + 75, inv_y - 87)
@@ -384,59 +434,81 @@ class Inventory:
 
             # If an item exists in this slot, display its name
             if self.slots[i] is not None:
-                draw_text(inventory_layer, self.slots[i].name, 1, x_pos + 50, y_pos + 30)
+                draw_text(inventory_layer, self.slots[i].name, 1, x_pos + 1000, y_pos + 50)
                 if self.slots[0].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 170))
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 188))
                 elif self.slots[0].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 170))
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 195))
                 elif self.slots[0].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1052, 170))
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 177))
                 elif self.slots[0].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 170))
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 192))
 
             if self.slots[1] is not None:
                 if self.slots[1].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1228, 170))
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 188))
                 elif self.slots[1].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1228, 170))
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 195))
                 elif self.slots[1].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1228, 170))
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 177))
                 elif self.slots[1].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1228, 170))
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 192))
 
             if self.slots[2] is not None:
                 if self.slots[2].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 300))
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 328))
                 elif self.slots[2].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 300))
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 335))
                 elif self.slots[2].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1052, 300))
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 317))
                 elif self.slots[2].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 300))
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 332))
 
             if self.slots[3] is not None:
                 if self.slots[3].name == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1228, 300))
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 328))
                 elif self.slots[3].name == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1228, 300))
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 335))
                 elif self.slots[3].name == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1228, 300))
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 317))
                 elif self.slots[3].name == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1228, 300))
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 332))
+
+            if self.slots[4] is not None:
+                if self.slots[4].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 468))
+                elif self.slots[4].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 473))
+                elif self.slots[4].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 457))
+                elif self.slots[4].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 472))
+    
+            if self.slots[5] is not None:
+                if self.slots[5].name == "Healing Potion S":
+                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 468))
+                elif self.slots[5].name == "Healing Potion XL":
+                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 473))
+                elif self.slots[5].name == "All Letter Potion":
+                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 457))
+                elif self.slots[5].name == "Letter Potion":
+                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 472))
                                 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
     # Coordinates where you want to display the currency background and the currency text
-    currency_bg_x = 310
-    currency_bg_y = 730  # Adjust the Y position to place it slightly above the edge
+    currency_bg_x = 1000
+    currency_bg_y = 660  # Adjust the Y position to place it slightly above the edge
     text_x = currency_bg_x + 48  # Add a small padding to position the text nicely within the background
     text_y = currency_bg_y + 67  # Adjust the Y position to center the text within the background
 
     # First, blit the currency background
+    sprite_layer.blit(trial_bg_potions, (75, 17))
     inventory_layer.blit(currency_BG, (currency_bg_x, currency_bg_y))
+    inventory_layer.blit(gold_stack, (currency_bg_x + 40, currency_bg_y + 44))
 
     # Then, draw the player's currency text on top of the background
-    draw_text(inventory_layer, f"Currency: ${currency}", 15, text_x, text_y,)
+    draw_text(inventory_layer, f"    {currency}", 27, text_x - 10, text_y - 5,)
 
 # Function to handle item purchase
 def purchase_item(item, inventory, currency, shop_type):
@@ -468,11 +540,12 @@ clock = pygame.time.Clock()
 shop = Shop()
 inventory = Inventory(inventory_slots)
 
-while run:  
+while run:
     current_time_1 = pygame.time.get_ticks()
     current_time_2 = pygame.time.get_ticks()
     current_time_3 = pygame.time.get_ticks()
     current_time_4 = pygame.time.get_ticks()
+    current_time_5 = pygame.time.get_ticks()
     if current_time_1 - last_update_1 >= animation_cooldown:
         frame_1 += 1
         last_update_1 = current_time_1
@@ -492,12 +565,13 @@ while run:
         frame_4 += 1
         last_update_4 = current_time_4
         if frame_4 >= len(animation_list_4[action_4]):
-            frame_4 = 0    
+            frame_4 = 0
+    if current_time_5 - last_update_5 >= animation_cooldown:
+        frame_5 += 1
+        last_update_5 = current_time_5
+        if frame_5 >= len(animation_list_5[action_5]):
+            frame_5 = 0
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.QUIT:
-            run = False
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
