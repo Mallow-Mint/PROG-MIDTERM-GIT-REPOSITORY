@@ -295,7 +295,7 @@ def battle_interface():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(1)
+    character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
@@ -312,10 +312,8 @@ def battle_interface():
                     if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
                         key = pygame.key.name(event.key)
                         keyboard.key_press_action(key)
-                        print(event)
 
                     elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                        print(event)
                         spell.targeted_enemy(mouse_pos)
 
                     elif event.type == pygame.MOUSEBUTTONDOWN:

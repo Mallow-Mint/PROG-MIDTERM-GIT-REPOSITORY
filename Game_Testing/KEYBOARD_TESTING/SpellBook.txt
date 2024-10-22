@@ -5,5 +5,10 @@ air
 arrow
 ice
 wind
+punch
+magma
+dark
+light
 heal
+recover
 test

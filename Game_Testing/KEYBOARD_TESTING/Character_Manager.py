@@ -170,8 +170,9 @@ class Character:
     def enemy_turn(self):
         for current_enemy_attacking in range(self.amount_of_enemies):
             if self.current_enemy_type[current_enemy_attacking] in enemy.enemy_types:
-                enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
-            time.sleep(1)
+                if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
+                    enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
+                time.sleep(1)
         print(f"You have {self.player_hp_health_bar.current_hp} Hp Left")
 
     def player_initalizer(self, hp=50):
