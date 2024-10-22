@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -55,6 +56,7 @@ class Character:
         self.selection_layer = pygame.Surface((1600,900))
         self.selected_enemy = 0
         self.current_enemies_alive_hp = []
+        self.current_enemy_type = []
         self.player_current_health = []
 
     def random_enemy_type(self):
@@ -80,29 +82,35 @@ class Character:
             if x == 0:
                 self.enemy1 = character.random_enemy_type()
                 self.enemy1_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy1)]
+                self.current_enemy_type.append(self.enemy1)
                 self.current_enemies_alive_hp.append(self.enemy1_max_hp)
                 self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
 
             elif x == 1:
                 self.enemy2 = character.random_enemy_type()
                 self.enemy2_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy2)]
+                self.current_enemy_type.append(self.enemy2)
                 self.current_enemies_alive_hp.append(self.enemy2_max_hp)
                 self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy1_max_hp)
 
             elif x == 2:
                 self.enemy3 = character.random_enemy_type()
                 self.enemy3_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy3)]
+                self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp.append(self.enemy3_max_hp)
                 self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy1_max_hp)
 
             elif x == 3:                
                 self.enemy4 = character.random_enemy_type()
                 self.enemy4_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy4)]
+                self.current_enemy_type.append(self.enemy4)
                 self.current_enemies_alive_hp.append(self.enemy4_max_hp)
                 self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy1_max_hp)
+
+        self.amount_of_enemies = len(self.current_enemies_alive_hp)
+
     
     def display_enemy(self):
-        self.amount_of_enemies = len(self.current_enemies_alive_hp)
         for enemy in range(self.amount_of_enemies):
             if enemy == 0:
                 self.enemy_1_hp_bar.draw(self.combat_layer)
@@ -119,6 +127,22 @@ class Character:
             elif enemy == 3:
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
+
+    def draw_enemy_rectangle(self):
+        self.selection_layer.fill(KEY_GREEN)
+        for enemy in range(self.amount_of_enemies):
+            if enemy == 0:
+                self.enemy_1_selector = Button(900, 200, 100, 200)
+                self.enemy_1_selector.draw(self.selection_layer)
+            elif enemy == 1:
+                self.enemy_2_selector = Button(1050, 150, 100, 200)
+                self.enemy_2_selector.draw(self.selection_layer)
+            elif enemy == 2:
+                self.enemy_3_selector = Button(1200, 200, 100, 200)
+                self.enemy_3_selector.draw(self.selection_layer)
+            elif enemy == 3:
+                self.enemy_4_selector = Button(1350, 150, 100, 200)
+                self.enemy_4_selector.draw(self.selection_layer)
 
     def enemy_status(self, current_enemy_status:int):
         if self.current_enemies_alive_hp[current_enemy_status] <= 0:
@@ -142,26 +166,20 @@ class Character:
                 self.enemy_4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
                 character.enemy_status(3)
-
-    def draw_enemy_rectangle(self):
-        self.selection_layer.fill(KEY_GREEN)
-        for enemy in range(self.amount_of_enemies):
-            if enemy == 0:
-                self.enemy_1_selector = Button(900, 200, 100, 200)
-                self.enemy_1_selector.draw(self.selection_layer)
-            elif enemy == 1:
-                self.enemy_2_selector = Button(1050, 150, 100, 200)
-                self.enemy_2_selector.draw(self.selection_layer)
-            elif enemy == 2:
-                self.enemy_3_selector = Button(1200, 200, 100, 200)
-                self.enemy_3_selector.draw(self.selection_layer)
-            elif enemy == 3:
-                self.enemy_4_selector = Button(1350, 150, 100, 200)
-                self.enemy_4_selector.draw(self.selection_layer)
     
+    def enemy_turn(self):
+        for current_enemy_attacking in range(self.amount_of_enemies):
+            if self.current_enemy_type[current_enemy_attacking] in enemy.enemy_types:
+                enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
+            time.sleep(1)
+        print(f"You have {self.player_hp_health_bar.current_hp} Hp Left")
+
+
     def player_initalizer(self, hp=50):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_current_health.append(self.player_hp_health_bar.current_hp)
+    
+    def player_displayer(self):
         self.player_hp_health_bar.draw(self.combat_layer)
         pygame.draw.rect(self.combat_layer, BLUE, (300, 200, 100, 200))
 
@@ -183,21 +201,24 @@ class Enemy_Actions:
     def __init__ (self):
         self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
     
-    def enemy_actions(self, enemy_action):
-        match enemy_action:
+    def enemy_actions(self, enemy_doing_action):
+        match enemy_doing_action:
             case 'skeleton':
-                character.player_damage(random.ranint(3,5))
+                self.current_enemy_damage = random.randint(3,5)
+                character.player_damage(self.current_enemy_damage)
+                print(f"sekelton did {self.current_enemy_damage} damage")
             case 'zombie':
-                character.player_damage(random.ranint(3,5))
+                self.current_enemy_damage = random.randint(2,4)
+                character.player_damage(self.current_enemy_damage)
+                print(f"zombie did {self.current_enemy_damage} damage")
             case 'orc':
-                character.player_damage(random.ranint(3,5))
+                self.current_enemy_damage = random.randint(4,8)
+                character.player_damage(self.current_enemy_damage)
+                print(f"orc did {self.current_enemy_damage} damage")
             case 'goblin':
-                character.player_damage(random.ranint(3,5))
-
-
-
+                self.current_enemy_damage = random.randint(1,3)
+                character.player_damage(self.current_enemy_damage)
+                print(f"goblin did {self.current_enemy_damage} damage")
 
 character = Character()
 enemy = Enemy_Actions()
-
-

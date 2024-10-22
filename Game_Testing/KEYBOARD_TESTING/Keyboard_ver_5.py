@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import time
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
@@ -75,7 +76,11 @@ class Timer:
 
         if self.time_left <= 0: # Turn switching
             if self.is_player_turn == True:
-                self.timer_duration = 5
+                self.time_left_text = big_font.render("ENEMY TURN", True, RED)
+                layer.interface_layer.blit(self.time_left_text, (15, 15))
+                update_game_screen()
+                character.enemy_turn()
+                update_game_screen()
                 self.is_player_turn = False 
                 self.start_ticks = pygame.time.get_ticks()
             else: 
@@ -92,9 +97,7 @@ class Timer:
             layer.interface_layer.blit(self.time_left_text, (15, 15))
             pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
             pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
-        else:
-            self.time_left_text = big_font.render("ENEMY TURN", True, RED)
-            layer.interface_layer.blit(self.time_left_text, (15, 15))
+
 
 class EndTurnButton:
     def __init__(self, x, y, width, height, text, font):
@@ -217,6 +220,7 @@ class Keyboard:
                     layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
 
+
     def keyboard_display(self):
         # Make Typing Area
         layer.interface_layer.fill(KEY_PURPLE)
@@ -293,10 +297,11 @@ def battle_interface():
     character.enemy_initalizer(random.randint(1,4))
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
+    character.player_initalizer()
 
     while running:
         if timer.is_player_turn == False:
-            print("currently_enmey_turn")
+            pass
         else:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -322,9 +327,8 @@ def battle_interface():
 
         keyboard.keyboard_display()
         keyboard.end_turn_button.draw(layer.interface_layer)
-
-        character.player_initalizer()
         character.display_enemy()
+        character.player_displayer()
         character.draw_enemy_rectangle()
         timer.update_time()
         timer.draw()

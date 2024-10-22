@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from Character_Manager import *
 
 class Damage():

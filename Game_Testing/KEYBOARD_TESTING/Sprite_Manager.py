@@ -1,4 +1,5 @@
 import pygame
+import time
 
 #Colors 
 GREEN = (30, 255, 0)
