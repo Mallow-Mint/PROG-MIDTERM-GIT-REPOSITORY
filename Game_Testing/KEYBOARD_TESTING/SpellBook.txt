@@ -9,6 +9,7 @@ punch
 magma
 dark
 light
+bite
 heal
 recover
 test

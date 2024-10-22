@@ -76,6 +76,9 @@ class Spell:
             case 'dark':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            case 'bite':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
             case 'heal':
                 self.damage_healed = random.randint(8,12)
                 damage.heal_spell(self.damage_healed)
