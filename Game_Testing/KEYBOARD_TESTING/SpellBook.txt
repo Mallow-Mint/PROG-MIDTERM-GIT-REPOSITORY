@@ -5,6 +5,5 @@ air
 arrow
 ice
 wind
-lightning
 heal
 test
