@@ -320,8 +320,6 @@ def battle_interface():
                         if keyboard.end_turn_button.is_clicked() == True:
                             timer.timer_duration = 1
 
-
-
     # Printing Graphics Areaaaaaaaaaaa
 
         keyboard.keyboard_display()
