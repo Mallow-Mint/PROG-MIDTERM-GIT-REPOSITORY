@@ -49,7 +49,7 @@ class Spell:
                 self.damage_healed = random.randint(8,12)
                 damage.heal_spell(self.damage_healed)
 
-    def targeted_enemy(self, mouse_pos, amount_of_enemies):
+    def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
 
         if character.enemy_1_selector.check_for_input(self.current_click):
