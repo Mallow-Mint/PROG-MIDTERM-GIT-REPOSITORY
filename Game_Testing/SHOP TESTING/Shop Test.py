@@ -7,7 +7,7 @@ win = pygame.display.set_mode((1600, 900))
 #Set up of bg music
 shop_bg_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
 shop_bg_music.play()
-shop_bg_music.set_volume(0.4)
+shop_bg_music.set_volume(1.5)
 
 # Set up buying sound 
 buy_sfx = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')
