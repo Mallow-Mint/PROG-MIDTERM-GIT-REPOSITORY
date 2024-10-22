@@ -67,7 +67,7 @@ class Character:
     
     def enemy_hp(self, enemy_hp):
         self.current_enemy_hp = enemy_hp
-        return self.current_enemy_hp 
+        return self.current_enemy_hp
     
     def is_alive(self, enemy_hp):
         if enemy_hp > 0:
@@ -119,21 +119,29 @@ class Character:
             elif enemy == 3:
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
-    
+
+    def enemy_status(self, current_enemy_status:int):
+        if self.current_enemies_alive_hp[current_enemy_status] <= 0:
+            self.current_enemies_alive_hp[current_enemy_status] = 0
+
     def do_damage_single_target(self, damage_dealt, enemy_targeted):
         match enemy_targeted:
             case 1:
                 self.enemy_1_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+                character.enemy_status(0)
             case 2:
                 self.enemy_2_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+                character.enemy_status(1)
             case 3:
                 self.enemy_3_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+                character.enemy_status(2)
             case 4:
                 self.enemy_4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+                character.enemy_status(3)
 
     def draw_enemy_rectangle(self):
         self.selection_layer.fill(KEY_GREEN)
@@ -151,7 +159,6 @@ class Character:
                 self.enemy_4_selector = Button(1350, 150, 100, 200)
                 self.enemy_4_selector.draw(self.selection_layer)
 
-
     def player_initalizer(self, hp=50):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_current_health.append(self.player_hp_health_bar.current_hp)
@@ -164,6 +171,7 @@ class Character:
         self.player_current_health[0] = hp_change
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
+    
 
 character = Character()
 

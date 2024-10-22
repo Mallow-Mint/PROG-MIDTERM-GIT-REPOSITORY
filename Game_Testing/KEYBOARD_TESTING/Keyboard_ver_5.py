@@ -93,6 +93,37 @@ class Timer:
             self.time_left_text = big_font.render("ENEMY TURN", True, RED)
             layer.interface_layer.blit(self.time_left_text, (15, 15))
 
+class EndTurnButton:
+    def __init__(self, x, y, width, height, text, font):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.text = text
+        self.font = font 
+
+        self.color = WHITE  # Black
+        self.hover_color = RED  # Yellow
+        self.rect = pygame.Rect(x, y, width, height)
+
+    def draw(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            self.color = self.hover_color
+        else:
+            self.color = self.color  # Transparent
+
+        pygame.draw.rect(screen, self.color, self.rect)  # Fill the rect with the color
+        # Render the text and draw it centered on the button
+        text_surface = self.font.render(str(self.text), True, BLACK)  # White text
+        screen.blit(text_surface, (1400, 480))
+
+    def is_clicked(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
+            return True
+        return False
+
 class Keyboard:
     def __init__(self):
         self.typed_text = ""
@@ -200,6 +231,9 @@ class Keyboard:
             count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
             layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
+        # End Turn Button
+        self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", font)
+
 class Battle_State:
     def __init__(self):
         pass
@@ -248,26 +282,34 @@ def battle_interface():
     keyboard.keyboard_amount_position() 
 
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if timer.is_player_turn == True:
-                mouse_pos = pygame.mouse.get_pos()
-                if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                    key = pygame.key.name(event.key)
-                    keyboard.key_press_action(key)
-                    print(event)
+        if timer.is_player_turn == False:
+            print("currently_enmey_turn")
+        else:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif timer.is_player_turn == True:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                        key = pygame.key.name(event.key)
+                        keyboard.key_press_action(key)
+                        print(event)
 
-                elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                    print(event)
-                    spell.targeted_enemy(mouse_pos)
+                    elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                        print(event)
+                        spell.targeted_enemy(mouse_pos)
 
-            elif timer.is_player_turn == False:
-                print("currently_enmey_turn")
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if keyboard.end_turn_button.is_clicked() == True:
+                            timer.timer_duration = 1
+
+
 
     # Printing Graphics Areaaaaaaaaaaa
 
         keyboard.keyboard_display()
+        keyboard.end_turn_button.draw(layer.interface_layer)
+
         character.player_initalizer()
         character.display_enemy()
         character.draw_enemy_rectangle()
