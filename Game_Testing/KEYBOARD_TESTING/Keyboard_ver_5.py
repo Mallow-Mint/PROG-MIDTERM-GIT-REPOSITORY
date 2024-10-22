@@ -81,6 +81,9 @@ class Timer:
             else: 
                 self.timer_duration = 30
                 self.is_player_turn = True
+                keyboard.key_replenish()
+                update_game_screen()
+                clear_inputs()
                 self.start_ticks = pygame.time.get_ticks()
 
     def draw(self):
@@ -234,6 +237,11 @@ class Keyboard:
         # End Turn Button
         self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", font)
 
+    def key_replenish(self):
+        for key, amount in keyboard.Key_Count_Remaining.items():
+            if keyboard.Key_Count_Remaining[key] < 5:
+                keyboard.Key_Count_Remaining[key] += 1
+
 class Battle_State:
     def __init__(self):
         pass
@@ -257,6 +265,11 @@ def update_game_screen():
     game_window.blit(layer.interface_layer, (0,0))
 
     pygame.display.update()
+
+def clear_inputs():
+    pygame.event.clear(pygame.MOUSEBUTTONDOWN)
+    pygame.event.clear(pygame.MOUSEBUTTONUP)
+    pygame.event.clear(pygame.KEYDOWN)
 
 # Intalize Variable for Typing Area
 typing_area_height = 50

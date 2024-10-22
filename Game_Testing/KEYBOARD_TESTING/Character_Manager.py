@@ -158,7 +158,7 @@ class Character:
             elif enemy == 3:
                 self.enemy_4_selector = Button(1350, 150, 100, 200)
                 self.enemy_4_selector.draw(self.selection_layer)
-
+    
     def player_initalizer(self, hp=50):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
         self.player_current_health.append(self.player_hp_health_bar.current_hp)
@@ -172,7 +172,32 @@ class Character:
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
     
+    def player_damage(self, hp_damage, hp_change=0):
+        hp_change = self.player_current_health[0]
+        hp_change -= hp_damage
+        self.player_current_health[0] = hp_change
+        self.player_hp_health_bar.current_hp = self.player_current_health[0]
+        self.player_hp_health_bar.draw(self.combat_layer)
+
+class Enemy_Actions:
+    def __init__ (self):
+        self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
+    
+    def enemy_actions(self, enemy_action):
+        match enemy_action:
+            case 'skeleton':
+                character.player_damage(random.ranint(3,5))
+            case 'zombie':
+                character.player_damage(random.ranint(3,5))
+            case 'orc':
+                character.player_damage(random.ranint(3,5))
+            case 'goblin':
+                character.player_damage(random.ranint(3,5))
+
+
+
 
 character = Character()
+enemy = Enemy_Actions()
 
 
