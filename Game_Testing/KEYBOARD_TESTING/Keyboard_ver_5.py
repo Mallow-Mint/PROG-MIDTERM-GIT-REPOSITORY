@@ -13,6 +13,11 @@ pygame.init()
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
+game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Keyboard Battle")
+fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
+fight_bg_music.play()
+
 # Set Colors used for Textures
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -29,11 +34,7 @@ keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sp
 keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
-# Added Placeholder Music
-game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Keyboard Battle")
-fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
-fight_bg_music.play()
+
 
 # Set Layers Class
 class Layers:
