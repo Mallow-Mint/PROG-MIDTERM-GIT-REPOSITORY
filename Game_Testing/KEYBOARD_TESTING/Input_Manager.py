@@ -35,7 +35,7 @@ class Spell:
         self.damage_dealt = 0
         self.damage_healed = 0
 
-    def reset_keyboard(self):
+    def reset_damage(self):
         self.enemy_selection_state = False
         self.damage_dealt = 0
         self.damage_healed = 0
@@ -43,48 +43,69 @@ class Spell:
     def spellcast(self, spell_used):
         self.current_spell = spell_used
         match self.current_spell:
+#Single Target Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'fire':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
             case 'air':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
+
             case 'water':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+
             case 'wind':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+
             case 'earth':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+
             case 'ice':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
+
             case 'arrow':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
             case 'punch':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
             case 'magma':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+
             case 'light':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
             case 'dark':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
+#Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'bite':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
+#Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'heal':
                 self.damage_healed = random.randint(8,12)
                 damage.heal_spell(self.damage_healed)
+
             case 'recover':
                 self.damage_healed = random.randint(15,20)
                 damage.heal_spell(self.damage_healed)
+
+#Test words - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            case 'test':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
 
     def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
@@ -100,11 +121,9 @@ class Spell:
             
         elif character.enemy_4_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 4)
+
         character.battle_win()
-
-                
-
-        spell.reset_keyboard()
+        spell.reset_damage()
         print(character.current_enemies_alive_hp)
 
 
