@@ -17,6 +17,7 @@ game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Keyboard Battle")
 fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
 fight_bg_music.play()
+fight_bg_music.set_volume(1)
 
 # Set Colors used for Textures
 WHITE = (255, 255, 255)
