@@ -34,7 +34,7 @@ class Button:
         self.width = width
         self.height = height
         self.button_color = KEY_GREEN
-        self.hover_color = KEY_GREEN
+        self.hover_color = YELLOW
         self.rect = pygame.Rect(x, y, width, height)
 
     def draw(self, screen):
