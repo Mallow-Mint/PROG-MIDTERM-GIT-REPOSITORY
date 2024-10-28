@@ -86,8 +86,9 @@ class Timer:
                 update_game_screen()
                 character.enemy_turn()
                 update_game_screen()
-                self.is_player_turn = False 
                 self.start_ticks = pygame.time.get_ticks()
+                self.is_player_turn = False
+                self.timer_duration = 1
             else: 
                 self.timer_duration = 30
                 self.is_player_turn = True
@@ -336,5 +337,6 @@ def battle_interface():
 
         # Update display
         update_game_screen()
+        print(timer.is_player_turn)
 
-battle_interface()
+battle_interface()  
