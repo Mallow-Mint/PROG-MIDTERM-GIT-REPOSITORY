@@ -202,7 +202,6 @@ class Character:
         if self.total_enemy_hp == 0:
             print("You win")
 
-            
 
 class Enemy_Actions:
     def __init__ (self):
