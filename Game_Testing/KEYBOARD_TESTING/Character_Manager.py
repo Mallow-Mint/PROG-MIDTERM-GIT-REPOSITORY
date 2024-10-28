@@ -34,7 +34,7 @@ class Button:
         self.width = width
         self.height = height
         self.button_color = KEY_GREEN
-        self.hover_color = YELLOW
+        self.hover_color = KEY_GREEN
         self.rect = pygame.Rect(x, y, width, height)
 
     def draw(self, screen):
@@ -111,36 +111,30 @@ class Character:
 
     
     def display_enemy(self):
-        for enemy in range(self.amount_of_enemies):
-            if enemy == 0:
-                self.enemy_1_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy1)], (900, 200, 100, 200))
-
-            elif enemy == 1:
-                self.enemy_2_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy2)], (1050, 150, 100, 200))
-
-            elif enemy == 2:
-                self.enemy_3_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy3)], (1200, 200, 100, 200))
-
-            elif enemy == 3:
-                self.enemy_4_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
-
-    def draw_enemy_rectangle(self):
+        self.combat_layer.fill(KEY_GREEN)
         self.selection_layer.fill(KEY_GREEN)
         for enemy in range(self.amount_of_enemies):
-            if enemy == 0:
+            if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
+                self.enemy_1_hp_bar.draw(self.combat_layer)
+                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy1)], (900, 200, 100, 200))
                 self.enemy_1_selector = Button(900, 200, 100, 200)
                 self.enemy_1_selector.draw(self.selection_layer)
-            elif enemy == 1:
+
+            elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
+                self.enemy_2_hp_bar.draw(self.combat_layer)
+                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy2)], (1050, 150, 100, 200))
                 self.enemy_2_selector = Button(1050, 150, 100, 200)
                 self.enemy_2_selector.draw(self.selection_layer)
-            elif enemy == 2:
+
+            elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
+                self.enemy_3_hp_bar.draw(self.combat_layer)
+                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy3)], (1200, 200, 100, 200))
                 self.enemy_3_selector = Button(1200, 200, 100, 200)
                 self.enemy_3_selector.draw(self.selection_layer)
-            elif enemy == 3:
+
+            elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
+                self.enemy_4_hp_bar.draw(self.combat_layer)
+                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
                 self.enemy_4_selector = Button(1350, 150, 100, 200)
                 self.enemy_4_selector.draw(self.selection_layer)
 
@@ -187,8 +181,11 @@ class Character:
         hp_change = self.player_current_health[0]
         hp_change += hp_healed
         self.player_current_health[0] = hp_change
+        if self.player_current_health[0] > 50:
+            self.player_current_health[0] = 50
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
+
     
     def player_damage(self, hp_damage, hp_change=0):
         hp_change = self.player_current_health[0]

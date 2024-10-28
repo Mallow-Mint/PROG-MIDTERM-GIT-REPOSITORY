@@ -330,7 +330,6 @@ def battle_interface():
         keyboard.end_turn_button.draw(layer.interface_layer)
         character.display_enemy()
         character.player_displayer()
-        character.draw_enemy_rectangle()
         timer.update_time()
         timer.draw()
 

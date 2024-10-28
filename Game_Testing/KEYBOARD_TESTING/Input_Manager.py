@@ -21,7 +21,7 @@ class Damage():
     
     def heal_spell(self, hp_healed):
         character.player_heal(hp_healed)
-        spell.reset_keyboard()
+        spell.reset_damage()
         print(character.player_hp_health_bar.current_hp)
 
 class Spell:
