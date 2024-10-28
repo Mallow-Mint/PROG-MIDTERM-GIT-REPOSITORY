@@ -95,7 +95,7 @@ class Spell:
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'heal':
-                self.damage_healed = random.randint(8,12)
+                self.damage_healed = random.randint(6,10)
                 damage.heal_spell(self.damage_healed)
 
             case 'recover':

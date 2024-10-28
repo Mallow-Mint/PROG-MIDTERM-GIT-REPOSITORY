@@ -337,6 +337,5 @@ def battle_interface():
 
         # Update display
         update_game_screen()
-        print(timer.is_player_turn)
 
 battle_interface()  
