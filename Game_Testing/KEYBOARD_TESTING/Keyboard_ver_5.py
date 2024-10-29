@@ -16,7 +16,7 @@ SCREEN_HEIGHT = 900
 game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Keyboard Battle")
 fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
-fight_bg_music.set_volume(0.3)
+fight_bg_music.set_volume(0.2)
 fight_bg_music.play(-1,0,10000)
 
 
@@ -35,8 +35,6 @@ big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png', 6)
 keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
-
-
 
 # Set Layers Class
 class Layers:
@@ -234,7 +232,6 @@ class Keyboard:
         pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
         pygame.draw.rect(layer.interface_layer, RED, (520, 880, 520, typing_area_height))
 
-
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
         layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
@@ -322,6 +319,8 @@ def battle_interface():
 
                     elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
                         spell.targeted_enemy(mouse_pos)
+
+
 
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if keyboard.end_turn_button.is_clicked() == True:

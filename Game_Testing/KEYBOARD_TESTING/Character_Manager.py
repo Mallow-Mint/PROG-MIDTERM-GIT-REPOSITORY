@@ -28,13 +28,13 @@ class HealthBar:
 import pygame
 
 class Button:
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, button_color, hover_color):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.button_color = KEY_GREEN
-        self.hover_color = YELLOW
+        self.button_color = button_color
+        self.hover_color = hover_color
         self.rect = pygame.Rect(x, y, width, height)
 
     def draw(self, screen):
@@ -44,8 +44,11 @@ class Button:
         else:
             pygame.draw.rect(screen, self.button_color, self.rect)  # Fill the rect with the color
 
-    def check_for_input(self, mouse_pos):
-        return self.rect.collidepoint(mouse_pos)
+    def is_clicked(self, mouse_pos):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
+            return True
+        return False
 
 
 class Character:
@@ -55,7 +58,7 @@ class Character:
         self.combat_layer = pygame.Surface((1600,900))
         self.selection_layer = pygame.Surface((1600,900))
         self.selected_enemy = 0
-        self.current_enemies_alive_hp = []
+        self.current_enemies_alive_hp = [0,0,0,0]
         self.current_enemy_type = []
         self.player_current_health = []
 
@@ -83,60 +86,73 @@ class Character:
                 self.enemy1 = character.random_enemy_type()
                 self.enemy1_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy1)]
                 self.current_enemy_type.append(self.enemy1)
-                self.current_enemies_alive_hp.append(self.enemy1_max_hp)
+                self.current_enemies_alive_hp[0] = self.enemy1_max_hp
                 self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
 
             elif x == 1:
                 self.enemy2 = character.random_enemy_type()
                 self.enemy2_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy2)]
                 self.current_enemy_type.append(self.enemy2)
-                self.current_enemies_alive_hp.append(self.enemy2_max_hp)
-                self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy1_max_hp)
+                self.current_enemies_alive_hp[1] = self.enemy2_max_hp
+                self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2_max_hp)
 
             elif x == 2:
                 self.enemy3 = character.random_enemy_type()
                 self.enemy3_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy3)]
                 self.current_enemy_type.append(self.enemy3)
-                self.current_enemies_alive_hp.append(self.enemy3_max_hp)
-                self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy1_max_hp)
+                self.current_enemies_alive_hp[2] = self.enemy3_max_hp
+                self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
 
             elif x == 3:                
                 self.enemy4 = character.random_enemy_type()
                 self.enemy4_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy4)]
                 self.current_enemy_type.append(self.enemy4)
-                self.current_enemies_alive_hp.append(self.enemy4_max_hp)
-                self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy1_max_hp)
+                self.current_enemies_alive_hp[3] = self.enemy4_max_hp
+                self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4_max_hp)
+        
+        for x in range(4 - enemy_count):
+            if x == 0:
+                self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, 0)
+            elif x == 1:
+                self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, 0)
+            elif x == 2:
+                self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, 0)
 
-        self.amount_of_enemies = len(self.current_enemies_alive_hp)
+        self.amount_of_enemies = enemy_count
 
-    
     def display_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
         self.selection_layer.fill(KEY_GREEN)
+
         for enemy in range(self.amount_of_enemies):
             if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
                 self.enemy_1_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy1)], (900, 200, 100, 200))
-                self.enemy_1_selector = Button(900, 200, 100, 200)
-                self.enemy_1_selector.draw(self.selection_layer)
 
             elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
                 self.enemy_2_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy2)], (1050, 150, 100, 200))
-                self.enemy_2_selector = Button(1050, 150, 100, 200)
-                self.enemy_2_selector.draw(self.selection_layer)
 
             elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
                 self.enemy_3_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy3)], (1200, 200, 100, 200))
-                self.enemy_3_selector = Button(1200, 200, 100, 200)
-                self.enemy_3_selector.draw(self.selection_layer)
 
             elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
-                self.enemy_4_selector = Button(1350, 150, 100, 200)
-                self.enemy_4_selector.draw(self.selection_layer)
+        
+        #Draw Buttons for Enemies
+        self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)
+        self.enemy_1_selector.draw(self.selection_layer)
+
+        self.enemy_2_selector = Button(1050, 150, 100, 200, KEY_GREEN, YELLOW)
+        self.enemy_2_selector.draw(self.selection_layer)
+
+        self.enemy_3_selector = Button(1200, 200, 100, 200, KEY_GREEN, YELLOW)
+        self.enemy_3_selector.draw(self.selection_layer)
+
+        self.enemy_4_selector = Button(1350, 150, 100, 200, KEY_GREEN, YELLOW)
+        self.enemy_4_selector.draw(self.selection_layer)
 
     def enemy_status(self, current_enemy_status:int):
         if self.current_enemies_alive_hp[current_enemy_status] <= 0:
