@@ -5,6 +5,7 @@ import time
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
+from Audio_Manager import *
 
 # START PYGAME WOOOOO pygame
 pygame.init()
@@ -16,7 +17,7 @@ SCREEN_HEIGHT = 900
 game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Keyboard Battle")
 fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
-fight_bg_music.set_volume(0.2)
+fight_bg_music.set_volume(0.1)
 fight_bg_music.play(-1,0,10000)
 
 
@@ -187,6 +188,7 @@ class Keyboard:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
+                    sfx.keyboard_press_sound()
                     self.key_state = 0
                     update_game_screen()
                     while self.key_state < 1:
@@ -319,8 +321,6 @@ def battle_interface():
 
                     elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
                         spell.targeted_enemy(mouse_pos)
-
-
 
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if keyboard.end_turn_button.is_clicked() == True:
