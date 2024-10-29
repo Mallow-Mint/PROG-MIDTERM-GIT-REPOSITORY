@@ -185,7 +185,6 @@ class Character:
             self.player_current_health[0] = 50
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
-
     
     def player_damage(self, hp_damage, hp_change=0):
         hp_change = self.player_current_health[0]
