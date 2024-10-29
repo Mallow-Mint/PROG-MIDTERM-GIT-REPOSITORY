@@ -1,16 +1,15 @@
 import pygame
-import spritesheet 
+import spritesheet
+from Audio_manager import *
 pygame.init()
 
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
 #Set up of bg music
-shop_bg_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
-shop_bg_music.play()
-shop_bg_music.set_volume(1.5)
+music.shop_bg_music()
 
 # Set up buying sound 
-buy_sfx = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')
+buy_sfx = music.buy_music()
 
 # Background for everything in the shop
 shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
@@ -253,7 +252,7 @@ class Button:
 			else:
 				self.dynamic_elecation = self.elevation
 				if self.pressed == True:
-					buy_sfx.play()
+					music.buy_music()
 					self.pressed = False
 		else:
 			self.dynamic_elecation = self.elevation
