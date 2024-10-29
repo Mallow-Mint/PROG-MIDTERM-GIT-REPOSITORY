@@ -122,9 +122,9 @@ class Spell:
         elif character.enemy_4_selector.check_for_input(self.current_click):
             character.do_damage_single_target(self.damage_dealt, 4)
 
+        print(character.current_enemies_alive_hp)
         character.battle_win()
         spell.reset_damage()
-        print(character.current_enemies_alive_hp)
 
 
 spell = Spell()
