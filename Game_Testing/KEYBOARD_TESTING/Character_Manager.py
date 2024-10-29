@@ -202,7 +202,6 @@ class Character:
         if self.total_enemy_hp == 0:
             print("You win")
 
-
 class Enemy_Actions:
     def __init__ (self):
         self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
@@ -210,17 +209,24 @@ class Enemy_Actions:
     def enemy_actions(self, enemy_doing_action):
         match enemy_doing_action:
             case 'skeleton':
-                self.current_enemy_damage = random.randint(3,5)
+                skeleton_attack = random.randint(1,100)
+                if skeleton_attack <= 67:
+                    self.current_enemy_damage = random.randint(2,3)
+                else: 
+                    self.current_enemy_damage = random.randint(4,6)
                 character.player_damage(self.current_enemy_damage)
                 print(f"sekelton did {self.current_enemy_damage} damage")
+
             case 'zombie':
                 self.current_enemy_damage = random.randint(2,4)
                 character.player_damage(self.current_enemy_damage)
                 print(f"zombie did {self.current_enemy_damage} damage")
+
             case 'orc':
                 self.current_enemy_damage = random.randint(4,8)
                 character.player_damage(self.current_enemy_damage)
                 print(f"orc did {self.current_enemy_damage} damage")
+
             case 'goblin':
                 self.current_enemy_damage = random.randint(1,3)
                 character.player_damage(self.current_enemy_damage)
