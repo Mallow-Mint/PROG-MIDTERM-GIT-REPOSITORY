@@ -60,7 +60,7 @@ class Character:
         self.selected_enemy = 0
         self.current_enemies_alive_hp = [0,0,0,0]
         self.current_enemy_type = []
-        self.player_current_health = []
+        self.player_current_health = [50]
 
     def random_enemy_type(self):
         self.mob_list_type = list(self.mobs_list_color.keys())
@@ -183,11 +183,10 @@ class Character:
                 if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
                     enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
                 time.sleep(1)
-        print(f"You have {self.player_hp_health_bar.current_hp} Hp Left")
+        character.battle_loss()
 
-    def player_initalizer(self, hp=50):
-        self.player_hp_health_bar = HealthBar(280, 160, 140, 20, hp)
-        self.player_current_health.append(self.player_hp_health_bar.current_hp)
+    def player_initalizer(self):
+        self.player_hp_health_bar = HealthBar(280, 160, 140, 20, self.player_current_health[0])
     
     def player_displayer(self):
         self.player_hp_health_bar.draw(self.combat_layer)
@@ -216,6 +215,12 @@ class Character:
         
         if self.total_enemy_hp == 0:
             print("You win")
+    
+    def battle_loss(self):
+        if self.player_current_health[0] < 0:
+            print("You Died")
+        else:
+            print(f"You have {self.player_current_health[0]} Hp Left")
 
 class Enemy_Actions:
     def __init__ (self):

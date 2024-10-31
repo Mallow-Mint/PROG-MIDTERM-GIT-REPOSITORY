@@ -14,7 +14,7 @@ class Keyboard:
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
-class SpriteSheet():
+class KeyboardSprites():
     def __init__(self, image):  
         self.sheet = image
 
@@ -24,7 +24,6 @@ class SpriteSheet():
         self.sprite_display_positions = [(252,540), (360, 540), (468,540), (576, 540), (684, 540), (792,540), (900,540), (1008,540), (1116,540), (1224,540),
                                          (300,642), (408, 642), (516,642), (624,642), (732,642), (840,642), (948, 642), (1056,642), (1164,642),
                                          (408,744), (516,744), (624,744), (732,744), (840,744), (948,744), (1056,744)]
-
         self.qwerty_number = 0
         self.sprite_mover = 0
 

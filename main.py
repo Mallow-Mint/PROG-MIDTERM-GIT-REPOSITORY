@@ -14,22 +14,26 @@ class Game():
         self.PREVIOUS_TIME = 0
         self.STATE_STACK = []
 
-    def close_game(self):
+    def get_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.PLAYING = False
                 self.RUNNING = False
-    
+                self.PLAYING = False
+
     def game_loop(self):
         while self.PLAYING:
-            self.update
+            self.get_delta_time()
+            self.get_events()
+            self.update()
+            self.render()
 
     def update(self):
         pass
 
     def render(self):
+        self.GAME_SCREEN.blit(self.GAME_DISPLAY, (0,0))
         pygame.display.flip()
-    
+
     def get_delta_time(self):
         current_time = time.time()
         self.DELTA_TIME = current_time - self.PREVIOUS_TIME

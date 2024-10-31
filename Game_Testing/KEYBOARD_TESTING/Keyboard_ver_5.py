@@ -1,13 +1,13 @@
 import pygame
 import random
 import math
-import time
+import sys
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
 from Audio_Manager import *
 
-# START PYGAME WOOOOO pygame
+# START PYGAME WOOOOO pygamx`e
 pygame.init()
 
 # Create Display Window For Game
@@ -31,7 +31,7 @@ big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 
 # Get Sprite Sheet for Keyboard
 keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png', 6)
-keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
+keyboard_sprite_sheet = KeyboardSprites(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
 # Set Layers Class
@@ -250,12 +250,13 @@ class Keyboard:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
 
-class Battle_State:
+class Battle:
     def __init__(self):
         pass
     def amount_of_enemies(self):
         self.enemy_count = random.randint(1,4)
         return self.enemy_count
+
 
 def update_game_screen():
     '''
@@ -272,7 +273,7 @@ def update_game_screen():
     game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
 
-    pygame.display.update()
+    pygame.display.flip()
 
 def clear_inputs():
     pygame.event.clear(pygame.MOUSEBUTTONDOWN)
@@ -288,7 +289,7 @@ typing_area_y = 480
 keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 layer = Layers()
-battle = Battle_State()
+battle = Battle()
 timer = Timer()
 
 # Game loop
@@ -322,6 +323,7 @@ def battle_interface():
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if keyboard.end_turn_button.is_clicked() == True:
                             timer.timer_duration = 1
+
 
     # Printing Graphics Areaaaaaaaaaaa
 
