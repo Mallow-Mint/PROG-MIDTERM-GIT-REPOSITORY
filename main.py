@@ -1,5 +1,6 @@
 import pygame
 import time
+from states.title import *
 
 class Game():
     def __init__(self):
@@ -8,11 +9,13 @@ class Game():
         self.GAME_HEIGHT = 900
         self.GAME_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
+        pygame.display.set_caption("Spell Book")
         self.RUNNING = True
         self.PLAYING = True
         self.DELTA_TIME = 0
         self.PREVIOUS_TIME = 0
         self.STATE_STACK = []
+        self.load_states()
 
     def get_events(self):
         for event in pygame.event.get():
@@ -31,6 +34,7 @@ class Game():
         pass
 
     def render(self):
+        self.STATE_STACK[-1].render(self.GAME_DISPLAY)
         self.GAME_SCREEN.blit(self.GAME_DISPLAY, (0,0))
         pygame.display.flip()
 
@@ -38,6 +42,10 @@ class Game():
         current_time = time.time()
         self.DELTA_TIME = current_time - self.PREVIOUS_TIME
         self.PREVIOUS_TIME = current_time
+
+    def load_states(self):
+        self.title_screen = Title(self)
+        self.STATE_STACK.append(self.title_screen)
 
 if __name__ == "__main__":
     game = Game()
