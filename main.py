@@ -1,6 +1,7 @@
 import pygame
 import time
 from states.title import *
+from states.battle_state import *
 
 class Game():
     def __init__(self):
@@ -44,7 +45,7 @@ class Game():
         self.PREVIOUS_TIME = current_time
 
     def load_states(self):
-        self.title_screen = Title(self)
+        self.title_screen = Battle(self)
         self.STATE_STACK.append(self.title_screen)
 
 if __name__ == "__main__":

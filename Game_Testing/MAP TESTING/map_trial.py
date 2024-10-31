@@ -93,14 +93,14 @@ def draw_shop_screen(screen, return_button):
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1600, 900))
     clock = pygame.time.Clock()
 
     # Create the nodes with associated screen types
     node1 = Node(100, 300, 30, state="available", screen_type="battle")  # Starting node on map screen
-    node2 = Node(250, 300, 30, state="locked", screen_type="battle")  # Battle screen node
-    node3 = Node(400, 300, 30, state="locked", screen_type="shop")    # Shop screen node
-    node4 = Node(550, 300, 30, state="locked", screen_type="battle")
+    node2 = Node(250, 300, 30, state="locked", screen_type="shop")  # Battle screen node
+    node3 = Node(400, 300, 30, state="locked", screen_type="battle")    # Shop screen node
+    node4 = Node(550, 300, 30, state="locked", screen_type="shop")
     node5 = Node(700, 300, 30, state="locked", screen_type="battle")
 
     # Set up connections (which nodes unlock others)
@@ -147,8 +147,4 @@ def main():
         clock.tick(60)
 
     pygame.quit()
-
-
-if __name__ == "__main__":
-    main()
 

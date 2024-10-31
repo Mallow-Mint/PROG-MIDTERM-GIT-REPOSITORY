@@ -1,0 +1,15 @@
+fire
+water
+earth
+air
+arrow
+ice
+wind
+punch
+magma
+dark
+light
+bite
+heal
+recover
+test
