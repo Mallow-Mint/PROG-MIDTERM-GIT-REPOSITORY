@@ -5,6 +5,7 @@ import time
 from Sprite_Manager import *
 from Input_Manager import *
 from Character_Manager import *
+from Audio_Manager import *
 
 # START PYGAME WOOOOO pygame
 pygame.init()
@@ -15,10 +16,7 @@ SCREEN_HEIGHT = 900
 
 game_window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Keyboard Battle")
-fight_bg_music = pygame.mixer.Sound('Assets/fight_music.mp3')
-fight_bg_music.set_volume(0.3)
-fight_bg_music.play(-1,0,10000)
-
+music.Battle_BGM_1()
 
 # Set Colors used for Textures
 WHITE = (255, 255, 255)
@@ -35,8 +33,6 @@ big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
 keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png', 6)
 keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
-
-
 
 # Set Layers Class
 class Layers:
@@ -189,6 +185,7 @@ class Keyboard:
                 layer.popup_layer.fill(KEY_PURPLE)
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
+                    sfx.keyboard_press_sound()
                     self.key_state = 0
                     update_game_screen()
                     while self.key_state < 1:
@@ -233,7 +230,6 @@ class Keyboard:
         layer.interface_layer.fill(KEY_PURPLE)
         pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
         pygame.draw.rect(layer.interface_layer, RED, (520, 880, 520, typing_area_height))
-
 
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)

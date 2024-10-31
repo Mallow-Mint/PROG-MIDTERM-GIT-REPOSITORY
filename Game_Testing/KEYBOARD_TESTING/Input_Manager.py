@@ -110,21 +110,24 @@ class Spell:
     def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
 
-        if character.enemy_1_selector.check_for_input(self.current_click):
+        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
             character.do_damage_single_target(self.damage_dealt, 1)
+            spell.reset_damage()
 
-        elif character.enemy_2_selector.check_for_input(self.current_click):
+        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
             character.do_damage_single_target(self.damage_dealt, 2)
+            spell.reset_damage()
 
-        elif character.enemy_3_selector.check_for_input(self.current_click):
+        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
             character.do_damage_single_target(self.damage_dealt, 3)
+            spell.reset_damage()
             
-        elif character.enemy_4_selector.check_for_input(self.current_click):
+        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
             character.do_damage_single_target(self.damage_dealt, 4)
+            spell.reset_damage()
 
         print(character.current_enemies_alive_hp)
         character.battle_win()
-        spell.reset_damage()
 
 
 spell = Spell()
