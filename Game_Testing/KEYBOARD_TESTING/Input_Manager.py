@@ -5,9 +5,11 @@ from Character_Manager import *
 
 class Damage():
     def __init__(self):
-        pass
+        self.chain_word_damage_multipler = 1
+
     def damage_range_calculator(self, base_damage):
         self.damage_dealt = round(base_damage * random.uniform(0.8, 1.6), 0)
+        self.damage_dealt = round(self.damage_dealt * self.chain_word_damage_multipler, 0)
         return int(self.damage_dealt)
 
     def critical_checker(self, damage_dealt):
@@ -16,13 +18,19 @@ class Damage():
             damage_dealt = damage_dealt*2
         else:
             pass
-
         return damage_dealt
     
     def heal_spell(self, hp_healed):
         character.player_heal(hp_healed)
         spell.reset_damage()
         print(character.player_hp_health_bar.current_hp)
+    
+    def word_chain(self, previous_spell, current_spell):
+        if previous_spell[-1] == current_spell[0]:
+            self.chain_word_damage_multipler += 0.5
+        else:
+            self.chain_word_damage_multipler = 1
+            spell.previous_spell = ' '
 
 class Spell:
     def __init__(self):
@@ -31,6 +39,7 @@ class Spell:
         self.valid_words = self.shared_dictionary.read() 
         self.valid_words = self.valid_words.split("\n")
         self.shared_dictionary.close()
+        self.previous_spell = ' '
         self.enemy_selection_state = False
         self.damage_dealt = 0
         self.damage_healed = 0
@@ -42,11 +51,12 @@ class Spell:
 
     def spellcast(self, spell_used):
         self.current_spell = spell_used
+        damage.word_chain(self.previous_spell, self.current_spell)
         match self.current_spell:
 #Single Target Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'fire':
                 self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4)) 
 
             case 'air':
                 self.enemy_selection_state = True
@@ -106,6 +116,8 @@ class Spell:
             case 'test':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
+
+        self.previous_spell = spell.current_spell
 
     def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
