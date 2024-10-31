@@ -45,8 +45,8 @@ class Game():
         self.PREVIOUS_TIME = current_time
 
     def load_states(self):
-        self.title_screen = Battle(self)
-        self.STATE_STACK.append(self.title_screen)
+        self.battle_screen = Battle(self)
+        self.STATE_STACK.append(self.battle_screen)
 
 if __name__ == "__main__":
     game = Game()

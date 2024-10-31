@@ -21,6 +21,7 @@ class Battle(State):
         battle_interface()
         display.blit(game_window, (0,0)) 
 
+
 pygame.init()
 # Create Display Window For Game
 SCREEN_WIDTH = 1600
@@ -262,14 +263,6 @@ class Keyboard:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
 
-class Battle:
-    def __init__(self):
-        pass
-    def amount_of_enemies(self):
-        self.enemy_count = random.randint(1,4)
-        return self.enemy_count
-
-
 def update_game_screen():
     '''
     Updates Game Window and associated Layers in order
@@ -301,20 +294,20 @@ typing_area_y = 480
 keyboard = Keyboard()
 dictionary = Valid_Dictionary()
 layer = Layers()
-battle = Battle()
 timer = Timer()
 
 # Game loop
+layer.interface_layer.fill((KEY_PURPLE))
+layer.interface_layer.set_colorkey(KEY_PURPLE)
+layer.popup_layer.fill(KEY_PURPLE)
+layer.popup_layer.set_colorkey(KEY_PURPLE)
+character.enemy_initalizer(random.randint(1,4))
+keyboard.key_amounts()
+keyboard.keyboard_amount_position() 
+character.player_initalizer()
+
 def battle_interface():
     running = True
-    layer.interface_layer.fill((KEY_PURPLE))
-    layer.interface_layer.set_colorkey(KEY_PURPLE)
-    layer.popup_layer.fill(KEY_PURPLE)
-    layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(random.randint(1,4))
-    keyboard.key_amounts()
-    keyboard.keyboard_amount_position() 
-    character.player_initalizer()
 
     while running:
         if timer.is_player_turn == False:
