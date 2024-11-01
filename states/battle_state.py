@@ -15,25 +15,7 @@ class Battle(State):
         State.__init__(self, game)
     
     def update(self):
-        if timer.is_player_turn == False:
-            pass
-        else:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif timer.is_player_turn == True:
-                    mouse_pos = pygame.mouse.get_pos()
-                    if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                        key = pygame.key.name(event.key)
-                        keyboard.key_press_action(key)
-
-                    elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                        spell.targeted_enemy(mouse_pos)
-
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        if keyboard.end_turn_button.is_clicked() == True:
-                            timer.timer_duration = 1
+        pass
 
     def render(self, display):
         battle_interface()
@@ -218,23 +200,24 @@ class Keyboard:
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
                     sfx.keyboard_press_sound()
-                    self.key_state = 0
-                    update_game_screen()
-                    while self.key_state < 1:
-                        self.key_state += 0.1
-                        layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                     self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                     self.cursor_position += 1
                     self.Key_Count_Remaining[self.pressed_key] -= 1
                     self.max_character_count -=1
                 else:
+                    layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
+                    update_game_screen()
                     layer.popup_layer.blit(self.no_letter_left, (530, 425))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
+                layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
+                update_game_screen()
                 layer.popup_layer.blit(self.no_character_left, (580, 425))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
+                layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
+                update_game_screen()
                 self.deleted_key = self.typed_text[self.cursor_position - 1]  # Store the deleted key
                 self.typed_text = self.typed_text[:self.cursor_position - 1] + self.typed_text[self.cursor_position:]
                 self.cursor_position -= 1
@@ -244,6 +227,8 @@ class Keyboard:
 
             case self.pressed_key if self.pressed_key == 'return':
                 layer.popup_layer.fill(KEY_PURPLE)
+                layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
+                update_game_screen()
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
                     self.displayed_text = font.render(self.typed_text.upper(), True, WHITE) 
@@ -314,6 +299,7 @@ layer = Layers()
 timer = Timer()
 
 # Game loop
+running = True
 layer.interface_layer.fill((KEY_PURPLE))
 layer.interface_layer.set_colorkey(KEY_PURPLE)
 layer.popup_layer.fill(KEY_PURPLE)
@@ -324,34 +310,32 @@ keyboard.keyboard_amount_position()
 character.player_initalizer()
 
 def battle_interface():
-    if timer.is_player_turn == False:
-        pass
-    else:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif timer.is_player_turn == True:
-                mouse_pos = pygame.mouse.get_pos()
-                if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                    key = pygame.key.name(event.key)
-                    keyboard.key_press_action(key)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if timer.is_player_turn == True:
+            mouse_pos = pygame.mouse.get_pos()
+            if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                key = pygame.key.name(event.key)
+                keyboard.key_press_action(key)
 
-                elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                    spell.targeted_enemy(mouse_pos)
+            elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                spell.targeted_enemy(mouse_pos)
 
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if keyboard.end_turn_button.is_clicked() == True:
-                        timer.timer_duration = 1
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if keyboard.end_turn_button.is_clicked() == True:
+                    timer.timer_duration = 1
 
     # Printing Graphics Areaaaaaaaaaaa
 
-        keyboard.keyboard_display()
-        keyboard.end_turn_button.draw(layer.interface_layer)
-        character.display_enemy()
-        character.player_displayer()
-        timer.update_time()
-        timer.draw()
+    keyboard.keyboard_display()
+    keyboard.end_turn_button.draw(layer.interface_layer)
+    character.display_enemy()
+    character.player_displayer()
+    timer.update_time()
+    timer.draw()
+    update_game_screen()
 
 
 

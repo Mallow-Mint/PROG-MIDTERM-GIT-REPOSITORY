@@ -1,7 +1,6 @@
 import pygame
 import time
 from states.title import *
-from states.battle_state import *
 
 class Game():
     def __init__(self):
@@ -15,6 +14,8 @@ class Game():
         self.PLAYING = True
         self.DELTA_TIME = 0
         self.PREVIOUS_TIME = 0
+        self.actions = {"q": True,
+                        "w": True}
         self.STATE_STACK = []
         self.load_states()
 
@@ -23,35 +24,15 @@ class Game():
             if event.type == pygame.QUIT:
                 self.RUNNING = False
                 self.PLAYING = False
-        if timer.is_player_turn == False:
-            pass
-        else:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif timer.is_player_turn == True:
-                    mouse_pos = pygame.mouse.get_pos()
-                    if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                        key = pygame.key.name(event.key)
-                        keyboard.key_press_action(key)
-
-                    elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                        spell.targeted_enemy(mouse_pos)
-
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        if keyboard.end_turn_button.is_clicked() == True:
-                            timer.timer_duration = 1
 
     def game_loop(self):
         while self.PLAYING:
             self.get_delta_time()
-            self.get_events()
             self.update()
             self.render()
 
     def update(self):
-        pass
+        self.STATE_STACK[-1].update()
 
     def render(self):
         self.STATE_STACK[-1].render(self.GAME_DISPLAY)
@@ -64,8 +45,9 @@ class Game():
         self.PREVIOUS_TIME = current_time
 
     def load_states(self):
-        self.battle_screen = Battle(self)
-        self.STATE_STACK.append(self.battle_screen)
+        self.title_screen = Title(self)
+        self.STATE_STACK.append(self.title_screen)
+
 
 if __name__ == "__main__":
     game = Game()

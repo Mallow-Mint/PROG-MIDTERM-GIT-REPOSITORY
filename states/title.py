@@ -1,17 +1,25 @@
 import pygame
 import sys
 from states.state_manager import *
+from states.battle_state import *
 
 class Title(State):
     def __init__(self, game):
         State.__init__(self, game)
     
     def update(self):
-        pass
+        if menu.start_tutorial == True:
+            new_state = Battle(self.game)
+            new_state.enter_state() 
 
     def render(self, display):
         main_menu()
-        display.blit(MENU_SCREEN, (0,0)) 
+        display.blit(MENU_SCREEN, (0,0))
+
+class Menu:
+    def __init__(self):
+        self.start_tutorial = False
+
 
 # Initialize Pygame
 pygame.init()
@@ -57,7 +65,8 @@ class Button:
 
     def check_for_input(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)
-
+    
+menu = Menu()
 # Main function
 def main_menu():
     MENU_SCREEN.blit(Title_BG, (80,40))
@@ -89,14 +98,11 @@ def main_menu():
     quit_button.draw(MENU_SCREEN)
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.check_for_input(mouse_pos):
                 print("Start the game")  # Replace with your game starting function
             if tutorial_button.check_for_input(mouse_pos):
-                new_state = battle
+                menu.start_tutorial = True
             if scores_button.check_for_input(mouse_pos):
                 print("Show scores")
             if quit_button.check_for_input(mouse_pos):
