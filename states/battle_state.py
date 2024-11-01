@@ -304,7 +304,6 @@ def clear_inputs():
 typing_area_height = 50
 typing_area_y = 480
 
-# Initalizes Variables from Classes
 
 keyboard = Keyboard()
 dictionary = Valid_Dictionary()
@@ -312,15 +311,19 @@ layer = Layers()
 timer = Timer()
 
 # Game loop
-running = True
-layer.interface_layer.fill((KEY_PURPLE))
-layer.interface_layer.set_colorkey(KEY_PURPLE)
-layer.popup_layer.fill(KEY_PURPLE)
-layer.popup_layer.set_colorkey(KEY_PURPLE)
-character.enemy_initalizer(random.randint(1,4))
-keyboard.key_amounts()
-keyboard.keyboard_amount_position() 
-character.player_initalizer()
+def initalize_battle():
+    timer.timer_duration = 30
+    timer.start_ticks = pygame.time.get_ticks()
+    layer.interface_layer.fill((KEY_PURPLE))
+    layer.interface_layer.set_colorkey(KEY_PURPLE)
+    layer.popup_layer.fill(KEY_PURPLE)
+    layer.popup_layer.set_colorkey(KEY_PURPLE)
+    character.enemy_initalizer(random.randint(1,4))
+    keyboard.key_amounts()
+    keyboard.keyboard_amount_position() 
+    character.player_initalizer()
+
+    
 
 def battle_interface():
     # Printing Graphics Areaaaaaaaaaaa

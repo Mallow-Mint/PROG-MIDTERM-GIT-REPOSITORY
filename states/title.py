@@ -10,8 +10,7 @@ class Title(State):
     
     def update(self):
         if menu.start_tutorial == True:
-            timer.timer_duration = 30
-            timer.start_ticks = pygame.time.get_ticks()
+            initalize_battle()
             new_state = Battle(self.game)
             new_state.enter_state() 
 
