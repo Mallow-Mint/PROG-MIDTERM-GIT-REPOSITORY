@@ -15,13 +15,26 @@ class Battle(State):
         State.__init__(self, game)
     
     def update(self):
-        pass
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if timer.is_player_turn == True:
+                mouse_pos = pygame.mouse.get_pos()
+                if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
+                    key = pygame.key.name(event.key)
+                    keyboard.key_press_action(key)
+
+                elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
+                    spell.targeted_enemy(mouse_pos)
+
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if keyboard.end_turn_button.is_clicked() == True:
+                        timer.timer_duration = 1
 
     def render(self, display):
         battle_interface()
-        update_game_screen()
         display.blit(game_window, (0,0)) 
-
 
 pygame.init()
 # Create Display Window For Game
@@ -61,7 +74,7 @@ class Layers:
 # Define the Functions for keyboard updates
 class Valid_Dictionary:
     def __init__(self):
-        self.shared_dictionary = open('Game_Testing/KEYBOARD_TESTING/SpellBook.txt', "r")
+        self.shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
         self.valid_words = self.shared_dictionary.read() 
         self.valid_word_list = self.valid_words.split("\n")
         self.shared_dictionary.close()
@@ -166,7 +179,7 @@ class Keyboard:
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
 
-        self.Letter_Positions_File = open('Game_Testing/KEYBOARD_TESTING/Letter_Amount_Positions.txt' , "r")
+        self.Letter_Positions_File = open('states/battle_data/Letter_Amount_Positions.txt' , "r")
         self.Letter_Positions_File_Lines = self.Letter_Positions_File.readlines()
 
         for line in self.Letter_Positions_File_Lines:
@@ -183,7 +196,7 @@ class Keyboard:
     def key_amounts(self):
         self.Key_Count_Remaining = {}
 
-        self.Letter_Amounts_File = open('Game_Testing/KEYBOARD_TESTING/Letter_Amount.txt' , "r")
+        self.Letter_Amounts_File = open('states/battle_data/Letter_Amount.txt' , "r")
         self.Letter_Amounts_File_Lines = self.Letter_Amounts_File.readlines()
 
         for line in self.Letter_Amounts_File_Lines:
@@ -310,25 +323,7 @@ keyboard.keyboard_amount_position()
 character.player_initalizer()
 
 def battle_interface():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if timer.is_player_turn == True:
-            mouse_pos = pygame.mouse.get_pos()
-            if event.type == pygame.KEYDOWN and spell.enemy_selection_state == False:
-                key = pygame.key.name(event.key)
-                keyboard.key_press_action(key)
-
-            elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                spell.targeted_enemy(mouse_pos)
-
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if keyboard.end_turn_button.is_clicked() == True:
-                    timer.timer_duration = 1
-
     # Printing Graphics Areaaaaaaaaaaa
-
     keyboard.keyboard_display()
     keyboard.end_turn_button.draw(layer.interface_layer)
     character.display_enemy()

@@ -14,16 +14,8 @@ class Game():
         self.PLAYING = True
         self.DELTA_TIME = 0
         self.PREVIOUS_TIME = 0
-        self.actions = {"q": True,
-                        "w": True}
         self.STATE_STACK = []
         self.load_states()
-
-    def get_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.RUNNING = False
-                self.PLAYING = False
 
     def game_loop(self):
         while self.PLAYING:

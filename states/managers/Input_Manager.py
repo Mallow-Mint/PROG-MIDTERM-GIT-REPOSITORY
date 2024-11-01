@@ -35,7 +35,7 @@ class Damage():
 class Spell:
     def __init__(self):
         #Get Valid Words from Text File
-        self.shared_dictionary = open('Game_Testing/KEYBOARD_TESTING/SpellBook.txt', "r")
+        self.shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
         self.valid_words = self.shared_dictionary.read() 
         self.valid_words = self.valid_words.split("\n")
         self.shared_dictionary.close()
