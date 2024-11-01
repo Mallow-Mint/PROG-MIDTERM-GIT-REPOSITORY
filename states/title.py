@@ -26,6 +26,7 @@ class Menu:
 pygame.init()
 
 Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
+Title_BG = pygame.transform.scale(Title_BG, (1600,900))
 # Set up display
 MENU_SCREEN = pygame.Surface((1600, 900))
 
@@ -70,7 +71,7 @@ class Button:
 menu = Menu()
 # Main function
 def main_menu():
-    MENU_SCREEN.blit(Title_BG, (80,40))
+    MENU_SCREEN.blit(Title_BG, (0,0))
     # Get mouse position
     mouse_pos = pygame.mouse.get_pos()
 

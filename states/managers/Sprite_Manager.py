@@ -4,7 +4,7 @@ import time
 #Colors 
 GREEN = (30, 255, 0)
 
-def get_image(img:str,  scale):
+def get_image(img:str, scale):
     image = pygame.image.load(img)
     image = pygame.transform.scale_by(image, scale)
     return image

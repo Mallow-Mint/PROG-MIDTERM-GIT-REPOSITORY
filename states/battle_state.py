@@ -87,7 +87,7 @@ class Valid_Dictionary:
 
 class Timer:
     def __init__(self):
-        self.timer_duration = 30  # seconds
+        self.timer_duration = 60  # seconds
         self.current_time = self.timer_duration
         self.is_player_turn = True
         self.start_ticks = pygame.time.get_ticks()
@@ -127,7 +127,6 @@ class Timer:
             layer.interface_layer.blit(self.time_left_text, (15, 15))
             pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
             pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
-
 
 class EndTurnButton:
     def __init__(self, x, y, width, height, text, font):
