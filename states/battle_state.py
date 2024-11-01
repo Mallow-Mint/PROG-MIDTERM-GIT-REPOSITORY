@@ -13,6 +13,7 @@ from states.managers.Audio_Manager import *
 class Battle(State):
     def __init__(self, game):
         State.__init__(self, game)
+        # Initalizes Variables from Classes
     
     def update(self):
         for event in pygame.event.get():
@@ -87,14 +88,14 @@ class Valid_Dictionary:
 
 class Timer:
     def __init__(self):
-        self.timer_duration = 60  # seconds
+        self.timer_duration = 30  # seconds
         self.current_time = self.timer_duration
         self.is_player_turn = True
         self.start_ticks = pygame.time.get_ticks()
         self.center_x = 120
         self.center_y = 50
         self.radius = 30
-        self.line_thickness =5
+        self.line_thickness = 5
 
     def update_time(self):
         self.seconds_passed = (pygame.time.get_ticks() - self.start_ticks) / 1000

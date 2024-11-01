@@ -9,7 +9,7 @@ def get_image(img:str, scale):
     image = pygame.transform.scale_by(image, scale)
     return image
 
-class Keyboard:
+class Keyboard_Letters:
     def __init__(self) -> None:
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
@@ -27,7 +27,7 @@ class KeyboardSprites():
         self.qwerty_number = 0
         self.sprite_mover = 0
 
-        for key in keyboard.valid_letters:
+        for key in keyboard_letters.valid_letters:
             self.keyboard_default_key_sprite.append((0 + (204*self.qwerty_number), 0 , 102, 96))
             self.keyboard_pressed_key_sprite.append((102 + (204*self.qwerty_number), 0 , 102, 96))
             self.qwerty_number += 1
@@ -36,7 +36,7 @@ class KeyboardSprites():
         self.sprite_mover = 0
         self.keyboard_sprites = pygame.Surface((WIDTH,HEIGHT))
         self.keyboard_sprites.fill(GREEN)
-        for key in keyboard.valid_letters:
+        for key in keyboard_letters.valid_letters:
             self.keyboard_sprites.blit(self.sheet, self.sprite_display_positions[0+self.sprite_mover], 
                                           self.keyboard_default_key_sprite[0+self.sprite_mover])
             self.sprite_mover += 1
@@ -45,10 +45,10 @@ class KeyboardSprites():
     def pressed_key_animation(self, key, WIDTH=1600, HEIGHT=900):
         self.keyboard_sprites = pygame.Surface((WIDTH,HEIGHT))
         self.keyboard_sprites.fill(GREEN)
-        self.pressed_key_index = keyboard.valid_letters.index(key)
+        self.pressed_key_index = keyboard_letters.valid_letters.index(key)
         self.sprite_mover = 0
 
-        for key in keyboard.valid_letters:
+        for key in keyboard_letters.valid_letters:
             self.keyboard_sprites.blit(self.sheet, self.sprite_display_positions[0+self.sprite_mover], 
                                           self.keyboard_default_key_sprite[0+self.sprite_mover])
             self.sprite_mover += 1
@@ -58,4 +58,4 @@ class KeyboardSprites():
         
         return self.keyboard_sprites
 
-keyboard = Keyboard()
+keyboard_letters = Keyboard_Letters()
