@@ -1,6 +1,8 @@
 import pygame
 import random
 import time
+from states.state_manager import *
+from states.managers.Audio_Manager import *
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -214,7 +216,8 @@ class Character:
             self.total_enemy_hp += self.current_enemies_alive_hp[enemy_hp]
         
         if self.total_enemy_hp == 0:
-            print("You win")
+            music.Battle_BGM_1_stop()
+            return True
     
     def battle_loss(self):
         if self.player_current_health[0] < 0:

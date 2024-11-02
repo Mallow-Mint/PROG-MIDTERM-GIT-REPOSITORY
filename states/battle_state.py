@@ -33,18 +33,19 @@ class Battle(State):
                     if keyboard.end_turn_button.is_clicked() == True:
                         timer.timer_duration = 1
 
+        if character.battle_win() == True:
+            self.exit_state()
+
     def render(self, display):
         battle_interface()
-        display.blit(game_window, (0,0)) 
+        display.blit(game_window, (0,0))
 
 pygame.init()
 # Create Display Window For Game
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
-game_window = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Keyboard Battle")
-
+game_window = pygame.display.set_mode((1600, 900))
 
 # Set Colors used for Textures
 WHITE = (255, 255, 255)
@@ -213,6 +214,12 @@ class Keyboard:
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
                     sfx.keyboard_press_sound()
+                    update_game_screen()
+                    self.key_state = 0
+                    update_game_screen()
+                    while self.key_state < 1:
+                        self.key_state += 0.1
+                        layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                     self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                     self.cursor_position += 1
                     self.Key_Count_Remaining[self.pressed_key] -= 1
@@ -294,6 +301,7 @@ def update_game_screen():
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
+    pygame.display.flip()
 
 def clear_inputs():
     pygame.event.clear(pygame.MOUSEBUTTONDOWN)

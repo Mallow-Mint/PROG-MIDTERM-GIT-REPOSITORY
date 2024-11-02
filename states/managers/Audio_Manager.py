@@ -5,9 +5,12 @@ class Music:
         pass
 
     def Battle_BGM_1(self):
-        fight_bg_music_1 = pygame.mixer.Sound('Assets/fight_music.mp3')
-        fight_bg_music_1.set_volume(0.05)
-        fight_bg_music_1.play(-1,0,1000)
+        self.fight_bg_music_1 = pygame.mixer.Sound('Assets/fight_music.mp3')
+        self.fight_bg_music_1.set_volume(0.05)
+        self.fight_bg_music_1.play(-1,0,1000)
+    
+    def Battle_BGM_1_stop(self):
+        self.fight_bg_music_1.stop()
 
 class SoundEffects:
     def __init__(self):

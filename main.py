@@ -8,11 +8,12 @@ class Game():
         self.GAME_WIDTH = 1600
         self.GAME_HEIGHT = 900
         self.GAME_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
+        self.TRANSITION_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         pygame.display.set_caption("Spell Book")
         self.RUNNING = True
         self.PLAYING = True
-        self.DELTA_TIME = 0
+        self.DELTA_TIME = 0 
         self.PREVIOUS_TIME = 0
         self.STATE_STACK = []
         self.load_states()
@@ -39,7 +40,6 @@ class Game():
     def load_states(self):
         self.title_screen = Title(self)
         self.STATE_STACK.append(self.title_screen)
-
 
 if __name__ == "__main__":
     game = Game()
