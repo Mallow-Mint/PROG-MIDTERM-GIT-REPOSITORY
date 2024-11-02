@@ -35,6 +35,7 @@ class Battle(State):
 
         character.battle_win()            
         if character.battle_state == 'WIN':
+            keyboard.save_key_amounts()
             self.exit_state()
             character.battle_state = None
 
@@ -76,18 +77,6 @@ class Layers:
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 # Define the Functions for keyboard updates
-class Valid_Dictionary:
-    def __init__(self):
-        self.shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
-        self.valid_words = self.shared_dictionary.read() 
-        self.valid_word_list = self.valid_words.split("\n")
-        self.shared_dictionary.close()
-    
-    def validWordChecker(self, current_typed_word:str):
-        if current_typed_word in self.valid_word_list:
-            return True
-        else:
-            return False
 
 class Timer:
     def __init__(self):
@@ -196,17 +185,11 @@ class Keyboard:
             self.Key_Amount_Position[self.letter_pos] = (self.position_x, self.position_y)
         self.Letter_Positions_File.close()
 
-    def key_amounts(self):
-        self.Key_Count_Remaining = {}
+    def get_key_amounts(self):
+        self.Key_Count_Remaining = battle_data.Keys_Remaining
 
-        self.Letter_Amounts_File = open('states/battle_data/Letter_Amount.txt' , "r")
-        self.Letter_Amounts_File_Lines = self.Letter_Amounts_File.readlines()
-
-        for line in self.Letter_Amounts_File_Lines:
-            self.letter_count = line[0]
-            self.letter_amount = line[2]
-            self.Key_Count_Remaining[self.letter_count] = int(self.letter_amount)
-        self.Letter_Amounts_File.close
+    def save_key_amounts(self):
+        battle_data.Keys_Remaining = self.Key_Count_Remaining
 
     def key_press_action(self, key:str,):
         self.pressed_key = key
@@ -316,7 +299,6 @@ typing_area_y = 480
 
 
 keyboard = Keyboard()
-dictionary = Valid_Dictionary()
 layer = Layers()
 timer = Timer()
 
@@ -330,7 +312,7 @@ def initalize_battle():
     layer.popup_layer.set_colorkey(KEY_PURPLE)
     character.enemy_initalizer(random.randint(1,4))
     keyboard.max_character_count = 20
-    keyboard.key_amounts()
+    keyboard.get_key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
     music.Battle_BGM_1()
@@ -345,7 +327,4 @@ def battle_interface():
     timer.update_time()
     timer.draw()
     update_game_screen()
-
-
-
 
