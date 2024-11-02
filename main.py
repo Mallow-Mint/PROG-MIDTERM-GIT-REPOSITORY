@@ -17,8 +17,7 @@ class Game():
         self.PREVIOUS_TIME = 0
         self.fps = pygame.time.Clock()
         self.STATE_STACK = []
-        self.load_states()
-        
+        self.load_states()     
 
     def game_loop(self):
         while self.PLAYING:

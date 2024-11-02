@@ -4,6 +4,7 @@ import sys
 from states.state_manager import *
 from states.map_state import *
 from states.battle_state import *
+from states.shop_state import *
 
 class Title(State):
     def __init__(self, game):
@@ -21,6 +22,11 @@ class Title(State):
             new_state.enter_state() 
             menu.start_game = False
 
+        if menu.open_shop == True:
+            new_state = Shop_State(self.game)
+            new_state.enter_state() 
+            menu.open_shop = False
+
     def render(self, display):
         main_menu()
         display.blit(MENU_SCREEN, (0,0))
@@ -29,6 +35,7 @@ class Menu:
     def __init__(self):
         self.start_game = False
         self.start_tutorial = False
+        self.open_shop = False
 
 
 # Initialize Pygame
@@ -116,6 +123,7 @@ def main_menu():
                 menu.start_tutorial = True
             if scores_button.check_for_input(mouse_pos):
                 print("Show scores")
+                menu.open_shop = True
             if quit_button.check_for_input(mouse_pos):
                 pygame.quit()
                 sys.exit()

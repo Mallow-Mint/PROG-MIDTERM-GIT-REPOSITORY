@@ -7,6 +7,8 @@ from states.managers.Sprite_Manager import *
 from states.managers.Input_Manager import *
 from states.managers.Battle_Manager import *
 from states.managers.Audio_Manager import *
+from states.battle_data.battle_data import *
+
 
 # START PYGAME WOOOOO pygame
 
