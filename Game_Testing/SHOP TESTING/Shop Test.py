@@ -1,7 +1,6 @@
 import pygame
 import spritesheet
 from Audio_manager import *
-from Spritesheet_manager import *
 pygame.init()
 
 # Set up the display window 1600 x 900
@@ -13,11 +12,6 @@ music.shop_bg_music()
 buy_sfx = music.buy_music()
 
 # Background for everything in the shop
-
-HealingpotXL_sprite_sheet_image = get_image('Game_Testing/SHOP TESTING/Assets/XL Healing potion OG.png', 4)
-HealingpotXL_sprite_sheet = Spritesheet(HealingpotXL_sprite_sheet_image)
-HealingpotXL_sprite_sheet.get_potion_sprites_1()
-
 shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
 currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
 item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
@@ -79,25 +73,22 @@ for line in Letter_Cost_File_Lines:
     Letter_Cost_Dictionary[letter.strip()] = int(cost.strip())
 Letter_Cost_File.close()
 
-class Layers:
-    def __init__(self):
-        self.potions_layer = HealingpotXL_sprite_sheet.Rollinganimation_1()
-    def screen_updater():
-        win.fill(BLACK)
-        background_layer.blit(shop_bg, (0, 0))
-        win.blit(background_layer, (0, 0))
-        win.blit(sprite_layer, (0, 0))
-        win.blit(misc_layer, (0, 0))
-        win.blit(shop_layer, (0, 0))
-        win.blit(inventory_layer, (0, 0))
+def screen_updater():
+    background_layer.blit(shop_bg, (0, 0))
+    win.blit(background_layer, (0, 0))
+    win.blit(sprite_layer, (0, 0))
+    win.blit(misc_layer, (0, 0))
+    win.blit(shop_layer, (0, 0))
+    win.blit(inventory_layer, (0, 0))
 
-        pygame.display.update()
+    pygame.display.update()
+
 # Initialize the player's currency and inventory
 default_currency = 300
 player_currency = default_currency
 inventory_slots = 6
 inventory = [None] * inventory_slots
-shop_layer.blit(HealingpotXL_sprite_sheet.Rollinganimation_1())
+
 # Define colors
 PURPLE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -589,7 +580,7 @@ while run:
             clicked_item = shop.get_clicked_item(mx, my)
             if clicked_item is not None:
                 player_currency = purchase_item(clicked_item, inventory, player_currency, shop.shop_type)
-    Layers.screen_updater()
+    screen_updater()
     clock.tick(60)
 
     shop.display_shop(shop_layer)

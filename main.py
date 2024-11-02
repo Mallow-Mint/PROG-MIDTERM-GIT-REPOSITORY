@@ -15,14 +15,17 @@ class Game():
         self.PLAYING = True
         self.DELTA_TIME = 0 
         self.PREVIOUS_TIME = 0
+        self.fps = pygame.time.Clock()
         self.STATE_STACK = []
         self.load_states()
+        
 
     def game_loop(self):
         while self.PLAYING:
             self.get_delta_time()
             self.update()
             self.render()
+            self.fps.tick(60)
 
     def update(self):
         self.STATE_STACK[-1].update()
