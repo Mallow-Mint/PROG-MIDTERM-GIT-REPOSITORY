@@ -12,19 +12,23 @@ class Shop_State(State):
         State.__init__(self, game)
     
     def update(self):
-        pass
+        if ShopAction.leave_shop == True:
+            music.shop_bg_music_stop()
+            self.exit_state()
+            ShopAction.leave_shop = False
 
     def render(self, display):
         shop_main()
         display.blit(win, (0,0))
 
+class Shop_Action:
+    def __init__(self):
+        self.leave_shop = False
+
+ShopAction = Shop_Action()
+
 # Set up the display window 1600 x 900
 win = pygame.display.set_mode((1600, 900))
-#Set up of bg music
-
-
-# Set up buying sound 
-
 
 # Background for everything in the shop
 shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
@@ -359,11 +363,8 @@ class Shop:
             x_offset = (i % 5) * 120  # Horizontal spacing between boxes
             y_offset = (i // 5) * 80   # Vertical spacing between rows
             letter.display(shop_layer, 200 + x_offset, 220 + y_offset, 90, 50)
-
-        for i, letter in enumerate(self.letters):
-            x_offset = (i % 5) * 120  # Horizontal spacing between boxes
-            y_offset = (i // 5) * 80   # Vertical spacing between rows
-            letter.display(shop_layer, 200 + x_offset, 220 + y_offset, 90, 50)
+            current_qwerty_letter =  battle_data.valid_letters[i]
+            draw_text(shop_layer, str(battle_data.Keys_Remaining[current_qwerty_letter]), 15, 265 + x_offset, 235 + y_offset, WHITE)
 
     def get_clicked_item(self, mx, my):
         if self.active_category == "Potions":
@@ -379,7 +380,7 @@ class Shop:
                 x_offset = (i % 5) * 120  # Horizontal spacing between boxes
                 y_offset = (i // 5) * 80   # Vertical spacing between rows
                 if pygame.Rect(200 + x_offset, 220 + y_offset, 90, 50).collidepoint(mx, my):
-                    print(self.letters)
+                    self.current_letter =  battle_data.valid_letters[i]
                     return letter
         return None
 
@@ -404,13 +405,7 @@ class Shop:
             self.shop_type = self.active_category
         
         elif leave_shop_rect.collidepoint(mx, my):
-            pygame.quit()
-            sys.exit()
-
-# Define button class
-sprite_layer.blit(wooden_sign, (1348, 750))
-sprite_layer.blit(wooden_sign, (0, 750))
-sprite_layer.blit(wooden_sign, (700, 750))
+            ShopAction.leave_shop = True
 
 # Class for inventory
 class Inventory:
@@ -427,7 +422,10 @@ class Inventory:
                     self.slots[i] = item
                     return True
             return False
-        else:
+        elif shop.shop_type == "Letters":
+            if battle_data.Keys_Remaining[shop.current_letter] < 5:
+                battle_data.Keys_Remaining[shop.current_letter] += 1
+                return True
             return False
 
     def clear_inventory(self):
@@ -559,6 +557,12 @@ class Button_1:
         return self.rect.collidepoint(mx, my)
 
 # Main loop
+def shop_initializer():
+    sprite_layer.blit(wooden_sign, (1348, 750))
+    sprite_layer.blit(wooden_sign, (0, 750))
+    sprite_layer.blit(wooden_sign, (700, 750))
+    music.shop_bg_music()
+
 clock = pygame.time.Clock()
 
 # Initialize the shop and inventory
@@ -567,54 +571,6 @@ shop = Shop()
 inventory = Inventory()
 
 def shop_main():
-    current_time_1 = pygame.time.get_ticks()
-    current_time_2 = pygame.time.get_ticks()
-    current_time_3 = pygame.time.get_ticks()
-    current_time_4 = pygame.time.get_ticks()
-    current_time_5 = pygame.time.get_ticks()
-
-    last_update_1 = pygame.time.get_ticks()
-    last_update_2 = pygame.time.get_ticks()
-    last_update_3 = pygame.time.get_ticks()
-    last_update_4 = pygame.time.get_ticks()
-    last_update_5 = pygame.time.get_ticks()
-    action_1 = 0
-    action_2 = 0
-    action_3 = 0
-    action_4 = 0
-    action_5 = 0
-    frame_1 = 0
-    frame_2 = 0
-    frame_3 = 0
-    frame_4 = 0
-    frame_5 = 0
-
-    animation_cooldown = 75
-    if current_time_1 - last_update_1 >= animation_cooldown:
-        frame_1 += 1
-        last_update_1 = current_time_1
-        if frame_1 >= len(animation_list_1[action_1]):
-            frame_1 = 0
-    if current_time_2 - last_update_2 >= animation_cooldown:
-        frame_2 += 1
-        last_update_2 = current_time_2
-        if frame_2 >= len(animation_list_2[action_2]):
-            frame_2 = 0
-    if current_time_3 - last_update_3 >= animation_cooldown:
-        frame_3 += 1
-        last_update_3 = current_time_3
-        if frame_3 >= len(animation_list_3[action_3]):
-            frame_3 = 0 
-    if current_time_4 - last_update_4 >= animation_cooldown:
-        frame_4 += 1
-        last_update_4 = current_time_4
-        if frame_4 >= len(animation_list_4[action_4]):
-            frame_4 = 0
-    if current_time_5 - last_update_5 >= animation_cooldown:
-        frame_5 += 1
-        last_update_5 = current_time_5
-        if frame_5 >= len(animation_list_5[action_5]):
-            frame_5 = 0
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

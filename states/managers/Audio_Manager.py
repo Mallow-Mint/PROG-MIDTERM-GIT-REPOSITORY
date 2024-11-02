@@ -13,8 +13,11 @@ class Music:
         self.fight_bg_music_1.stop()
     
     def shop_bg_music(self):
-        shop_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
-        shop_music.play(-1)
+        self.shop_music = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/Stardew Valley OST.mp3')
+        self.shop_music.play(-1)
+
+    def shop_bg_music_stop(self):
+        self.shop_music.stop()
 
     def buy_music(self):
         buy_sound = pygame.mixer.Sound('Game_Testing/SHOP TESTING/Assets/buying sfx.mp3')

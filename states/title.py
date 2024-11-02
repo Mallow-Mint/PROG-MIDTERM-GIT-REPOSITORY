@@ -23,6 +23,7 @@ class Title(State):
             menu.start_game = False
 
         if menu.open_shop == True:
+            shop_initializer()
             new_state = Shop_State(self.game)
             new_state.enter_state() 
             menu.open_shop = False
