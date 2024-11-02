@@ -36,6 +36,7 @@ class Battle(State):
         character.battle_win()            
         if character.battle_state == 'WIN':
             self.exit_state()
+            character.battle_state = None
 
     def render(self, display):
         battle_interface()
@@ -328,6 +329,7 @@ def initalize_battle():
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
     character.enemy_initalizer(random.randint(1,4))
+    keyboard.max_character_count = 20
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()

@@ -3,6 +3,7 @@ import random
 import time
 from states.state_manager import *
 from states.managers.Audio_Manager import *
+from states.battle_data.battle_data import *
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -62,7 +63,7 @@ class Character:
         self.selected_enemy = 0
         self.current_enemies_alive_hp = [0,0,0,0]
         self.current_enemy_type = []
-        self.player_current_health = [50]
+        self.player_current_health = battle_data.current_health
         self.battle_state = None
 
     def random_enemy_type(self):
@@ -189,7 +190,8 @@ class Character:
         character.battle_loss()
 
     def player_initalizer(self):
-        self.player_hp_health_bar = HealthBar(280, 160, 140, 20, self.player_current_health[0])
+        self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
+        self.player_hp_health_bar.current_hp = self.player_current_health[0]
     
     def player_displayer(self):
         self.player_hp_health_bar.draw(self.combat_layer)
@@ -218,6 +220,7 @@ class Character:
         
         if self.total_enemy_hp == 0:
             self.battle_state = 'WIN'
+            battle_data.current_health = self.player_current_health
             music.Battle_BGM_1_stop()
     
     def battle_loss(self):
