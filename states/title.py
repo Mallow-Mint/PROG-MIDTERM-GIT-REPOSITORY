@@ -2,6 +2,7 @@ import pygame
 import time
 import sys
 from states.state_manager import *
+from states.map_state import *
 from states.battle_state import *
 
 class Title(State):
@@ -14,6 +15,11 @@ class Title(State):
             new_state = Battle(self.game)
             new_state.enter_state() 
             menu.start_tutorial = False
+        
+        if menu.start_game == True:
+            new_state = Map(self.game)
+            new_state.enter_state() 
+            menu.start_game = False
 
     def render(self, display):
         main_menu()
@@ -21,6 +27,7 @@ class Title(State):
 
 class Menu:
     def __init__(self):
+        self.start_game = False
         self.start_tutorial = False
 
 
@@ -104,7 +111,7 @@ def main_menu():
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.check_for_input(mouse_pos):
-                print("Start the game")  # Replace with your game starting function
+                menu.start_game = True  # Replace with your game starting function
             if tutorial_button.check_for_input(mouse_pos):
                 menu.start_tutorial = True
             if scores_button.check_for_input(mouse_pos):
