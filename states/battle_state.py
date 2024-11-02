@@ -5,7 +5,7 @@ import sys
 from states.state_manager import *
 from states.managers.Sprite_Manager import *
 from states.managers.Input_Manager import *
-from states.managers.Character_Manager import *
+from states.managers.Battle_Manager import *
 from states.managers.Audio_Manager import *
 
 # START PYGAME WOOOOO pygame

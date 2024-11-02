@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-from states.managers.Character_Manager import *
+from states.managers.Battle_Manager import *
 
 class Damage():
     def __init__(self):
