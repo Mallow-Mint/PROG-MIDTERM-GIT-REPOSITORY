@@ -63,6 +63,7 @@ class Character:
         self.current_enemies_alive_hp = [0,0,0,0]
         self.current_enemy_type = []
         self.player_current_health = [50]
+        self.battle_state = None
 
     def random_enemy_type(self):
         self.mob_list_type = list(self.mobs_list_color.keys())
@@ -216,8 +217,8 @@ class Character:
             self.total_enemy_hp += self.current_enemies_alive_hp[enemy_hp]
         
         if self.total_enemy_hp == 0:
+            self.battle_state = 'WIN'
             music.Battle_BGM_1_stop()
-            return True
     
     def battle_loss(self):
         if self.player_current_health[0] < 0:

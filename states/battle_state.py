@@ -33,7 +33,8 @@ class Battle(State):
                     if keyboard.end_turn_button.is_clicked() == True:
                         timer.timer_duration = 1
 
-        if character.battle_win() == True:
+        character.battle_win()            
+        if character.battle_state == 'WIN':
             self.exit_state()
 
     def render(self, display):
@@ -330,7 +331,7 @@ def initalize_battle():
     keyboard.key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
-
+    music.Battle_BGM_1()
     
 
 def battle_interface():

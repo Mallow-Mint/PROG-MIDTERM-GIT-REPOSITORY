@@ -107,8 +107,6 @@ def main_menu():
                 print("Start the game")  # Replace with your game starting function
             if tutorial_button.check_for_input(mouse_pos):
                 menu.start_tutorial = True
-                time.sleep(1)
-                music.Battle_BGM_1()
             if scores_button.check_for_input(mouse_pos):
                 print("Show scores")
             if quit_button.check_for_input(mouse_pos):
