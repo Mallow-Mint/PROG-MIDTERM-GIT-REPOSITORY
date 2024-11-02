@@ -35,6 +35,7 @@ class Battle(State):
 
         character.battle_win()            
         if character.battle_state == 'WIN':
+            keyboard.key_replenish()
             keyboard.save_key_amounts()
             self.exit_state()
             character.battle_state = None
