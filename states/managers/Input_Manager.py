@@ -80,7 +80,6 @@ class Spell:
         self.damage_dealt = 0
         self.damage_healed = 0
 
-
     def spellcast(self, spell_used):
         self.current_spell = spell_used
         damage.word_chain(self.previous_spell, self.current_spell)
@@ -89,6 +88,7 @@ class Spell:
             case 'fire':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.play_spell = sfx.fire_spell_sound
             case 'air':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
