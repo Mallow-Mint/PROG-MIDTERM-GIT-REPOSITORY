@@ -361,8 +361,6 @@ class Inventory:
         sprite_layer.blit(inventory_frame, (1270, 150))
         sprite_layer.blit(inventory_frame, (1040, 315))
         sprite_layer.blit(inventory_frame, (1270, 315))
-        sprite_layer.blit(inventory_frame, (1040, 480))
-        sprite_layer.blit(inventory_frame, (1270, 480))
         ribit_sprite.display_sprite(600,40)
 
         # Draw the inventory label
@@ -418,27 +416,6 @@ class Inventory:
                     All_Letter_Potion_Sprite.display_sprite(1350, 374)
                 elif self.slots[3] == "Letter Potion":
                     Letter_Potion_Sprite.display_sprite(1358, 387) 
-
-            if self.slots[4] is not None:
-                if self.slots[4] == "Healing Potion S":
-                    Health_Pot_Sprite.display_sprite(1128, 540)
-                elif self.slots[4] == "Healing Potion XL":
-                    Health_Pot_XL_Sprite.display_sprite(1128, 554)
-                elif self.slots[4] == "All Letter Potion":
-                    All_Letter_Potion_Sprite.display_sprite(1120, 539)
-                elif self.slots[4] == "Letter Potion":
-                    Letter_Potion_Sprite.display_sprite(1128, 552)
-    
-            if self.slots[5] is not None:
-                if self.slots[5] == "Healing Potion S":
-                    Health_Pot_Sprite.display_sprite(1358, 540)
-                elif self.slots[5] == "Healing Potion XL":
-                    Health_Pot_XL_Sprite.display_sprite(1358, 554)
-                elif self.slots[5] == "All Letter Potion":
-                    All_Letter_Potion_Sprite.display_sprite(1350, 539)
-                elif self.slots[5] == "Letter Potion":
-                    Letter_Potion_Sprite.display_sprite(1358, 552)
-
                                 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
