@@ -1,2 +1,0 @@
-print("hans")
-print("hi")
