@@ -88,7 +88,7 @@ class Spell:
             case 'fire':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
-                self.play_spell = sfx.fire_spell_sound
+                self.spell_sound = sfx.fire_spell_sound
             case 'air':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
