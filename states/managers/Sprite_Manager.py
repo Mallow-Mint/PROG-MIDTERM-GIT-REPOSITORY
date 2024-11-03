@@ -10,9 +10,13 @@ background_layer = pygame.Surface((1600,900))
 animations_cooldown = 75
 
 def get_image(img:str, scale=1):
-    image = pygame.image.load(img)
-    image = pygame.transform.scale_by(image, scale)
-    return image
+    if scale == 1:
+        image = pygame.image.load(img)
+        return image
+    else:
+        image = pygame.image.load(img)
+        image = pygame.transform.scale_by(image, scale)
+        return image
 
 class Keyboard_Letters:
     def __init__(self) -> None:
@@ -76,7 +80,7 @@ class General_Spritesheet():
         self.current_time_1 = 0
         self.last_update_1 = pygame.time.get_ticks()
 
-    def get_potion_frames(self):
+    def get_frames(self):
         scaled_width = self.width * self.scale
         scaled_height = self.height * self.scale
         self.potion_1_frame_coordinates = []
@@ -87,14 +91,14 @@ class General_Spritesheet():
     def get_single_frame(self):
         self.layer.blit(self.sheet, (0,0), self.potion_1_frame_coordinates[self.current_frame])
 
-    def get_potion_sprites_1(self):
+    def get_sprites(self):
         if self.current_time_1 - self.last_update_1 >= animations_cooldown:
             self.current_frame += 1
             self.last_update_1 = self.current_time_1
             if self.current_frame >= self.frames:
                 self.current_frame = 0
     
-    def display_potion(self):
+    def display_sprite(self):
         self.current_time_1 = pygame.time.get_ticks()
         self.get_potion_sprites_1()
         self.get_single_frame()

@@ -69,7 +69,8 @@ keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sp
 keyboard_sprite_sheet = KeyboardSprites(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
-Background_Image = get_image('Assets/Background/bg_16/Battleground3.png')
+Background_Image = pygame.image.load('Assets/Background/bg_11/bg_11.png')
+Background_Image = pygame.transform.scale(Background_Image, (1600, 900))
 
 # Set Layers Class
 class Layers:
@@ -252,11 +253,10 @@ class Keyboard:
 
     def keyboard_display(self):
         # Make Typing Area
-        layer.background_layer.blit(Background_Image, (0,-500))
+        layer.background_layer.blit(Background_Image, (0,-440))
 
         layer.interface_layer.fill(KEY_PURPLE)
         pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
-        pygame.draw.rect(layer.background_layer, RED, (0, 450, 1600, 800))
 
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
