@@ -91,7 +91,7 @@ class General_Spritesheet():
     def get_single_frame(self):
         self.layer.blit(self.sheet, (0,0), self.potion_1_frame_coordinates[self.current_frame])
 
-    def get_sprites(self):
+    def get_current_sprite(self):
         if self.current_time_1 - self.last_update_1 >= animations_cooldown:
             self.current_frame += 1
             self.last_update_1 = self.current_time_1
@@ -100,7 +100,7 @@ class General_Spritesheet():
     
     def display_sprite(self):
         self.current_time_1 = pygame.time.get_ticks()
-        self.get_potion_sprites_1()
+        self.get_current_sprite()
         self.get_single_frame()
 
 
