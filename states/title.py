@@ -20,6 +20,7 @@ class Title(State):
         
         if menu.start_game == True:
             new_state = Map(self.game)
+            print(battle_data.inventory_slots)
             new_state.enter_state() 
             menu.start_game = False
 

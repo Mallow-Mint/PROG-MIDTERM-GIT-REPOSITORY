@@ -1,10 +1,15 @@
 import pygame
 import time
 
+pygame.init()
 #Colors 
 GREEN = (30, 255, 0)
 
-def get_image(img:str, scale):
+potion_layer = pygame.Surface((1600,900))
+background_layer = pygame.Surface((1600,900))
+animations_cooldown = 75
+
+def get_image(img:str, scale=1):
     image = pygame.image.load(img)
     image = pygame.transform.scale_by(image, scale)
     return image
@@ -59,14 +64,15 @@ class KeyboardSprites():
         return self.keyboard_sprites
 
 
-class Potion_Spritesheet():
-    def __init__(self, image, width, height, frame_count, scale):
+class General_Spritesheet():
+    def __init__(self, image, width, height, frame_count, scale, layer):
         self.sheet = image
         self.width = width
         self.height = height
         self.scale = scale
         self.frames = frame_count
-        self.frame_1 = 0
+        self.layer = layer
+        self.current_frame = 0
         self.current_time_1 = 0
         self.last_update_1 = pygame.time.get_ticks()
 
@@ -79,14 +85,14 @@ class Potion_Spritesheet():
             self.potion_1_frame_coordinates.append(current_frame)
     
     def get_single_frame(self):
-        potion_layer_test.blit(self.sheet, (0,0), self.potion_1_frame_coordinates[self.frame_1])
+        self.layer.blit(self.sheet, (0,0), self.potion_1_frame_coordinates[self.current_frame])
 
     def get_potion_sprites_1(self):
         if self.current_time_1 - self.last_update_1 >= animations_cooldown:
-            self.frame_1 += 1
+            self.current_frame += 1
             self.last_update_1 = self.current_time_1
-            if self.frame_1 >= self.frames:
-                self.frame_1 = 0
+            if self.current_frame >= self.frames:
+                self.current_frame = 0
     
     def display_potion(self):
         self.current_time_1 = pygame.time.get_ticks()
