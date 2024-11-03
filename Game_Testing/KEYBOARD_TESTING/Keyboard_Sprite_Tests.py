@@ -21,7 +21,7 @@ GREEN = (30, 255, 0)
 #Get Sprites and sprite locations
 
 keyboard_sprite_sheet_image = pygame.image.load('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png').convert_alpha()
-keyboard_sprite_sheet = SpriteSheet(keyboard_sprite_sheet_image)
+keyboard_sprite_sheet = KeyboardSprites(keyboard_sprite_sheet_image)
 keyboard_sprite_sheet.get_keyboard_sprites()
 
 class Layers:

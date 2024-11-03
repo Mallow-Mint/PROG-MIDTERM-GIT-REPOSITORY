@@ -27,7 +27,7 @@ trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 * 1.65, 
 gold_coin_3 = pygame.transform.scale(gold_coin_3_normal, (387 // 5, 297 // 5))
 gold_coin_2 = pygame.transform.scale(gold_coin_2_normal, (387 // 7, 297 // 7))
 gold_stack  = pygame.transform.scale(gold_currency, (523 // 7, 477 // 7))
-inventory_frame  = pygame.transform.scale(inventory_frame_normal, (500 // 3, 500 // 3))
+inventory_frame  = pygame.transform.scale(inventory_frame_normal, (500 // 2.5, 500 // 2.5))
 currency_BG = pygame.transform.scale(currency_BG_normal, (600 // 2, 300 // 2))
 item_BG = pygame.transform.scale(item_BG_normal, (568 , 750 ))
 shop_bg = pygame.transform.scale(shop_bg_normal, (1600 , 1117 * 0.81 ))
@@ -142,7 +142,7 @@ animation_cooldown = 75  # Time in milliseconds between frames
 for animation_1 in animation_steps_1:
     temp_img_list_1 = []
     for _ in range(animation_1):
-        img_1 = sprite_sheet_HpS.get_image(step_counter_1, 19, 38, 2.4, BLACK)# Adjust parameters as needed
+        img_1 = sprite_sheet_HpS.get_image(step_counter_1, 19, 38, 2, BLACK)# Adjust parameters as needed
         if img_1 is not None:  # Ensure we have a valid image
             temp_img_list_1.append(img_1)
         step_counter_1 += 1
@@ -151,7 +151,7 @@ for animation_1 in animation_steps_1:
 for animation_2 in animation_steps_2:
     temp_img_list_2 = []
     for _ in range(animation_2):
-        img_2 = sprite_sheet_HpXL.get_image(step_counter_2, 18, 34, 2.5, BLACK)# Adjust parameters as needed
+        img_2 = sprite_sheet_HpXL.get_image(step_counter_2, 18, 34, 2, BLACK)# Adjust parameters as needed
         if img_2 is not None:  # Ensure we have a valid image
             temp_img_list_2.append(img_2)
         step_counter_2 += 1
@@ -169,7 +169,7 @@ for animation_3 in animation_steps_3:
 for animation_4 in animation_steps_4:
     temp_img_list_4 = []
     for _ in range(animation_4):
-        img_4 = sprite_sheet_Lp.get_image(step_counter_4, 18, 35, 2.5, BLACK)# Adjust parameters as needed
+        img_4 = sprite_sheet_Lp.get_image(step_counter_4, 18, 35, 3, BLACK)# Adjust parameters as needed
         if img_4 is not None:  # Ensure we have a valid image
             temp_img_list_4.append(img_4)
         step_counter_4 += 1

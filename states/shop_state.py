@@ -581,6 +581,7 @@ def shop_main():
             clicked_item = shop.get_clicked_item(mx, my)
             if clicked_item is not None:
                 inventory.player_currency = purchase_item(clicked_item, inventory, inventory.player_currency, shop.shop_type)
+                print(inventory.slots)
     screen_updater()
     clock.tick(60)
 
