@@ -217,7 +217,7 @@ class Character:
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
-        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.combat_layer, 140, 90)
+        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.selection_layer, 140, 90)
         self.player_sprite.get_frames()
 
     def player_displayer(self):

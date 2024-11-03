@@ -458,65 +458,65 @@ class Inventory:
 
             # If an item exists in this slot, display its name
             if self.slots[i] is not None:
-                draw_text(inventory_layer, self.slots[i], 1, x_pos + 1000, y_pos + 50)
-                if self.slots[0] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 188))
-                elif self.slots[0] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 195))
-                elif self.slots[0] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 177))
-                elif self.slots[0] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 192))
+                match self.slots[0]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1052, 188))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1052, 195))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1058, 177))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1052, 192))
 
-            if self.slots[1] is not None:
-                if self.slots[1] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 188))
-                elif self.slots[1] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 195))
-                elif self.slots[1] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 177))
-                elif self.slots[1] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 192))
+                match self.slots[1]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1233, 188))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1233, 195))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1233, 177))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1233, 192))
+                    
+                match self.slots[2]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1052, 328))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1052, 335))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1058, 317))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1052, 332))
 
-            if self.slots[2] is not None:
-                if self.slots[2] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 328))
-                elif self.slots[2] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 335))
-                elif self.slots[2] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 317))
-                elif self.slots[2] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 332))
+                match self.slots[3]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1233, 328))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1233, 335))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1233, 317))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1233, 332))
 
-            if self.slots[3] is not None:
-                if self.slots[3] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 328))
-                elif self.slots[3] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 335))
-                elif self.slots[3] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 317))
-                elif self.slots[3] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 332))
+                match self.slots[4]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1052, 468))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1052, 473))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1058, 457))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1052, 472))
 
-            if self.slots[4] is not None:
-                if self.slots[4] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1052, 468))
-                elif self.slots[4] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1052, 473))
-                elif self.slots[4] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1058, 457))
-                elif self.slots[4] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1052, 472))
-    
-            if self.slots[5] is not None:
-                if self.slots[5] == "Healing Potion S":
-                    inventory_layer.blit(animation_list_1[0][frame_1], (1233, 468))
-                elif self.slots[5] == "Healing Potion XL":
-                    inventory_layer.blit(animation_list_2[0][frame_2], (1233, 473))
-                elif self.slots[5] == "All Letter Potion":
-                    inventory_layer.blit(animation_list_3[0][frame_3], (1238, 457))
-                elif self.slots[5] == "Letter Potion":
-                    inventory_layer.blit(animation_list_4[0][frame_4], (1233, 472))
+                match self.slots[5]:
+                    case "Healing Potion S":
+                        inventory_layer.blit(animation_list_1[0][frame_1], (1233, 468))
+                    case "Healing Potion XL":
+                        inventory_layer.blit(animation_list_2[0][frame_2], (1233, 473))
+                    case "All Letter Potion":
+                        inventory_layer.blit(animation_list_3[0][frame_3], (1233, 457))
+                    case "Letter Potion":
+                        inventory_layer.blit(animation_list_4[0][frame_4], (1233, 472))
                                 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
