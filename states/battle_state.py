@@ -42,7 +42,6 @@ class Battle(State):
             keyboard.key_replenish()
             keyboard.save_key_amounts()
             self.exit_state()
-            character.battle_state = None
 
     def render(self, display):
         battle_interface()
@@ -465,6 +464,7 @@ player_inventory = Player_Inventory()
 def initalize_battle():
     timer.timer_duration = 30
     timer.start_ticks = pygame.time.get_ticks()
+    character.battle_state = None
     layer.interface_layer.fill((KEY_PURPLE))
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)

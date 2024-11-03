@@ -2,6 +2,7 @@ import pygame
 import sys
 from states.state_manager import *
 from states.battle_state import *
+from states.shop_state import *
 
 # State Class of
 class Map(State):
@@ -9,40 +10,72 @@ class Map(State):
         State.__init__(self, game)
     
     def update(self):
-        pass
+        if room.enter_battle:
+            initalize_battle()
+            new_state = Battle(self.game)
+            new_state.enter_state()
+            room.enter_battle = False
+            map.current_screen = "map"
+        
+        if room.enter_shop:
+            shop_initializer()
+            new_state = Shop_State(self.game)
+            new_state.enter_state()
+            room.enter_shop = False
+            map.current_screen = "map"
+
+        if map.node8.state == "completed" and character.battle_state == 'WIN':
+            self.exit_state()
+            map.reset_map()
+            character.battle_state = None
 
     def render(self, display):
         main_map()
         display.blit(screen, (0,0))
 
+class Map_Room:
+    def __init__(self):
+        self.enter_battle = False
+        self.enter_shop = False
+
 class Map_Menu:
     def __init__(self):
         self.current_screen = "map"
         # Create the nodes with associated screen types
-        node1 = Node(270, 420, 30, state="available", screen_type="battle")  # Starting node on map screen
-        node2 = Node(420, 420, 30, state="locked", screen_type="battle")  # Battle screen node
-        node3 = Node(570, 420, 30, state="locked", screen_type="shop")    # Shop screen node
-        node4 = Node(720, 420, 30, state="locked", screen_type="battle")
-        node5 = Node(870, 420, 30, state="locked", screen_type="battle")
-        node6 = Node(1020, 420, 30, state="locked", screen_type="battle")
-        node7 = Node(1170, 420, 30, state="locked", screen_type="shop")
-        node8 = Node(1320, 420, 30, state="locked", screen_type="boss")
+        self.node1 = Node(270, 420, 30, state="available", screen_type="battle")  # Starting node on map screen
+        self.node2 = Node(420, 420, 30, state="locked", screen_type="battle")  # Battle screen node
+        self.node3 = Node(570, 420, 30, state="locked", screen_type="shop")    # Shop screen node
+        self.node4 = Node(720, 420, 30, state="locked", screen_type="battle")
+        self.node5 = Node(870, 420, 30, state="locked", screen_type="battle")
+        self.node6 = Node(1020, 420, 30, state="locked", screen_type="battle")
+        self.node7 = Node(1170, 420, 30, state="locked", screen_type="shop")
+        self.node8 = Node(1320, 420, 30, state="locked", screen_type="battle")
 
 
         # Set up connections (which nodes unlock others)
-        node1.connected_nodes = [node2]  # Clicking node1 unlocks node2 
-        node2.connected_nodes = [node3]  # Clicking node2 unlocks node3
-        node3.connected_nodes = [node4] 
-        node4.connected_nodes = [node5]
-        node5.connected_nodes = [node6] 
-        node6.connected_nodes = [node7] 
-        node7.connected_nodes = [node8] 
+        self.node1.connected_nodes = [self.node2]  # Clicking node1 unlocks node2 
+        self.node2.connected_nodes = [self.node3]  # Clicking node2 unlocks node3
+        self.node3.connected_nodes = [self.node4] 
+        self.node4.connected_nodes = [self.node5]
+        self.node5.connected_nodes = [self.node6] 
+        self.node6.connected_nodes = [self.node7] 
+        self.node7.connected_nodes = [self.node8] 
 
 
-        self.nodes = [node1, node2, node3, node4, node5, node6, node7, node8]
+        self.nodes = [self.node1, self.node2, self.node3, self.node4, self.node5, self.node6, self.node7, self.node8]
 
         # Create the 'Return to Map' button
         self.return_button = Button(600, 500, 150, 50, "Return to Map")
+    
+    def reset_map(self):
+        self.node1.state = "available"
+        self.node2.state = "locked"
+        self.node3.state = "locked"
+        self.node4.state = "locked"
+        self.node5.state = "locked"
+        self.node6.state = "locked"
+        self.node7.state = "locked"
+        self.node8.state = "locked"
 
 
 pygame.init()
@@ -87,7 +120,7 @@ def handle_mouse(nodes, event, current_screen):
         for node in nodes:
             # Only allow selection if the node is in the "available" state
             if node.is_hovered(mouse_pos) and node.state == "available":
-                node.state = "completed"  # Mark as completed
+                node.state = "completed"
                 node.unlock_connections()  # Unlock connected nodes
                 return node.screen_type  # Return the type of screen to transition to
     return current_screen  # If no change, keep the current screen
@@ -143,7 +176,7 @@ def draw_boss_screen(screen, return_button):
     screen.blit(text, (200, 250))
     return_button.draw(screen)
 
-
+room = Map_Room()
 map = Map_Menu()
 
 def main_map():
@@ -168,10 +201,10 @@ def main_map():
         draw_map_screen(screen, map.nodes)
 
     elif map.current_screen == "battle":
-        draw_battle_screen(screen, map.return_button)  # Pass return_button here
+        room.enter_battle = True  # Pass return_button here
         
     elif map.current_screen == "shop":
-        draw_shop_screen(screen, map.return_button)  # Pass return_button here
+        room.enter_shop = True  # Pass return_button here
 
     elif map.current_screen == "boss":
         draw_boss_screen(screen, map.return_button)  # Pass return_button here

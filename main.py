@@ -23,7 +23,7 @@ class Game():
         while self.PLAYING:
             self.get_delta_time()
             self.update()       
-            self.render()
+            self.render()  
             self.fps.tick(60)
 
     def update(self):

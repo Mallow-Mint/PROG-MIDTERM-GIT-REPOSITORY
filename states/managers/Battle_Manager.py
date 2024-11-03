@@ -74,7 +74,6 @@ class Character:
         self.selected_enemy = 0
         self.current_enemies_alive_hp = [0,0,0,0]
         self.current_enemy_type = []
-        self.player_current_health = battle_data.current_health
         self.battle_state = None
 
     def random_enemy_type(self):
@@ -276,7 +275,7 @@ class Character:
 
     def player_initalizer(self):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
-        self.player_hp_health_bar.current_hp = self.player_current_health[0]
+        self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.selection_layer)
         self.player_sprite.get_frames()
@@ -287,19 +286,19 @@ class Character:
         self.player_sprite.display_sprite(140, 90)
 
     def player_heal(self, hp_healed, hp_change=0):
-        hp_change = int(self.player_current_health[0])
+        hp_change = int(battle_data.current_health[0])
         hp_change += hp_healed
-        self.player_current_health[0] = hp_change
-        if self.player_current_health[0] > 50:
-            self.player_current_health[0] = 50
-        self.player_hp_health_bar.current_hp = self.player_current_health[0]
+        battle_data.current_health[0] = hp_change
+        if battle_data.current_health[0] > 50:
+            battle_data.current_health[0] = 50
+        self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
     
     def player_damage(self, hp_damage, hp_change=0):
-        hp_change = self.player_current_health[0]
+        hp_change = battle_data.current_health[0]
         hp_change -= hp_damage
-        self.player_current_health[0] = hp_change
-        self.player_hp_health_bar.current_hp = self.player_current_health[0]
+        battle_data.current_health[0] = hp_change
+        self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
     
     def battle_win(self):
@@ -309,14 +308,14 @@ class Character:
         
         if self.total_enemy_hp == 0:
             self.battle_state = 'WIN'
-            battle_data.current_health = self.player_current_health
+            battle_data.current_health = battle_data.current_health
             music.Battle_BGM_1_stop()
     
     def battle_loss(self):
-        if self.player_current_health[0] < 0:
+        if battle_data.current_health[0] < 0:
             print("You Died")
         else:
-            print(f"You have {self.player_current_health[0]} Hp Left")
+            print(f"You have {battle_data.current_health[0]} Hp Left")
 
 class Enemy_Actions:
     def __init__ (self):

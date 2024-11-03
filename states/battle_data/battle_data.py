@@ -41,7 +41,7 @@ class Battle_Data:
         self.inventory_slots = [None] * 4
         self.total_characters = 0
 
-    def reset_battle_date(self):
+    def reset_battle_data(self):
         self.current_health = [50]
         self.Keys_Remaining = { 'q': 5,
                                 'w': 5,

@@ -19,21 +19,16 @@ class Title(State):
             new_state = Battle(self.game)
             new_state.enter_state()
             menu.start_tutorial = False
+        
         if menu.start_game:
             music.title_screen_music_stop()
+            battle_data.reset_battle_data()
             new_state = Map(self.game)
             new_state.enter_state()
             menu.start_game = False
+
         if menu.open_shop:
             music.title_screen_music_stop()
-        
-        if menu.start_game == True:
-            new_state = Map(self.game)
-            print(battle_data.inventory_slots)
-            new_state.enter_state() 
-            menu.start_game = False
-
-        if menu.open_shop == True:
             shop_initializer()
             new_state = Shop_State(self.game)
             new_state.enter_state()
