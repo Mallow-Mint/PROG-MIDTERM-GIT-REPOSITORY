@@ -11,18 +11,15 @@ from states.managers.Audio_Manager import *
 class Title(State):
     def __init__(self, game):
         State.__init__(self, game)
-        
-    music.title_screen_music()
+
     def update(self):
         if menu.start_tutorial == True:
-            music.title_screen_music_stop()
             initalize_battle()
             new_state = Battle(self.game)
             new_state.enter_state() 
             menu.start_tutorial = False
         
         if menu.start_game == True:
-            music.title_screen_music_stop()
             new_state = Map(self.game)
             print(battle_data.inventory_slots)
             new_state.enter_state() 
