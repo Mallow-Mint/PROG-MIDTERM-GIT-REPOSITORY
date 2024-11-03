@@ -71,7 +71,7 @@ Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 285, 38, 15, 3, shop_l
 Health_Pot_XL_Sprite = General_Spritesheet(sprite_sheet_HpXL, 432, 34, 24, 3, shop_layer)
 All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 288, 39, 12, 3, shop_layer)
 Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_Lpotion, 396, 35, 22, 3, shop_layer)
-ribit_sprite = General_Spritesheet(ribit_sheet, 432, 16, 27, 4, shop_layer)
+ribit_sprite = General_Spritesheet(ribit_sheet, 432, 16, 27, 4, sprite_layer)
 
 Health_Pot_Sprite.get_frames()
 Health_Pot_XL_Sprite.get_frames()
@@ -201,7 +201,7 @@ button2 = Button('50    ',150,40,(568, 390),5)
 button3 = Button('25    ',150,40,(255, 638),5)
 button4 = Button('50    ',150,40,(568, 638),5)
 
-class Shop:
+class Shop: 
     def __init__(self):
         self.categories = ["Potions", "Letters"]
         self.active_category = "Potions"
@@ -255,8 +255,7 @@ class Shop:
             if potion.name == "Healing Potion S":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
-                Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 19, 38, 15, 3, shop_layer, (sprite_x - 5, sprite_y +25))
-                
+                Health_Pot_Sprite.display_sprite(sprite_x - 5, sprite_y +25)
                 misc_layer.blit(item_frame, (sprite_x - 100, sprite_y - 25))
                 misc_layer.blit(item_frame, (sprite_x + 215, sprite_y + 215))
                 misc_layer.blit(item_frame, (sprite_x - 100, sprite_y + 223))
@@ -272,15 +271,15 @@ class Shop:
             if potion.name == "Healing Potion XL":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (sprite_x + 60, sprite_y + 35))  # Blit the sprite at the potion position
+                Health_Pot_XL_Sprite.display_sprite(sprite_x + 60, sprite_y + 35)  # Blit the sprite at the potion position
             if potion.name == "All Letter Potion":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (sprite_x + 53, sprite_y + 13))  # Blit the sprite at the potion position
+                All_Letter_Potion_Sprite.display_sprite(sprite_x + 53, sprite_y + 13)  # Blit the sprite at the potion position
             if potion.name == "Letter Potion":  # Check if this is the target potion
                 sprite_x = x + 40  # X position for the sprite (same as potion box)
                 sprite_y = y  # Y position for the sprite (same as potion box)
-                shop_layer.blit(Letter_Potion_Sprite.display_sprite(), (sprite_x - 5, sprite_y + 33))  # Blit the sprite at the potion position
+                Letter_Potion_Sprite.display_sprite(sprite_x - 5, sprite_y + 33)  # Blit the sprite at the potion position
 
     def display_letters(self, shop_layer):
         draw_text(shop_layer, "Letters", 30, 390, 70, WHITE)
@@ -364,7 +363,7 @@ class Inventory:
         sprite_layer.blit(inventory_frame, (1270, 315))
         sprite_layer.blit(inventory_frame, (1040, 480))
         sprite_layer.blit(inventory_frame, (1270, 480))
-        sprite_layer.blit(ribit_sprite.display_sprite(), (600, 40))
+        ribit_sprite.display_sprite(600,400)
 
         # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 25, inv_x + 160, inv_y - 73)
@@ -382,63 +381,63 @@ class Inventory:
             if self.slots[i] is not None:
                 draw_text(inventory_layer, self.slots[i], 1, x_pos + 1000, y_pos + 50)
                 if self.slots[0] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1052, 188))
+                    Health_Pot_Sprite.display_sprite(1052, 188)
                 elif self.slots[0] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (1052, 195))
+                    Health_Pot_XL_Sprite.display_sprite(1052, 195)
                 elif self.slots[0] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1058, 177))
+                    All_Letter_Potion_Sprite.display_sprite(1058, 177)
                 elif self.slots[0] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1052, 192))
+                    Letter_Potion_Sprite.display_sprite(1052, 192) 
 
             if self.slots[1] is not None:
                 if self.slots[1] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1233, 188))
+                    Health_Pot_Sprite.display_sprite(1233, 188) 
                 elif self.slots[1] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (1233, 195))
+                    Health_Pot_XL_Sprite.display_sprite(1233, 195)
                 elif self.slots[1] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1238, 177))
+                    All_Letter_Potion_Sprite.display_sprite(1238, 177) 
                 elif self.slots[1] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1233, 192))
+                    Letter_Potion_Sprite.display_sprite(1233, 192) 
 
             if self.slots[2] is not None:
                 if self.slots[2] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1052, 328))
+                    Health_Pot_Sprite.display_sprite(1052, 328) 
                 elif self.slots[2] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (1052, 335))
+                    Health_Pot_XL_Sprite.display_sprite(1052, 335) 
                 elif self.slots[2] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1058, 317))
+                    All_Letter_Potion_Sprite.display_sprite(1058, 317) 
                 elif self.slots[2] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1052, 332))
+                    Letter_Potion_Sprite.display_sprite(1052, 332)
 
             if self.slots[3] is not None:
                 if self.slots[3] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1233, 328))
+                    Health_Pot_Sprite.display_sprite(1233, 328) 
                 elif self.slots[3] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1233, 335))
+                    Health_Pot_Sprite.display_sprite(1233, 335)
                 elif self.slots[3] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1238, 317))
+                    All_Letter_Potion_Sprite.display_sprite(1238, 317)
                 elif self.slots[3] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1233, 332))
+                    Letter_Potion_Sprite.display_sprite(1233, 332) 
 
             if self.slots[4] is not None:
                 if self.slots[4] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1052, 468))
+                    Health_Pot_Sprite.display_sprite(1052, 468)
                 elif self.slots[4] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (1052, 473))
+                    Health_Pot_XL_Sprite.display_sprite(1052, 473)
                 elif self.slots[4] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1058, 457))
+                    All_Letter_Potion_Sprite.display_sprite(1058, 457)
                 elif self.slots[4] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1052, 472))
+                    Letter_Potion_Sprite.display_sprite(1052, 472)
     
             if self.slots[5] is not None:
                 if self.slots[5] == "Healing Potion S":
-                    inventory_layer.blit(Health_Pot_Sprite.display_sprite(), (1233, 468))
+                    Health_Pot_Sprite.display_sprite(1233, 468)
                 elif self.slots[5] == "Healing Potion XL":
-                    inventory_layer.blit(Health_Pot_XL_Sprite.display_sprite(), (1233, 473))
+                    Health_Pot_XL_Sprite.display_sprite(1233, 473)
                 elif self.slots[5] == "All Letter Potion":
-                    inventory_layer.blit(All_Letter_Potion_Sprite.display_sprite(), (1238, 457))
+                    All_Letter_Potion_Sprite.display_sprite(1238, 457)
                 elif self.slots[5] == "Letter Potion":
-                    inventory_layer.blit(Letter_Potion_Sprite.display_sprite(), (1233, 472))
+                    Letter_Potion_Sprite.display_sprite(1233, 472)
                                 
 # Function to display the player's currency with background
 def display_currency(inventory_layer, currency):
@@ -505,7 +504,7 @@ def shop_main():
                 inventory.player_currency = purchase_item(clicked_item, inventory, inventory.player_currency, shop.shop_type)
                 print(inventory.slots)
     screen_updater()
-    clock.tick(60)
+    clock.tick(30)
 
     shop.display_shop(shop_layer)
     display_currency(inventory_layer, inventory.player_currency)

@@ -4,7 +4,7 @@ import time
 PURPLE = (255, 0 , 255)
 run = True
 clock = pygame.time.Clock()
-animations_cooldown = 100
+animations_cooldown = 50
 potion_layer_test = pygame.Surface((1600, 900))
 
 
