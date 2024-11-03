@@ -6,7 +6,7 @@ import random
 pygame.init()
 
 # Screen dimensions
-screen_width, screen_height = 1600, 900
+screen_width, screen_height = 500, 500
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Character Animation Demo")
 

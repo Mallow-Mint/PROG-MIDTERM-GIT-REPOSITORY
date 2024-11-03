@@ -2,6 +2,7 @@ import pygame
 import random
 import time
 from states.managers.Battle_Manager import *
+from states.managers.Audio_Manager import *
 
 class Damage():
     def __init__(self):
@@ -43,6 +44,7 @@ class Damage():
 
         if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
             character.do_damage_single_target(self.damage_dealt, 1)
+
             spell.reset_damage()
 
         elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
@@ -57,6 +59,7 @@ class Damage():
             character.do_damage_single_target(self.damage_dealt, 4)
             spell.reset_damage()
 
+        spell.spell_sound()
         print(character.current_enemies_alive_hp)
         character.battle_win()
 
@@ -77,6 +80,7 @@ class Spell:
         self.damage_dealt = 0
         self.damage_healed = 0
 
+
     def spellcast(self, spell_used):
         self.current_spell = spell_used
         damage.word_chain(self.previous_spell, self.current_spell)
@@ -85,7 +89,6 @@ class Spell:
             case 'fire':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
-
             case 'air':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
