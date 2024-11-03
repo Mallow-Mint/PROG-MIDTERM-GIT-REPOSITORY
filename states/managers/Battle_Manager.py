@@ -164,6 +164,7 @@ class Character:
         self.enemy_4_selector.draw(self.selection_layer)
 
     def enemy_status(self, current_enemy_status:int):
+        self.current_enemies_alive_hp[current_enemy_status] = int(self.current_enemies_alive_hp[current_enemy_status]) 
         if self.current_enemies_alive_hp[current_enemy_status] <= 0:
             self.current_enemies_alive_hp[current_enemy_status] = 0
 

@@ -124,7 +124,7 @@ class Spell:
 
             case 'dark':
                 self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
 
 #Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
             case 'lightning':

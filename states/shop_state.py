@@ -415,7 +415,7 @@ class Inventory:
         self.slots = battle_data.inventory_slots
         self.player_currency = battle_data.player_currency
 
-    def add_to_inventory(self, item, shop_type):
+    def add_to_inventory(self, item):
         if shop.shop_type == "Potions":
             for i in range(len(self.slots)):
                 if self.slots[i] is None:
@@ -535,9 +535,9 @@ def display_currency(inventory_layer, currency):
     draw_text(inventory_layer, f"    {currency}", 27, text_x - 10, text_y - 5,)
 
 # Function to handle item purchase
-def purchase_item(item, inventory, currency, shop_type):
+def purchase_item(item, inventory, currency):
     if currency >= item.price:
-        if inventory.add_to_inventory(item, shop_type):
+        if inventory.add_to_inventory(item):
             inventory_layer.fill(PURPLE_COLOR_KEY)
             currency -= item.price
     return currency
@@ -580,7 +580,7 @@ def shop_main():
             shop.switch_category(mx, my)
             clicked_item = shop.get_clicked_item(mx, my)
             if clicked_item is not None:
-                inventory.player_currency = purchase_item(clicked_item, inventory, inventory.player_currency, shop.shop_type)
+                inventory.player_currency = purchase_item(clicked_item, inventory, inventory.player_currency)
                 print(inventory.slots)
     screen_updater()
     clock.tick(60)
