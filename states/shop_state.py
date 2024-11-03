@@ -62,11 +62,11 @@ shop_bg = pygame.transform.scale(shop_bg_normal, (1600 , 1117 * 0.81 ))
 item_frame = pygame.transform.scale(item_frame_normal, (200 * 1.2, 200 * 1.2))
 
 #variables for the sprites
-sprite_sheet_HpS = get_image('Assets/Shop_Assets/Healing potion OG.png', 3).convert_alpha()
-sprite_sheet_HpXL = get_image('Assets/Shop_Assets/XL Healing potion OG.png', 3).convert_alpha()
-sprite_sheet_ALpotion = get_image('Assets/Shop_Assets/All Leter Potion OG.png',3).convert_alpha()
-sprite_sheet_Lpotion = get_image('Assets/Shop_Assets/Letter Potion OG.png', 3).convert_alpha()
-ribit_sheet = get_image('Assets/Shop_Assets/ribit.png', 4).convert_alpha()
+sprite_sheet_HpS = get_image('Assets/Shop_Assets/Healing potion OG.png', 3)
+sprite_sheet_HpXL = get_image('Assets/Shop_Assets/XL Healing potion OG.png', 3)
+sprite_sheet_ALpotion = get_image('Assets/Shop_Assets/All Leter Potion OG.png',3)
+sprite_sheet_Lpotion = get_image('Assets/Shop_Assets/Letter Potion OG.png', 3)
+ribit_sheet = get_image('Assets/Shop_Assets/ribit.png', 4)
 Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 285, 38, 15, 3, shop_layer)
 Health_Pot_XL_Sprite = General_Spritesheet(sprite_sheet_HpXL, 432, 34, 24, 3, shop_layer)
 All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 288, 39, 12, 3, shop_layer)
@@ -363,7 +363,7 @@ class Inventory:
         sprite_layer.blit(inventory_frame, (1270, 315))
         sprite_layer.blit(inventory_frame, (1040, 480))
         sprite_layer.blit(inventory_frame, (1270, 480))
-        ribit_sprite.display_sprite(600,400)
+        ribit_sprite.display_sprite(600,40)
 
         # Draw the inventory label
         draw_text(inventory_layer, "Inventory", 25, inv_x + 160, inv_y - 73)

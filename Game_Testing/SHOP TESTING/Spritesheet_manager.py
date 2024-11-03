@@ -2,11 +2,8 @@ import pygame
 import time
 
 PURPLE = (255, 0 , 255)
-run = True
-clock = pygame.time.Clock()
-animations_cooldown = 50
+animations_cooldown = 1
 potion_layer_test = pygame.Surface((1600, 900))
-
 
 def get_image(img, scale):
     image = pygame.image.load(img)

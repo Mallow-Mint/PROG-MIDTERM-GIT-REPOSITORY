@@ -7,7 +7,7 @@ GREEN = (30, 255, 0)
 
 potion_layer = pygame.Surface((1600,900))
 background_layer = pygame.Surface((1600,900))
-animations_cooldown = 200
+animations_cooldown = 75
 
 def get_image(img:str, scale=1):
     if scale == 1:
