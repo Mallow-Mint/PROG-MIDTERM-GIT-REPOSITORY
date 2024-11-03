@@ -96,7 +96,7 @@ def intro_fade(screen):
     message = "Shadow engulfed lightness...\n" \
               "withered peace...\n" \
               "eradicate them all!\n" \
-              "Will you be our hero..?."
+              "Will you be our hero..?"
     font = get_font(30)
     
     start_time = pygame.time.get_ticks()
@@ -105,7 +105,7 @@ def intro_fade(screen):
 
     revealed_text = ""
     char_index = 0
-    text_duration = 11000 // len(message.replace(" ", ""))  
+    text_duration = 11500 // len(message.replace(" ", ""))  
     
     while True:
         elapsed_time = pygame.time.get_ticks() - start_time
