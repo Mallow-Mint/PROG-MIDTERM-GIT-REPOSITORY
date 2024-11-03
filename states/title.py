@@ -6,6 +6,7 @@ from states.map_state import *
 from states.battle_state import *
 from states.shop_state import *
 from states.battle_data.battle_data import *
+from states.managers.Audio_Manager import *
 
 class Title(State):
     def __init__(self, game):

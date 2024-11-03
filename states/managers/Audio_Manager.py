@@ -31,6 +31,9 @@ class SoundEffects:
         keyboard_press_sfx = pygame.mixer.Sound('Assets/keyboard_press.mp3')
         keyboard_press_sfx.set_volume(0.1)
         keyboard_press_sfx.play()
-
+    def fire_spell_sound(self):
+        fire_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/Fireball sound effect.mp3')
+        fire_spell_sfx.set_volume(1)
+        fire_spell_sfx.play()
 music = Music()
 sfx =  SoundEffects()
