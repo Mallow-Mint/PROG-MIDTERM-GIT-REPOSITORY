@@ -3,6 +3,7 @@ import random
 import time
 from states.state_manager import *
 from states.managers.Audio_Manager import *
+from states.managers.Sprite_Manager import *
 from states.battle_data.battle_data import *
 
 RED = (255, 0, 0)
@@ -130,18 +131,22 @@ class Character:
 
         for enemy in range(self.amount_of_enemies):
             if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
                 self.enemy_1_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy1)], (900, 200, 100, 200))
 
             elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
                 self.enemy_2_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy2)], (1050, 150, 100, 200))
 
             elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
                 self.enemy_3_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy3)], (1200, 200, 100, 200))
 
             elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
                 self.enemy_4_hp_bar.draw(self.combat_layer)
                 pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
         
@@ -181,6 +186,23 @@ class Character:
                 self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
                 character.enemy_status(3)
     
+    def do_damage_AOE(self, damage_dealt):
+        self.enemy_1_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+        character.enemy_status(0)
+
+        self.enemy_2_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+        character.enemy_status(1)
+
+        self.enemy_3_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+        character.enemy_status(2)
+
+        self.enemy_4_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+        character.enemy_status(3)
+
     def enemy_turn(self):
         for current_enemy_attacking in range(self.amount_of_enemies):
             if self.current_enemy_type[current_enemy_attacking] in enemy.enemy_types:
@@ -189,13 +211,19 @@ class Character:
                 time.sleep(1)
         character.battle_loss()
 
+# PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
     def player_initalizer(self):
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
-    
+        self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
+        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.combat_layer, 140, 90)
+        self.player_sprite.get_frames()
+
     def player_displayer(self):
+        pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
         self.player_hp_health_bar.draw(self.combat_layer)
-        pygame.draw.rect(self.combat_layer, BLUE, (300, 200, 100, 200))
+        self.player_sprite.display_sprite()
 
     def player_heal(self, hp_healed, hp_change=0):
         hp_change = self.player_current_health[0]

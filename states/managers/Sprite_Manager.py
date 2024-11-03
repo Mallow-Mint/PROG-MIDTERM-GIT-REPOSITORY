@@ -7,7 +7,7 @@ GREEN = (30, 255, 0)
 
 potion_layer = pygame.Surface((1600,900))
 background_layer = pygame.Surface((1600,900))
-animations_cooldown = 75
+animations_cooldown = 200
 
 def get_image(img:str, scale=1):
     if scale == 1:
@@ -68,14 +68,16 @@ class KeyboardSprites():
         return self.keyboard_sprites
 
 
-class General_Spritesheet():
-    def __init__(self, image, width, height, frame_count, scale, layer):
+class General_Spritesheet:
+    def __init__(self, image, width, height, frame_count, scale, layer, x_pos, y_pos):
         self.sheet = image
         self.width = width
         self.height = height
         self.scale = scale
         self.frames = frame_count
         self.layer = layer
+        self.x_pos = x_pos
+        self.y_pos = y_pos
         self.current_frame = 0
         self.current_time_1 = 0
         self.last_update_1 = pygame.time.get_ticks()
@@ -83,13 +85,14 @@ class General_Spritesheet():
     def get_frames(self):
         scaled_width = self.width * self.scale
         scaled_height = self.height * self.scale
-        self.potion_1_frame_coordinates = []
-        for frame in range(self.frames):
-            current_frame = (scaled_width * frame, 0, scaled_width, scaled_height)
-            self.potion_1_frame_coordinates.append(current_frame)
+        self.frame_coordinates = []
+        for animation_frame in range(self.frames):
+            current_frame = ((scaled_width/self.frames) * animation_frame, 0, (scaled_width/self.frames) , scaled_height)
+            self.frame_coordinates.append(current_frame)
+        print(self.frame_coordinates)
     
     def get_single_frame(self):
-        self.layer.blit(self.sheet, (0,0), self.potion_1_frame_coordinates[self.current_frame])
+        self.layer.blit(self.sheet, (self.x_pos, self.y_pos), self.frame_coordinates[self.current_frame])
 
     def get_current_sprite(self):
         if self.current_time_1 - self.last_update_1 >= animations_cooldown:

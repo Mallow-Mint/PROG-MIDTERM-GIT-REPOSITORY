@@ -24,6 +24,12 @@ class Damage():
         character.player_heal(hp_healed)
         spell.reset_damage()
         print(character.player_hp_health_bar.current_hp)
+
+    def AOE_spell(self, damage_dealt):
+        character.do_damage_AOE(damage_dealt)
+        spell.reset_damage()
+        print(character.current_enemies_alive_hp)
+
     
     def word_chain(self, previous_spell, current_spell):
         if previous_spell[-1] == current_spell[0]:
@@ -31,6 +37,28 @@ class Damage():
         else:
             self.chain_word_damage_multipler = 1
             spell.previous_spell = ' '
+
+    def targeted_enemy(self, mouse_pos):
+        self.current_click = mouse_pos
+
+        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+            character.do_damage_single_target(self.damage_dealt, 1)
+            spell.reset_damage()
+
+        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+            character.do_damage_single_target(self.damage_dealt, 2)
+            spell.reset_damage()
+
+        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+            character.do_damage_single_target(self.damage_dealt, 3)
+            spell.reset_damage()
+            
+        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+            character.do_damage_single_target(self.damage_dealt, 4)
+            spell.reset_damage()
+
+        print(character.current_enemies_alive_hp)
+        character.battle_win()
 
 class Spell:
     def __init__(self):
@@ -98,7 +126,12 @@ class Spell:
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
 
-#Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+            case 'lightning':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                damage.AOE_spell(self.damage_dealt)
+
+#Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'bite':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
@@ -118,28 +151,6 @@ class Spell:
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
 
         self.previous_spell = spell.current_spell
-
-    def targeted_enemy(self, mouse_pos):
-        self.current_click = mouse_pos
-
-        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-            character.do_damage_single_target(self.damage_dealt, 1)
-            spell.reset_damage()
-
-        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-            character.do_damage_single_target(self.damage_dealt, 2)
-            spell.reset_damage()
-
-        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-            character.do_damage_single_target(self.damage_dealt, 3)
-            spell.reset_damage()
-            
-        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-            character.do_damage_single_target(self.damage_dealt, 4)
-            spell.reset_damage()
-
-        print(character.current_enemies_alive_hp)
-        character.battle_win()
 
 
 spell = Spell()

@@ -29,7 +29,9 @@ class Battle(State):
                     keyboard.key_press_action(key)
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                    spell.targeted_enemy(mouse_pos)
+                    damage.targeted_enemy(mouse_pos)
+                    layer.popup_layer.fill(KEY_PURPLE)
+                    update_game_screen()
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if keyboard.end_turn_button.is_clicked() == True:
@@ -71,6 +73,9 @@ keyboard_sprite_sheet.get_keyboard_sprites()
 
 Background_Image = pygame.image.load('Assets/Background/bg_11/bg_11.png')
 Background_Image = pygame.transform.scale(Background_Image, (1600, 900))
+Interface_Image = pygame.image.load('Assets/Interface/interface_bg.png')
+Typing_area = pygame.image.load('Assets/Interface/typing_area.png')
+Popup_box = pygame.image.load('Assets/Interface/popup_box.png')
 
 # Set Layers Class
 class Layers:
@@ -167,10 +172,10 @@ class Keyboard:
         self.key_state = 1 #1 is default 0 is pressed
 
         # Popup Messages
-        self.no_letter_left = font.render("You Have None of this Character Left!", True, WHITE)
-        self.no_character_left = font.render("You Have No Characters Left!", True, WHITE)   
-        self.not_in_dictionary = font.render("Word Not in your Dictionary", True, WHITE)
-        self.select_target = font.render("Please Select a Target", True, WHITE)
+        self.no_letter_left = font.render("You Have None of this Character Left!", True, BLACK)
+        self.no_character_left = font.render("You Have No Characters Left!", True, BLACK)   
+        self.not_in_dictionary = font.render("Word Not in your Dictionary", True, BLACK)
+        self.select_target = font.render("Please Select a Target", True, BLACK)
 
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
@@ -214,14 +219,15 @@ class Keyboard:
                     self.Key_Count_Remaining[self.pressed_key] -= 1
                     self.max_character_count -=1
                 else:
-                    layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                     update_game_screen()
-                    layer.popup_layer.blit(self.no_letter_left, (530, 425))
+                    layer.popup_layer.blit(Popup_box, (450,40))
+                    layer.popup_layer.blit(self.no_letter_left, (530, 50))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
                 layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                 update_game_screen()
-                layer.popup_layer.blit(self.no_character_left, (580, 425))
+                layer.popup_layer.blit(Popup_box, (440,40))
+                layer.popup_layer.blit(self.no_character_left, (580, 50))
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
@@ -240,27 +246,30 @@ class Keyboard:
                 update_game_screen()
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
-                    self.displayed_text = font.render(self.typed_text.upper(), True, WHITE) 
-                    layer.popup_layer.blit(self.select_target, (650, 50))
-                    update_game_screen()
                     spell.spellcast(self.typed_text)
+                    if spell.enemy_selection_state == True:
+                        self.displayed_text = font.render(self.typed_text.upper(), True, BLACK)
+                        layer.popup_layer.blit(Popup_box, (460,40))
+                        layer.popup_layer.blit(self.select_target, (650, 50))
+                        update_game_screen()
                     self.typed_text = ""
                     self.cursor_position = 0
                 else:
                     layer.popup_layer.fill(KEY_PURPLE)
-                    layer.popup_layer.blit(self.not_in_dictionary, ((600), 425))
-
+                    layer.popup_layer.blit(Popup_box, (440,40))
+                    layer.popup_layer.blit(self.not_in_dictionary, ((600), 50))
 
     def keyboard_display(self):
         # Make Typing Area
         layer.background_layer.blit(Background_Image, (0,-440))
+        layer.background_layer.blit(Interface_Image, (0,410))
 
         layer.interface_layer.fill(KEY_PURPLE)
-        pygame.draw.rect(layer.interface_layer, WHITE, (520, typing_area_y, 520, typing_area_height))
+        layer.interface_layer.blit(Typing_area, (540,480))
 
         # Draw typed text and cursor
         typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
-        layer.interface_layer.blit(typed_text_surface, (530, typing_area_y + 12))
+        layer.interface_layer.blit(typed_text_surface, (560, typing_area_y + 12))
         character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
         layer.interface_layer.blit(character_counter, (1050, 473))
 
@@ -276,6 +285,9 @@ class Keyboard:
             if keyboard.Key_Count_Remaining[key] < 5:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
+
+typing_area_height = 50
+typing_area_y = 480
 
 def update_game_screen():
     '''
@@ -298,11 +310,6 @@ def clear_inputs():
     pygame.event.clear(pygame.MOUSEBUTTONUP)
     pygame.event.clear(pygame.KEYDOWN)
 
-# Intalize Variable for Typing Area
-typing_area_height = 50
-typing_area_y = 480
-
-
 keyboard = Keyboard()
 layer = Layers()
 timer = Timer()
@@ -321,7 +328,6 @@ def initalize_battle():
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
     music.Battle_BGM_1()
-    
 
 def battle_interface():
     # Printing Graphics Areaaaaaaaaaaa
