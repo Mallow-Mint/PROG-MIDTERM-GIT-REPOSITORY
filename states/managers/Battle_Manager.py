@@ -1,4 +1,4 @@
-simport pygame
+import pygame
 import random
 import time
 from states.state_manager import *

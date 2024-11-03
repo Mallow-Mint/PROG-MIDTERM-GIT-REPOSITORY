@@ -136,6 +136,10 @@ def intro_fade(screen):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                fade_in_duration = 0
+                fade_out_duration = 0
+
 
 def render_text_centered(screen, text, font, color, position):
     lines = text.splitlines()
