@@ -149,6 +149,12 @@ class Spell:
             case 'test':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
+            case 'kill':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
+                for key, count in battle_data.Keys_Remaining.items():
+                    battle_data.Keys_Remaining[key] = 5
+                damage.AOE_spell(self.damage_dealt)
+
 
         self.previous_spell = spell.current_spell
 

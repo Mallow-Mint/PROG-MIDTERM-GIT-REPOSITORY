@@ -40,11 +40,14 @@ class Button:
         self.button_color = button_color
         self.hover_color = hover_color
         self.rect = pygame.Rect(x, y, width, height)
+        self.selection_sprite_img = get_image('Assets/Interface/selection_sprites.png')
+        self.selection_sprites = General_Spritesheet(self.selection_sprite_img, 105, 27, 4, 1, character.selection_layer)
+        self.selection_sprites.get_frames()
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
-            pygame.draw.rect(screen, self.hover_color, self.rect)  # Fill the rect with the color
+            self.draw_hover()
         else:
             pygame.draw.rect(screen, self.button_color, self.rect)  # Fill the rect with the color
 
@@ -53,7 +56,12 @@ class Button:
         if self.rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
             return True
         return False
-
+    
+    def draw_hover(self):
+        character.selection_layer.blit(self.selection_sprites.sheet, (self.x-5, self.y-5), self.selection_sprites.frame_coordinates[0])
+        character.selection_layer.blit(self.selection_sprites.sheet, (self.x+self.width-20, self.y-5), self.selection_sprites.frame_coordinates[1])
+        character.selection_layer.blit(self.selection_sprites.sheet, (self.x-5, self.y+self.height-20), self.selection_sprites.frame_coordinates[2])
+        character.selection_layer.blit(self.selection_sprites.sheet, (self.x+self.width-20, self.y+self.height-20), self.selection_sprites.frame_coordinates[3])
 
 class Character:
     def __init__(self):
