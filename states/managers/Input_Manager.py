@@ -84,7 +84,7 @@ class Spell:
 #Single Target Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'fire':
                 self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4)) 
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
 
             case 'air':
                 self.enemy_selection_state = True

@@ -262,13 +262,13 @@ class Keyboard:
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 50))
             
             case self.pressed_key if self.pressed_key == 'tab':
-                if self.Dictionary_Open == False:
+                if book.Dictionary_Open == False:
                     layer.popup_layer.fill((0,0,0,150))
-                    self.Dictionary_Open = True
-                elif self.Dictionary_Open == True:
+                    book.display_book()
+                    book.Dictionary_Open = True
+                elif book.Dictionary_Open == True:
                     layer.popup_layer.fill(KEY_PURPLE)
-                    self.Dictionary_Open = False
-
+                    book.Dictionary_Open = False
 
     def keyboard_display(self):
         # Make Typing Area
@@ -297,6 +297,22 @@ class Keyboard:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
 
+class Book:
+    def __init__(self):
+        self.Dictionary_Open = False
+        self.book_img = get_image('Assets/Interface/book_display.png')
+        self.book_sprite = General_Spritesheet(self.book_img, 19200, 1080, 10, 1, 10, layer.popup_layer)
+        self.book_sprite.get_frames()
+    
+    def display_book(self):
+        book.book_sprite.display_sprite(-150, -200)
+        update_game_screen()
+        while book.book_sprite.current_frame > 0:
+            layer.popup_layer.fill(KEY_PURPLE)
+            layer.popup_layer.fill((0,0,0,150))
+            book.book_sprite.display_sprite(-150, -200)
+            update_game_screen()
+
 typing_area_height = 50
 typing_area_y = 480
 
@@ -321,8 +337,9 @@ def clear_inputs():
     pygame.event.clear(pygame.MOUSEBUTTONUP)
     pygame.event.clear(pygame.KEYDOWN)
 
-keyboard = Keyboard()
 layer = Layers()
+book = Book()
+keyboard = Keyboard()
 timer = Timer()
 
 # Game loop
