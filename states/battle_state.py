@@ -62,6 +62,7 @@ GREY = (130, 130, 130)
 RED = (255, 0, 0)
 KEY_PURPLE = (255, 0, 255)
 
+
 # Set fonts Used for Text
 font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
 big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
@@ -110,6 +111,8 @@ class Timer:
             if self.is_player_turn == True:
                 self.time_left_text = big_font.render("ENEMY TURN", True, RED)
                 layer.interface_layer.blit(self.time_left_text, (15, 15))
+                layer.popup_layer.fill(KEY_PURPLE)
+                book.Dictionary_Open = False
                 update_game_screen()
                 character.enemy_turn()
                 update_game_screen()
@@ -207,6 +210,7 @@ class Keyboard:
         match self.pressed_key:
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
+                book.Dictionary_Open = False
                 if self.Key_Count_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
                     sfx.keyboard_press_sound()
@@ -221,11 +225,15 @@ class Keyboard:
                     self.Key_Count_Remaining[self.pressed_key] -= 1
                     self.max_character_count -=1
                 else:
+                    layer.popup_layer.fill(KEY_PURPLE)
+                    book.Dictionary_Open = False
                     update_game_screen()
                     layer.popup_layer.blit(Popup_box, (450,40))
                     layer.popup_layer.blit(self.no_letter_left, (530, 50))
 
             case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
+                layer.popup_layer.fill(KEY_PURPLE)
+                book.Dictionary_Open = False
                 layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                 update_game_screen()
                 layer.popup_layer.blit(Popup_box, (440,40))
@@ -233,6 +241,7 @@ class Keyboard:
 
             case self.pressed_key if self.pressed_key == 'backspace' and self.cursor_position > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
+                book.Dictionary_Open = False
                 layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                 update_game_screen()
                 self.deleted_key = self.typed_text[self.cursor_position - 1]  # Store the deleted key
@@ -244,6 +253,7 @@ class Keyboard:
 
             case self.pressed_key if self.pressed_key == 'return':
                 layer.popup_layer.fill(KEY_PURPLE)
+                book.Dictionary_Open = False
                 layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                 update_game_screen()
                 if dictionary.validWordChecker(self.typed_text) == True:
@@ -263,20 +273,24 @@ class Keyboard:
             
             case self.pressed_key if self.pressed_key == 'tab':
                 if book.Dictionary_Open == False:
+                    book.current_page = 0
                     layer.popup_layer.fill((0,0,0,150))
                     book.display_book()
                     book.display_word_holders()
-                    book.display_page()
+                    book.update_current_page()
+                    book.display_current_word_set()
                     book.Dictionary_Open = True
                 elif book.Dictionary_Open == True:
                     layer.popup_layer.fill(KEY_PURPLE)
+                    book.current_page = 0
                     book.Dictionary_Open = False
             
             case self.pressed_key if self.pressed_key == 'right' and book.Dictionary_Open == True:
                 layer.popup_layer.fill((0,0,0,150))
                 book.display_book()
                 book.display_word_holders()
-                book.display_page()
+                book.update_current_page()
+                book.display_current_word_set()
 
     def keyboard_display(self):
         # Make Typing Area
@@ -326,28 +340,60 @@ class Book:
             update_game_screen()
     
     def display_word_holders(self):
-        layer.popup_layer.blit(Word_holder, (360, 100))
-        layer.popup_layer.blit(Word_holder, (360, 225))
-        layer.popup_layer.blit(Word_holder, (360, 350))
-        layer.popup_layer.blit(Word_holder, (360, 475))
-        layer.popup_layer.blit(Word_holder, (360, 600))
-        layer.popup_layer.blit(Word_holder, (900, 100))
-        layer.popup_layer.blit(Word_holder, (900, 225))
-        layer.popup_layer.blit(Word_holder, (900, 359))
-        layer.popup_layer.blit(Word_holder, (900, 475))
-        layer.popup_layer.blit(Word_holder, (900, 600))
+        for x in range(10):
+            if x % 2 == 0:
+                layer.popup_layer.blit(Word_holder, (360, 100 + (125*int(x/2))))
+            else:
+                layer.popup_layer.blit(Word_holder, (900, 100 + (125 *int(x//2))))
     
     def display_current_word_set(self):
-        current_word_set = (0*self.current_page)
+        if self.current_page == 1:
+            current_word_set_start = 0
+            current_word_set_end = 10
+        elif self.current_page < self.page_count: 
+            current_word_set_start = 10 * (self.current_page - 1)
+            current_word_set_end = 10 * (self.current_page)
+        elif self.current_page > self.page_count-1: 
+            current_word_set_start = 0
+            current_word_set_end = 0
+        
+        for word in range(current_word_set_start, current_word_set_end):
+            word_display = font.render(dictionary.valid_word_list[word], True, BLACK)
+            if word % 2 == 0 and self.current_page == 1:
+                layer.popup_layer.blit(word_display, (380,110 + (125*int(word/2))))
+            elif word % 2 != 0 and self.current_page == 1:
+                layer.popup_layer.blit(word_display, (920, 110 + (125 *int(word//2))))
+            elif word % 2 == 0 and self.current_page > 1:
+                layer.popup_layer.blit(word_display, (380, 110 + (125*int((word%10)/2))))
+            elif word % 2 != 0 and self.current_page > 1:
+                layer.popup_layer.blit(word_display, (920, 110 + (125 *int((word%10)//2))))
 
-    def display_page(self):
+    def update_current_page(self):
         self.current_page += 1
-        if book.current_page > self.page_count:
+        if self.current_page > self.page_count:
             self.current_page = 1
-        test_text = font.render(str(self.current_page), True, BLACK)
-        layer.popup_layer.blit(test_text, (500, 200))
 
-    
+class Player_Inventory:
+    def __init__(self):
+        sprite_sheet_HpS = get_image('Assets/Shop_Assets/Healing potion OG.png', 2)
+        sprite_sheet_HpXL = get_image('Assets/Shop_Assets/XL Healing potion OG.png', 2)
+        sprite_sheet_ALpotion = get_image('Assets/Shop_Assets/All Leter Potion OG.png',2)
+        sprite_sheet_Lpotion = get_image('Assets/Shop_Assets/Letter Potion OG.png', 2)
+        self.Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 285, 38, 15, 2, 75, layer.interface_layer)
+        self.Health_Pot_XL_Sprite = General_Spritesheet(sprite_sheet_HpXL, 432, 34, 24, 2, 75, layer.interface_layer)
+        self.All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 288, 39, 12, 2, 75, layer.interface_layer)
+        self.Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_Lpotion, 396, 35, 22, 2, 75, layer.interface_layer)
+
+        self.Health_Pot_Sprite.get_frames()
+        self.Health_Pot_XL_Sprite.get_frames()
+        self.All_Letter_Potion_Sprite.get_frames()
+        self.Letter_Potion_Sprite.get_frames()
+            
+    def display_invetory(self):
+        self.Health_Pot_Sprite.display_sprite(1440, 590)
+        self.Health_Pot_Sprite.display_sprite(1440, 800)
+        self.Health_Pot_Sprite.display_sprite(120, 590)
+
 typing_area_height = 50
 typing_area_y = 480
 
@@ -376,6 +422,8 @@ layer = Layers()
 book = Book()
 keyboard = Keyboard()
 timer = Timer()
+player_inventory = Player_Inventory()
+
 # Game loop
 def initalize_battle():
     timer.timer_duration = 30
@@ -398,6 +446,7 @@ def battle_interface():
     keyboard.end_turn_button.draw(layer.interface_layer)
     character.display_enemy()
     character.player_displayer()
+    player_inventory.display_invetory()
     timer.update_time()
     timer.draw()
     update_game_screen()

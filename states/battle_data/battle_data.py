@@ -38,7 +38,7 @@ class Battle_Data:
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
         
         self.player_currency = 300
-        self.inventory_slots = [None] * 6
+        self.inventory_slots = [None] * 4
         self.total_characters = 0
 
     def reset_battle_date(self):
@@ -101,7 +101,7 @@ class Valid_Dictionary:
                                 'rain', 'rainstorm', 'recover', 'rumble',
                                 'sandstorm', 'scorch', 'smite', 'snare', 'snowball', 'squall', 'stonesplitter', 'strike', 'suffocate', 'sunbeam',
                                 'thunder', 'thunderbolt', 'thunderclap', 'thunderstorm', 'tornado', 'torpedo', 'tsunami',
-                                'umbral'
+                                'umbral',
                                 'volcano', 
                                 'water', 'waterspout', 'waterstorm', 'wet', 'whirlpool', 'whirlwind', 'wind', 'windslash', 
                                 'zap', 'zephyr', 
@@ -112,7 +112,6 @@ class Valid_Dictionary:
             return True
         else:
             return False
-    
     
 dictionary = Valid_Dictionary()
 battle_data = Battle_Data()
