@@ -40,16 +40,16 @@ sprite_layer = pygame.Surface((1600,900))
 misc_layer = pygame.Surface((1600,900))
 
 # Background for everything in the shop
-shop_bg_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/new wood shop bg.jpg')
-currency_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/currency bg.png')
-item_BG_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/items bg.png')
-item_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/item frames.png')
-inventory_frame_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/inventory_frame.png')
-gold_currency = pygame.image.load('Game_Testing/SHOP TESTING/Assets/gold_stack.png')
-gold_coin_2_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/2 gold coin.png')
-gold_coin_3_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/3 gold stack.png')
-trial_bg_potions_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/trial bg potions.png')
-wooden_sign_normal = pygame.image.load('Game_Testing/SHOP TESTING/Assets/wooden sign.png')
+shop_bg_normal = pygame.image.load('Assets/Shop_Assets/new wood shop bg.jpg')
+currency_BG_normal = pygame.image.load('Assets/Shop_Assets/currency bg.png')
+item_BG_normal = pygame.image.load('Assets/Shop_Assets/items bg.png')
+item_frame_normal = pygame.image.load('Assets/Shop_Assets/item frames.png')
+inventory_frame_normal = pygame.image.load('Assets/Shop_Assets/inventory_frame.png')
+gold_currency = pygame.image.load('Assets/Shop_Assets/gold_stack.png')
+gold_coin_2_normal = pygame.image.load('Assets/Shop_Assets/2 gold coin.png')
+gold_coin_3_normal = pygame.image.load('Assets/Shop_Assets/3 gold stack.png')
+trial_bg_potions_normal = pygame.image.load('Assets/Shop_Assets/trial bg potions.png')
+wooden_sign_normal = pygame.image.load('Assets/Shop_Assets/wooden sign.png')
 wooden_sign = pygame.transform.scale(wooden_sign_normal, (403 // 1.5, 211 // 1.5))
 trial_bg_potions = pygame.transform.scale(trial_bg_potions_normal, (544 * 1.65, 458 * 1.65))
 gold_coin_3 = pygame.transform.scale(gold_coin_3_normal, (387 // 5, 297 // 5))
@@ -62,16 +62,16 @@ shop_bg = pygame.transform.scale(shop_bg_normal, (1600 , 1117 * 0.81 ))
 item_frame = pygame.transform.scale(item_frame_normal, (200 * 1.2, 200 * 1.2))
 
 #variables for the sprites
-sprite_sheet_HpS = get_image('Game_Testing/SHOP TESTING/Assets/Healing potion OG.png', 3).convert_alpha()
-sprite_sheet_HpXL = get_image('Game_Testing/SHOP TESTING/Assets/XL Healing potion OG.png', 3).convert_alpha()
-sprite_sheet_ALpotion = get_image('Game_Testing/SHOP TESTING/Assets/All Leter Potion OG.png', 3).convert_alpha()
-sprite_sheet_Lpotion = get_image('Game_Testing/SHOP TESTING/Assets/Letter Potion OG.png', 3).convert_alpha()
-ribit_sheet = get_image('Game_Testing/SHOP TESTING/Assets/ribit.png', 4).convert_alpha()
-Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 19, 38, 15, 3, shop_layer, 0, 0)
-Health_Pot_XL_Sprite = General_Spritesheet(sprite_sheet_HpXL, 18, 34, 24, 3, shop_layer, 0, 0)
-All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 24, 39, 12, 3, shop_layer, 0, 0)
-Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_Lpotion, 18, 35, 22, 3, shop_layer, 0, 0)
-ribit_sprite = General_Spritesheet(ribit_sheet, 16, 16, 27, 4, shop_layer, 0, 0)
+sprite_sheet_HpS = get_image('Assets/Shop_Assets/Healing potion OG.png', 3).convert_alpha()
+sprite_sheet_HpXL = get_image('Assets/Shop_Assets/XL Healing potion OG.png', 3).convert_alpha()
+sprite_sheet_ALpotion = get_image('Assets/Shop_Assets/All Leter Potion OG.png',3).convert_alpha()
+sprite_sheet_Lpotion = get_image('Assets/Shop_Assets/Letter Potion OG.png', 3).convert_alpha()
+ribit_sheet = get_image('Assets/Shop_Assets/ribit.png', 4).convert_alpha()
+Health_Pot_Sprite = General_Spritesheet(sprite_sheet_HpS, 285, 38, 15, 3, shop_layer)
+Health_Pot_XL_Sprite = General_Spritesheet(sprite_sheet_HpXL, 432, 34, 24, 3, shop_layer)
+All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 288, 39, 12, 3, shop_layer)
+Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_Lpotion, 396, 35, 22, 3, shop_layer)
+ribit_sprite = General_Spritesheet(ribit_sheet, 432, 16, 27, 4, shop_layer)
 
 Health_Pot_Sprite.get_frames()
 Health_Pot_XL_Sprite.get_frames()
@@ -91,7 +91,7 @@ sprite_layer.fill(PURPLE_COLOR_KEY)
 sprite_layer.set_colorkey((255, 0, 255))  
 
 # Make Dictionary of Letters and Cost
-Letter_Cost_File = open('Game_Testing/SHOP TESTING/Assets/Letter Costs.txt', 'r')
+Letter_Cost_File = open('Assets/Shop_Assets/Letter Costs.txt', 'r')
 Letter_Cost_File_Lines = Letter_Cost_File.readlines()
 Letter_Cost_Dictionary = {}
 
@@ -127,7 +127,7 @@ WHITE = (255, 255, 255)
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
+    return pygame.font.Font("Assets/Shop_Assets/Shop Font.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=PURPLE):
