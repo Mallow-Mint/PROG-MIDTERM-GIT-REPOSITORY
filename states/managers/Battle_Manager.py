@@ -63,7 +63,11 @@ class Button:
 
 class Character:
     def __init__(self):
-        self.mobs_list_color = {'skeleton': WHITE, 'zombie': DARK_GREEN, 'orc':DARK_RED , 'goblin': RED}
+        self.mobs_list_color = {'skeleton': 'Assets/Monsters/4 direction monsters/Skeleton/Idle.png', 
+                                'zombie': 'Assets/Monsters/4 direction monsters/Mushroom/Idle.png',
+                                'orc': 'Assets/Monsters/Golem_IdleB.png' ,
+                                'goblin': 'Assets/Monsters/4 direction monsters/Goblin/Idle.png'}
+        
         self.mobs_list_hp = {'skeleton': 15, 'zombie': 10, 'orc': 20 , 'goblin': 10}
         self.combat_layer = pygame.Surface((1600,900))
         self.selection_layer = pygame.Surface((1600,900))
@@ -78,47 +82,74 @@ class Character:
         return self.mob_list_type[random.randint(0,3)]
     
     def enemy_color(self, enemy_type):
-        self.enemy_clr = enemy_type
-        return self.enemy_clr
+        enemy_sprite = self.mobs_list_color[enemy_type]
+        print(enemy_sprite)
+        return enemy_sprite
     
-    def enemy_hp(self, enemy_hp):
-        self.current_enemy_hp = enemy_hp
-        return self.current_enemy_hp
-    
-    def is_alive(self, enemy_hp):
-        if enemy_hp > 0:
-            return True
-        else:
-            return False
+    def get_enemy_sprite(self, enemy_type, enemy_type_png):
+        current_enemy_sprite_img = enemy_type_png
+
+        match enemy_type:
+            case 'skeleton':
+                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 100, self.combat_layer)
+            case 'zombie':
+                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 100, self.combat_layer)
+            case 'orc':
+                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 5)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 75, self.combat_layer)
+            case 'goblin':
+                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 5)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 75, self.combat_layer)
+
+        return current_enemy_sprite
+
     
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
             if x == 0:
                 self.enemy1 = character.random_enemy_type()
-                self.enemy1_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy1)]
+                self.enemy1_max_hp = self.mobs_list_hp[self.enemy1]
                 self.current_enemy_type.append(self.enemy1)
                 self.current_enemies_alive_hp[0] = self.enemy1_max_hp
+
+                self.enemy_1_sprite_img = character.enemy_color(self.enemy1)
+                self.enemy_1_sprite = self.get_enemy_sprite(self.enemy1, self.enemy_1_sprite_img)
+                self.enemy_1_sprite.get_frames()
                 self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
 
             elif x == 1:
                 self.enemy2 = character.random_enemy_type()
-                self.enemy2_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy2)]
+                self.enemy2_max_hp = self.mobs_list_hp[self.enemy2]
                 self.current_enemy_type.append(self.enemy2)
                 self.current_enemies_alive_hp[1] = self.enemy2_max_hp
+
+                self.enemy_2_sprite_img = character.enemy_color(self.enemy2)
+                self.enemy_2_sprite = self.get_enemy_sprite(self.enemy2, self.enemy_2_sprite_img)
+                self.enemy_2_sprite.get_frames()
                 self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2_max_hp)
 
             elif x == 2:
                 self.enemy3 = character.random_enemy_type()
-                self.enemy3_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy3)]
+                self.enemy3_max_hp = self.mobs_list_hp[self.enemy3]
                 self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp[2] = self.enemy3_max_hp
+
+                self.enemy_3_sprite_img = character.enemy_color(self.enemy1)
+                self.enemy_3_sprite = self.get_enemy_sprite(self.enemy3, self.enemy_3_sprite_img)
+                self.enemy_3_sprite.get_frames()
                 self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
 
             elif x == 3:                
                 self.enemy4 = character.random_enemy_type()
-                self.enemy4_max_hp = self.mobs_list_hp[character.enemy_color(self.enemy4)]
+                self.enemy4_max_hp = self.mobs_list_hp[self.enemy4]
                 self.current_enemy_type.append(self.enemy4)
                 self.current_enemies_alive_hp[3] = self.enemy4_max_hp
+
+                self.enemy_4_sprite_img = character.enemy_color(self.enemy4)
+                self.enemy_4_sprite = self.get_enemy_sprite(self.enemy4, self.enemy_4_sprite_img)
+                self.enemy_4_sprite.get_frames()
                 self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4_max_hp)
         
         for x in range(4 - enemy_count):
@@ -137,24 +168,20 @@ class Character:
 
         for enemy in range(self.amount_of_enemies):
             if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
                 self.enemy_1_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy1)], (900, 200, 100, 200))
+                self.enemy_1_sprite.display_sprite(900, 200)
 
             elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
                 self.enemy_2_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy2)], (1050, 150, 100, 200))
+                self.enemy_2_sprite.display_sprite(1050, 150)
 
             elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
                 self.enemy_3_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy3)], (1200, 200, 100, 200))
+                self.enemy_3_sprite.display_sprite(1200, 200)
 
             elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
                 self.enemy_4_hp_bar.draw(self.combat_layer)
-                pygame.draw.rect(self.combat_layer, self.mobs_list_color[character.enemy_color(self.enemy4)], (1350, 150, 100, 200))
+                self.enemy_4_sprite.display_sprite(1350, 150)
         
         #Draw Buttons for Enemies
         self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)
@@ -237,7 +264,7 @@ class Character:
         self.player_sprite.display_sprite(140, 90)
 
     def player_heal(self, hp_healed, hp_change=0):
-        hp_change = self.player_current_health[0]
+        hp_change = int(self.player_current_health[0])
         hp_change += hp_healed
         self.player_current_health[0] = hp_change
         if self.player_current_health[0] > 50:
@@ -297,6 +324,8 @@ class Enemy_Actions:
                 self.current_enemy_damage = random.randint(1,3)
                 character.player_damage(self.current_enemy_damage)
                 print(f"goblin did {self.current_enemy_damage} damage")
+
+        print(character.mob_list_type)
 
 character = Character()
 enemy = Enemy_Actions()
