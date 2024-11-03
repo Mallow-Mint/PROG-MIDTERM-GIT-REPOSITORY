@@ -48,8 +48,6 @@ class Button:
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.draw_hover()
-        else:
-            pygame.draw.rect(screen, self.button_color, self.rect)  # Fill the rect with the color
 
     def is_clicked(self, mouse_pos):
         mouse_pos = pygame.mouse.get_pos()
@@ -58,10 +56,10 @@ class Button:
         return False
     
     def draw_hover(self):
-        character.selection_layer.blit(self.selection_sprites.sheet, (self.x-5, self.y-5), self.selection_sprites.frame_coordinates[0])
-        character.selection_layer.blit(self.selection_sprites.sheet, (self.x+self.width-20, self.y-5), self.selection_sprites.frame_coordinates[1])
-        character.selection_layer.blit(self.selection_sprites.sheet, (self.x-5, self.y+self.height-20), self.selection_sprites.frame_coordinates[2])
-        character.selection_layer.blit(self.selection_sprites.sheet, (self.x+self.width-20, self.y+self.height-20), self.selection_sprites.frame_coordinates[3])
+        self.selection_sprites.get_single_frame(0, self.x-5, self.y-5)
+        self.selection_sprites.get_single_frame(1, self.x+self.width-20, self.y-5)
+        self.selection_sprites.get_single_frame(2, self.x-5, self.y+self.height-20)
+        self.selection_sprites.get_single_frame(3, self.x+self.width-20, self.y+self.height-20)
 
 class Character:
     def __init__(self):
@@ -160,16 +158,20 @@ class Character:
         
         #Draw Buttons for Enemies
         self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)
-        self.enemy_1_selector.draw(self.selection_layer)
+        if character.current_enemies_alive_hp[0] !=0:
+            self.enemy_1_selector.draw(self.selection_layer)
 
         self.enemy_2_selector = Button(1050, 150, 100, 200, KEY_GREEN, YELLOW)
-        self.enemy_2_selector.draw(self.selection_layer)
+        if character.current_enemies_alive_hp[1] !=0:
+            self.enemy_2_selector.draw(self.selection_layer)
 
         self.enemy_3_selector = Button(1200, 200, 100, 200, KEY_GREEN, YELLOW)
-        self.enemy_3_selector.draw(self.selection_layer)
+        if character.current_enemies_alive_hp[2] !=0:
+            self.enemy_3_selector.draw(self.selection_layer)
 
         self.enemy_4_selector = Button(1350, 150, 100, 200, KEY_GREEN, YELLOW)
-        self.enemy_4_selector.draw(self.selection_layer)
+        if character.current_enemies_alive_hp[3] !=0:
+            self.enemy_4_selector.draw(self.selection_layer)
 
     def enemy_status(self, current_enemy_status:int):
         self.current_enemies_alive_hp[current_enemy_status] = int(self.current_enemies_alive_hp[current_enemy_status]) 
@@ -226,13 +228,13 @@ class Character:
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
-        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.selection_layer, 140, 90)
+        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.selection_layer)
         self.player_sprite.get_frames()
 
     def player_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
         self.player_hp_health_bar.draw(self.combat_layer)
-        self.player_sprite.display_sprite()
+        self.player_sprite.display_sprite(140, 90)
 
     def player_heal(self, hp_healed, hp_change=0):
         hp_change = self.player_current_health[0]

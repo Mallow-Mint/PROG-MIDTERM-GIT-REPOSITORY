@@ -42,7 +42,7 @@ class Battle_Data:
         self.total_characters = 0
 
     def reset_battle_date(self):
-        self.current_health = [50]
+        self.current_health = [50]  
         self.Keys_Remaining = { 'q': 5,
                                 'w': 5,
                                 'e': 5, 

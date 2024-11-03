@@ -68,15 +68,13 @@ class KeyboardSprites():
         return self.keyboard_sprites
 
 class General_Spritesheet:
-    def __init__(self, image, width, height, frame_count, scale, layer, x_pos=None, y_pos=None):
+    def __init__(self, image, width, height, frame_count, scale, layer):
         self.sheet = image
         self.width = width
         self.height = height
         self.scale = scale
         self.frames = frame_count
         self.layer = layer
-        self.x_pos = x_pos
-        self.y_pos = y_pos
         self.current_frame = 0
         self.current_time_1 = 0
         self.last_update_1 = pygame.time.get_ticks()
@@ -89,8 +87,8 @@ class General_Spritesheet:
             current_frame = ((scaled_width/self.frames) * animation_frame, 0, (scaled_width/self.frames) , scaled_height)
             self.frame_coordinates.append(current_frame)
     
-    def get_single_frame(self, frame):
-        self.layer.blit(self.sheet, (self.x_pos, self.y_pos), self.frame_coordinates[frame])
+    def get_single_frame(self, frame, x_pos, y_pos):
+        self.layer.blit(self.sheet, (x_pos, y_pos), self.frame_coordinates[frame])
 
     def get_current_sprite(self):
         if self.current_time_1 - self.last_update_1 >= animations_cooldown:
@@ -99,10 +97,10 @@ class General_Spritesheet:
             if self.current_frame >= self.frames:
                 self.current_frame = 0
     
-    def display_sprite(self):
+    def display_sprite(self, x_pos, y_pos):
         self.current_time_1 = pygame.time.get_ticks()
         self.get_current_sprite()
-        self.get_single_frame(self.current_frame)
+        self.get_single_frame(self.current_frame, x_pos, y_pos)
 
 
 keyboard_letters = Keyboard_Letters()

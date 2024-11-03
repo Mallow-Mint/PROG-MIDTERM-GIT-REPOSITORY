@@ -30,8 +30,9 @@ class Battle(State):
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
                     damage.targeted_enemy(mouse_pos)
-                    layer.popup_layer.fill(KEY_PURPLE)
-                    update_game_screen()
+                    if spell.enemy_selection_state == False:
+                        layer.popup_layer.fill(KEY_PURPLE)
+                        update_game_screen()
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if keyboard.end_turn_button.is_clicked() == True:
@@ -166,6 +167,7 @@ class Keyboard:
         self.typed_text = ""
         self.cursor_position = 0
         self.max_character_count = 20
+        self.Dictionary_Open = False
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
@@ -258,6 +260,15 @@ class Keyboard:
                     layer.popup_layer.fill(KEY_PURPLE)
                     layer.popup_layer.blit(Popup_box, (440,40))
                     layer.popup_layer.blit(self.not_in_dictionary, ((600), 50))
+            
+            case self.pressed_key if self.pressed_key == 'tab':
+                if self.Dictionary_Open == False:
+                    layer.popup_layer.fill(RED)
+                    self.Dictionary_Open = True
+                elif self.Dictionary_Open == True:
+                    layer.popup_layer.fill(KEY_PURPLE)
+                    self.Dictionary_Open = False
+
 
     def keyboard_display(self):
         # Make Typing Area
@@ -301,8 +312,8 @@ def update_game_screen():
     game_window.blit(layer.combat_layer,(0,0))
     game_window.blit(layer.selection_layer, (0,0))
     game_window.blit(layer.keyboard_layer, (0,0))
-    game_window.blit(layer.popup_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
+    game_window.blit(layer.popup_layer, (0,0))
     pygame.display.flip()
 
 def clear_inputs():
