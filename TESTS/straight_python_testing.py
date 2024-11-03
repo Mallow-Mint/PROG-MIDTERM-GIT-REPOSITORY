@@ -1,14 +1,16 @@
 def initialize_key_amounts():
-    Default_Key_Count_Remaining = {}
+    shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
+    valid_words = shared_dictionary.read() 
+    valid_word_list = valid_words.split("\n")
+    shared_dictionary.close()
+    for x in range(len(valid_word_list)):
+        current_word = valid_word_list[x]
+        new_word = current_word.lower()
+        valid_word_list[x] = new_word
+        print(current_word)
+    print(valid_word_list)
 
-    Letter_Amounts_File = open('states/battle_data/Letter_Amount.txt' , "r")
-    Letter_Amounts_File_Lines = Letter_Amounts_File.readlines()
+l = ['dog', 'cat', 'cow']
 
-    for line in Letter_Amounts_File_Lines:
-        letter_count = line[0]
-        letter_amount = line[2]
-        Default_Key_Count_Remaining[letter_count] = int(letter_amount)
-    print(Default_Key_Count_Remaining)
-    Letter_Amounts_File.close()
-
-initialize_key_amounts()
+for x in l:
+    print(x)

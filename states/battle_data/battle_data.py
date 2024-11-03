@@ -42,7 +42,7 @@ class Battle_Data:
         self.total_characters = 0
 
     def reset_battle_date(self):
-        self.current_health = [50]  
+        self.current_health = [50]
         self.Keys_Remaining = { 'q': 5,
                                 'w': 5,
                                 'e': 5, 
@@ -79,12 +79,33 @@ class Battle_Data:
         self.total_characters = 0
 
 
+
 class Valid_Dictionary:
     def __init__(self):
-        self.shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
-        self.valid_words = self.shared_dictionary.read() 
-        self.valid_word_list = self.valid_words.split("\n")
-        self.shared_dictionary.close()
+        self.valid_word_list = ['acid', 'air', 'airslice', 'airstrike', 'arrow', 'ashes', 'avalanche', 'axe',
+                                'bane', 'bash', 'bite', 'bless', 'blight', 'bolt', 'burn',
+                                'crusade', 'curse',
+                                'dark', 'drown', 'destroy',
+                                'earth', 'earthquake', 'eruption', 'execute', 'exile', 'explosion',
+                                'fire', 'fireblast', 'firebolt', 'firestorm', 'flamethrower', 'freeze', 'frostnova',
+                                'gale',
+                                'hail', 'heal', 'heat', 'heatwave', 'hot', 'howl',
+                                'ice', 'iceprison', 'icewall',
+                                'judgement',
+                                'kick',
+                                'landfall', 'landslide', 'lava', 'light', 'lightbeam',
+                                'magma', 'necromancy',
+                                'obliterate',
+                                'poison', 'punch', 'purify',
+                                'quasar',
+                                'rain', 'rainstorm', 'recover', 'rumble',
+                                'sandstorm', 'scorch', 'smite', 'snare', 'snowball', 'squall', 'stonesplitter', 'strike', 'suffocate', 'sunbeam',
+                                'thunder', 'thunderbolt', 'thunderclap', 'thunderstorm', 'tornado', 'torpedo', 'tsunami',
+                                'umbral'
+                                'volcano', 
+                                'water', 'waterspout', 'waterstorm', 'wet', 'whirlpool', 'whirlwind', 'wind', 'windslash', 
+                                'zap', 'zephyr', 
+                                'test', 'tonefaker']
     
     def validWordChecker(self, current_typed_word:str):
         if current_typed_word in self.valid_word_list:
@@ -92,5 +113,8 @@ class Valid_Dictionary:
         else:
             return False
     
+    
 dictionary = Valid_Dictionary()
 battle_data = Battle_Data()
+
+print(len(dictionary.valid_word_list))
