@@ -1,5 +1,4 @@
 import pygame
-import time
 import sys
 from states.state_manager import *
 from states.map_state import *
@@ -8,16 +7,25 @@ from states.shop_state import *
 from states.battle_data.battle_data import *
 from states.managers.Audio_Manager import *
 
+music.title_screen_music()
 class Title(State):
     def __init__(self, game):
         State.__init__(self, game)
 
     def update(self):
-        if menu.start_tutorial == True:
+        if menu.start_tutorial:
+            music.title_screen_music_stop()
             initalize_battle()
             new_state = Battle(self.game)
-            new_state.enter_state() 
+            new_state.enter_state()
             menu.start_tutorial = False
+        if menu.start_game:
+            music.title_screen_music_stop()
+            new_state = Map(self.game)
+            new_state.enter_state()
+            menu.start_game = False
+        if menu.open_shop:
+            music.title_screen_music_stop()
         
         if menu.start_game == True:
             new_state = Map(self.game)
@@ -28,12 +36,12 @@ class Title(State):
         if menu.open_shop == True:
             shop_initializer()
             new_state = Shop_State(self.game)
-            new_state.enter_state() 
+            new_state.enter_state()
             menu.open_shop = False
 
     def render(self, display):
         main_menu()
-        display.blit(MENU_SCREEN, (0,0))
+        display.blit(MENU_SCREEN, (0, 0))
 
 class Menu:
     def __init__(self):
@@ -41,25 +49,17 @@ class Menu:
         self.start_tutorial = False
         self.open_shop = False
 
-
-# Initialize Pygame
 pygame.init()
 
 Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
-Title_BG = pygame.transform.scale(Title_BG, (1600,900))
-# Set up display
+Title_BG = pygame.transform.scale(Title_BG, (1600, 900))
+
 MENU_SCREEN = pygame.display.set_mode((1600, 900))
-
-# Define colors
 BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GRAY = (200, 200, 200)
 
-# Load font
 def get_font(size):
     return pygame.font.Font('Assets/Fonts/timetwist/Timetwist-Bold.otf', size)
 
-# Button class
 class Button:
     def __init__(self, pos, text, font, base_color, hover_color):
         self.image = None
@@ -87,33 +87,82 @@ class Button:
 
     def check_for_input(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)
-    
+
 menu = Menu()
-# Main function
+def intro_fade(screen):
+    overlay = pygame.Surface((1600, 900))
+    overlay.fill(BLACK)
+    
+    message = "Shadow engulfed lightness...\n" \
+              "withered peace...\n" \
+              "eradicate them all!\n" \
+              "Will you be our hero..?"
+    font = get_font(30)
+    
+    start_time = pygame.time.get_ticks()
+    fade_in_duration = 13000  
+    fade_out_duration = 3000  
+
+    revealed_text = ""
+    char_index = 0
+    text_duration = 11500 // len(message.replace(" ", ""))  
+    
+    while True:
+        elapsed_time = pygame.time.get_ticks() - start_time
+
+        if elapsed_time < fade_in_duration:
+            if elapsed_time >= char_index * text_duration and char_index < len(message):
+                revealed_text += message[char_index]
+                char_index += 1
+
+            screen.fill(BLACK)
+            render_text_centered(screen, revealed_text, font, (255, 255, 255), (800, 450))
+            overlay.set_alpha(255)  
+
+        elif elapsed_time < fade_in_duration + fade_out_duration:
+
+            fade_out_time = elapsed_time - fade_in_duration
+            alpha = max(0, 255 - (fade_out_time / fade_out_duration) * 255)
+            overlay.set_alpha(int(alpha))
+            screen.fill((0, 0, 0))
+            screen.blit(Title_BG, (0, 0))
+            screen.blit(overlay, (0, 0))
+        else:
+            break  
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+def render_text_centered(screen, text, font, color, position):
+    lines = text.splitlines()
+    y_offset = font.get_linesize() * len(lines) // 2 
+    for i, line in enumerate(lines):
+        text_surface = font.render(line, True, color)
+        text_rect = text_surface.get_rect(center=(position[0], position[1] - y_offset + i * font.get_linesize()))
+        screen.blit(text_surface, text_rect)
+
 def main_menu():
-    MENU_SCREEN.blit(Title_BG, (0,0))
-    # Get mouse position
+    MENU_SCREEN.blit(Title_BG, (0, 0))
     mouse_pos = pygame.mouse.get_pos()
 
-    # Title text
     title_text = pygame.image.load('Assets/Background/bg_1/bg_title.png')
     title_rect = title_text.get_rect(center=(800, 150))
     MENU_SCREEN.blit(title_text, title_rect)
 
-    # Create buttons
-    start_button = Button((800, 250), "NEW GAME", get_font(22), BLACK, GRAY)
-    tutorial_button = Button((800, 300), "TUTORIALS", get_font(22), BLACK, GRAY)
-    scores_button = Button((800, 350), "SCORES", get_font(22), BLACK, GRAY)
-    quit_button = Button((800, 400), "QUIT", get_font(22), BLACK, GRAY)
+    start_button = Button((800, 250), "NEW GAME", get_font(22), BLACK, (200, 200, 200))
+    tutorial_button = Button((800, 300), "TUTORIALS", get_font(22), BLACK, (200, 200, 200))
+    scores_button = Button((800, 350), "SCORES", get_font(22), BLACK, (200, 200, 200))
+    quit_button = Button((800, 400), "QUIT", get_font(22), BLACK, (200, 200, 200))
 
-
-    # Change button color based on mouse position
     start_button.change_color(mouse_pos)
     tutorial_button.change_color(mouse_pos)
     scores_button.change_color(mouse_pos)
     quit_button.change_color(mouse_pos)
 
-    # Draw buttons
     start_button.draw(MENU_SCREEN)
     tutorial_button.draw(MENU_SCREEN)
     scores_button.draw(MENU_SCREEN)
@@ -122,14 +171,13 @@ def main_menu():
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.check_for_input(mouse_pos):
-                menu.start_game = True  # Replace with your game starting function
+                menu.start_game = True
             if tutorial_button.check_for_input(mouse_pos):
                 menu.start_tutorial = True
             if scores_button.check_for_input(mouse_pos):
-                print("Show scores")
                 menu.open_shop = True
             if quit_button.check_for_input(mouse_pos):
                 pygame.quit()
                 sys.exit()
 
-# Run the main menu
+intro_fade(MENU_SCREEN)

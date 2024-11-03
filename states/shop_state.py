@@ -201,6 +201,7 @@ button2 = Button('50    ',150,40,(568, 390),5)
 button3 = Button('25    ',150,40,(255, 638),5)
 button4 = Button('50    ',150,40,(568, 638),5)
 
+
 class Shop: 
     def __init__(self):
         self.categories = ["Potions", "Letters"]

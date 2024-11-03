@@ -184,6 +184,9 @@ for animation_5 in animation_steps_5:
         step_counter_5 += 1
     animation_list_5.append(temp_img_list_5)
 
+
+fade_out = 150
+pygame.draw.rect(win, pygame.Color(255, 255, 255, 128), pygame.Rect(0, 0, 1000, 750))
 # Function to load and return the custom font
 def get_font(size):
     return pygame.font.Font("Game_Testing/SHOP TESTING/Assets/Shop Font.ttf", size)
