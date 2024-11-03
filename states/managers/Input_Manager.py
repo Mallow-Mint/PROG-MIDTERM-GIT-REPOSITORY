@@ -264,10 +264,6 @@ class Spell:
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(8))
             
-            case 'quasar':
-                self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
-            
             case 'zap':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
