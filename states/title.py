@@ -19,7 +19,6 @@ class Title(State):
             new_state = Battle(self.game)
             new_state.enter_state()
             menu.start_tutorial = False
-<<<<<<< HEAD
         if menu.start_game:
             music.title_screen_music_stop()
             new_state = Map(self.game)
@@ -27,7 +26,6 @@ class Title(State):
             menu.start_game = False
         if menu.open_shop:
             music.title_screen_music_stop()
-=======
         
         if menu.start_game == True:
             new_state = Map(self.game)
@@ -37,7 +35,6 @@ class Title(State):
 
         if menu.open_shop == True:
             shop_initializer()
->>>>>>> 9f0290db912832fba2f2fe106c6008fec8a517c5
             new_state = Shop_State(self.game)
             new_state.enter_state()
             menu.open_shop = False
@@ -97,9 +94,9 @@ def intro_fade(screen):
     overlay.fill(BLACK)
     
     message = "Shadow engulfed lightness...\n" \
-              "evil monsters disturbed peace...\n" \
-              "we need to eradicate them all!\n" \
-              "Will you be our hero...?"
+              "withered peace...\n" \
+              "eradicate them all!\n" \
+              "Will you be our hero..?."
     font = get_font(30)
     
     start_time = pygame.time.get_ticks()
@@ -108,7 +105,7 @@ def intro_fade(screen):
 
     revealed_text = ""
     char_index = 0
-    text_duration = fade_in_duration // len(message.replace(" ", ""))  
+    text_duration = 11000 // len(message.replace(" ", ""))  
     
     while True:
         elapsed_time = pygame.time.get_ticks() - start_time
