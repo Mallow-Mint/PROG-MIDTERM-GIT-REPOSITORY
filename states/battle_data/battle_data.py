@@ -37,7 +37,8 @@ class Battle_Data:
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
         
-        self.default_currency = 300
+        self.player_currency = 300
+        self.inventory_slots = [None] * 6
 
 
 class Valid_Dictionary:

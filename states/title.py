@@ -5,6 +5,7 @@ from states.state_manager import *
 from states.map_state import *
 from states.battle_state import *
 from states.shop_state import *
+from states.battle_data.battle_data import *
 
 class Title(State):
     def __init__(self, game):
