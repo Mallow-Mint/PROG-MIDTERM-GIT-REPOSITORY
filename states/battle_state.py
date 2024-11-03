@@ -390,9 +390,46 @@ class Player_Inventory:
         self.Letter_Potion_Sprite.get_frames()
             
     def display_invetory(self):
-        self.Health_Pot_Sprite.display_sprite(1440, 590)
-        self.Health_Pot_Sprite.display_sprite(1440, 800)
-        self.Health_Pot_Sprite.display_sprite(120, 590)
+        for i in range(len(battle_data.inventory_slots)):
+            if battle_data.inventory_slots[0] is not None:
+                if battle_data.inventory_slots[0] == "Healing Potion S":
+                    self.Health_Pot_Sprite.display_sprite(120, 590)
+                elif battle_data.inventory_slots[0] == "Healing Potion XL":
+                    self.Health_Pot_XL_Sprite.display_sprite(120, 590)
+                elif battle_data.inventory_slots[0] == "All Letter Potion":
+                    self.All_Letter_Potion_Sprite.display_sprite(120, 590)
+                elif battle_data.inventory_slots[0] == "Letter Potion":
+                    self.Letter_Potion_Sprite.display_sprite(120, 590) 
+
+            if battle_data.inventory_slots[1] is not None: 
+                if battle_data.inventory_slots[1] == "Healing Potion S":
+                    self.Health_Pot_Sprite.display_sprite(120, 730) 
+                elif battle_data.inventory_slots[1] == "Healing Potion XL":
+                    self.Health_Pot_XL_Sprite.display_sprite(120, 730)
+                elif battle_data.inventory_slots[1] == "All Letter Potion":
+                    self.All_Letter_Potion_Sprite.display_sprite(120, 730) 
+                elif battle_data.inventory_slots[1] == "Letter Potion":
+                    self.Letter_Potion_Sprite.display_sprite(120, 730)
+
+            if battle_data.inventory_slots[2] is not None:
+                if battle_data.inventory_slots[2] == "Healing Potion S":
+                    self.Health_Pot_Sprite.display_sprite(1440, 590) 
+                elif battle_data.inventory_slots[2] == "Healing Potion XL":
+                    self.Health_Pot_XL_Sprite.display_sprite(1440, 590) 
+                elif battle_data.inventory_slots[2] == "All Letter Potion":
+                    self.All_Letter_Potion_Sprite.display_sprite(1440, 590) 
+                elif battle_data.inventory_slots[2] == "Letter Potion":
+                    self.Letter_Potion_Sprite.display_sprite(1440, 590)
+
+            if battle_data.inventory_slots[3] is not None:
+                if battle_data.inventory_slots[3] == "Healing Potion S":
+                    self.Health_Pot_Sprite.display_sprite(1440, 730) 
+                elif battle_data.inventory_slots[3] == "Healing Potion XL":
+                    self.Health_Pot_XL_Sprite.display_sprite(1440, 730)
+                elif battle_data.inventory_slots[3] == "All Letter Potion":
+                    self.All_Letter_Potion_Sprite.display_sprite(1440, 730)
+                elif battle_data.inventory_slots[3] == "Letter Potion":
+                    self.Letter_Potion_Sprite.display_sprite(1440, 730) 
 
 typing_area_height = 50
 typing_area_y = 480
@@ -446,6 +483,7 @@ def battle_interface():
     keyboard.end_turn_button.draw(layer.interface_layer)
     character.display_enemy()
     character.player_displayer()
+    potions.display_inventory_buttons()
     player_inventory.display_invetory()
     timer.update_time()
     timer.draw()

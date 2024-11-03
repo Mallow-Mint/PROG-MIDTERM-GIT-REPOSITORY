@@ -350,5 +350,23 @@ class Enemy_Actions:
 
         print(character.mob_list_type)
 
+class Potions:
+    def __init__(self):
+        self.inventory_slot_1 = Button(80, 570, 115, 110, KEY_GREEN, YELLOW)
+        self.inventory_slot_2 = Button(80, 710, 115, 110, KEY_GREEN, YELLOW)
+        self.inventory_slot_3 = Button(1400, 570, 115, 110, KEY_GREEN, YELLOW)
+        self.inventory_slot_4 = Button(1400, 710, 115, 110, KEY_GREEN, YELLOW)
+    
+    def display_inventory_buttons(self):
+        if battle_data.inventory_slots[0] is not None:
+            self.inventory_slot_1.draw(character.selection_layer)
+        if battle_data.inventory_slots[1] is not None:
+            self.inventory_slot_2.draw(character.selection_layer)
+        if battle_data.inventory_slots[2] is not None:
+            self.inventory_slot_3.draw(character.selection_layer)
+        if battle_data.inventory_slots[3] is not None:
+            self.inventory_slot_4.draw(character.selection_layer)
+
 character = Character()
 enemy = Enemy_Actions()
+potions = Potions()
