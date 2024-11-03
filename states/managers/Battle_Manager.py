@@ -41,7 +41,7 @@ class Button:
         self.hover_color = hover_color
         self.rect = pygame.Rect(x, y, width, height)
         self.selection_sprite_img = get_image('Assets/Interface/selection_sprites.png')
-        self.selection_sprites = General_Spritesheet(self.selection_sprite_img, 105, 27, 4, 1, character.selection_layer)
+        self.selection_sprites = General_Spritesheet(self.selection_sprite_img, 105, 27, 4, 1, 0, character.selection_layer)
         self.selection_sprites.get_frames()
 
     def draw(self, screen):
@@ -228,7 +228,7 @@ class Character:
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
         self.player_hp_health_bar.current_hp = self.player_current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
-        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, self.selection_layer)
+        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.selection_layer)
         self.player_sprite.get_frames()
 
     def player_displayer(self):
