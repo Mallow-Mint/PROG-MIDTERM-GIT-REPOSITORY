@@ -178,28 +178,91 @@ class Spell:
             case 'howl':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
-
-            case 'water':
-                self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
-
-            case 'wind':
-                self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
-
+            
             case 'ice':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
-
-            case 'punch':
+            case 'icewall':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+            
+            case 'kick':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
-
+            
+            case 'lava':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            case 'light':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            case 'lightbeam':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(8))
+            
             case 'magma':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            
+            case 'punch':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            
+            case 'rumble':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
 
-            case 'light':
+            case 'scorch':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'smite':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'snare':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'snowball':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+            case 'strike':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+            case 'suffocate':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+
+            case 'thunder':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+            case 'torpedo':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+            
+            case 'umbral':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+
+            case 'wind':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            case 'water':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+            case 'wet':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+            case 'wind':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            case 'windslash':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(8))
+            
+            case 'quasar':
+                self.enemy_selection_state = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+            
+            case 'zap':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
 
@@ -234,9 +297,93 @@ class Spell:
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
                 damage.AOE_spell(self.damage_dealt)
 
+            case 'heatwave':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'iceprison':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'judgement':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+
+            case 'landfall':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                damage.AOE_spell(self.damage_dealt)
+            case 'landslide':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
             case 'lightning':
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
                 damage.AOE_spell(self.damage_dealt)
+
+            case 'obliterate':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+                damage.AOE_spell(self.damage_dealt)
+
+            case 'quasar':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'rain':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+                damage.AOE_spell(self.damage_dealt)
+            case 'rainstorm':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'thunderbolt':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            case 'thunderclap':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+            case 'thunderstorm':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
+                damage.AOE_spell(self.damage_dealt)
+            case 'tornado':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            case 'tsunami':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'sandstorm':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+            case 'squall':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                damage.AOE_spell(self.damage_dealt)
+            case 'sunbeam':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            case 'stonesplitter':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(8))
+                damage.AOE_spell(self.damage_dealt)
+            
+            case 'volcano':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+
+            case 'waterspout':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+            case 'waterstorm':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+            case 'whirlpool':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+            case 'whirlwind':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                damage.AOE_spell(self.damage_dealt)
+
+            case 'zephyr':
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                damage.AOE_spell(self.damage_dealt)
+            
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'bite':
@@ -251,6 +398,10 @@ class Spell:
 
             case 'heal':
                 self.damage_healed = random.randint(4,8)
+                damage.heal_spell(self.damage_healed)
+            
+            case 'purify':
+                self.damage_healed = random.randint(8,12)
                 damage.heal_spell(self.damage_healed)
 
             case 'recover':

@@ -92,16 +92,16 @@ class Character:
         match enemy_type:
             case 'skeleton':
                 current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 100, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
             case 'zombie':
                 current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 100, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
             case 'orc':
                 current_enemy_sprite_image = get_image(current_enemy_sprite_img, 5)
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 75, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 125, self.combat_layer)
             case 'goblin':
-                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 5)
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 75, self.combat_layer)
+                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
 
         return current_enemy_sprite
 
@@ -136,7 +136,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp[2] = self.enemy3_max_hp
 
-                self.enemy_3_sprite_img = character.enemy_color(self.enemy1)
+                self.enemy_3_sprite_img = character.enemy_color(self.enemy3)
                 self.enemy_3_sprite = self.get_enemy_sprite(self.enemy3, self.enemy_3_sprite_img)
                 self.enemy_3_sprite.get_frames()
                 self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
@@ -161,6 +161,21 @@ class Character:
                 self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, 0)
 
         self.amount_of_enemies = enemy_count
+    
+    def check_enemy_type_offset(self, enemy_type):
+        match enemy_type:
+            case 'skeleton':
+                self.x_offset = 180
+                self.y_offset = 150
+            case 'zombie':
+                self.x_offset = 180
+                self.y_offset = 180
+            case 'orc':
+                self.x_offset = 100
+                self.y_offset = 100
+            case 'goblin':
+                self.x_offset = 180
+                self.y_offset = 160
 
     def display_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
@@ -168,20 +183,28 @@ class Character:
 
         for enemy in range(self.amount_of_enemies):
             if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
                 self.enemy_1_hp_bar.draw(self.combat_layer)
-                self.enemy_1_sprite.display_sprite(900, 200)
+                self.check_enemy_type_offset(self.enemy1)
+                self.enemy_1_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
 
             elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
                 self.enemy_2_hp_bar.draw(self.combat_layer)
-                self.enemy_2_sprite.display_sprite(1050, 150)
+                self.check_enemy_type_offset(self.enemy2)
+                self.enemy_2_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
 
             elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
                 self.enemy_3_hp_bar.draw(self.combat_layer)
-                self.enemy_3_sprite.display_sprite(1200, 200)
+                self.check_enemy_type_offset(self.enemy3)
+                self.enemy_3_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
 
             elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
+                pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
                 self.enemy_4_hp_bar.draw(self.combat_layer)
-                self.enemy_4_sprite.display_sprite(1350, 150)
+                self.check_enemy_type_offset(self.enemy4)
+                self.enemy_4_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
         
         #Draw Buttons for Enemies
         self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)

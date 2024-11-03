@@ -349,7 +349,7 @@ def initalize_battle():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(random.randint(1,4))
+    character.enemy_initalizer(random.randint(2,4))
     keyboard.max_character_count = 20
     keyboard.get_key_amounts()
     keyboard.keyboard_amount_position() 
