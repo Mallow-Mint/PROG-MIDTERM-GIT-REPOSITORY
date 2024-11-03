@@ -75,6 +75,7 @@ Background_Image = pygame.image.load('Assets/Background/bg_11/bg_11.png')
 Background_Image = pygame.transform.scale(Background_Image, (1600, 900))
 Interface_Image = pygame.image.load('Assets/Interface/interface_bg.png')
 Typing_area = pygame.image.load('Assets/Interface/typing_area.png')
+Word_holder = pygame.image.load('Assets/Interface/book_text_holder.png')
 Popup_box = pygame.image.load('Assets/Interface/popup_box.png')
 
 # Set Layers Class
@@ -264,10 +265,18 @@ class Keyboard:
                 if book.Dictionary_Open == False:
                     layer.popup_layer.fill((0,0,0,150))
                     book.display_book()
+                    book.display_word_holders()
+                    book.display_page()
                     book.Dictionary_Open = True
                 elif book.Dictionary_Open == True:
                     layer.popup_layer.fill(KEY_PURPLE)
                     book.Dictionary_Open = False
+            
+            case self.pressed_key if self.pressed_key == 'right' and book.Dictionary_Open == True:
+                layer.popup_layer.fill((0,0,0,150))
+                book.display_book()
+                book.display_word_holders()
+                book.display_page()
 
     def keyboard_display(self):
         # Make Typing Area
@@ -302,6 +311,10 @@ class Book:
         self.book_img = get_image('Assets/Interface/book_display.png')
         self.book_sprite = General_Spritesheet(self.book_img, 19200, 1080, 10, 1, 10, layer.popup_layer)
         self.book_sprite.get_frames()
+        self.current_page = 0
+    
+    def get_page_count(self):
+        self.page_count = len(dictionary.valid_word_list) // 10 + 1
     
     def display_book(self):
         book.book_sprite.display_sprite(-150, -200)
@@ -311,7 +324,30 @@ class Book:
             layer.popup_layer.fill((0,0,0,150))
             book.book_sprite.display_sprite(-150, -200)
             update_game_screen()
+    
+    def display_word_holders(self):
+        layer.popup_layer.blit(Word_holder, (360, 100))
+        layer.popup_layer.blit(Word_holder, (360, 225))
+        layer.popup_layer.blit(Word_holder, (360, 350))
+        layer.popup_layer.blit(Word_holder, (360, 475))
+        layer.popup_layer.blit(Word_holder, (360, 600))
+        layer.popup_layer.blit(Word_holder, (900, 100))
+        layer.popup_layer.blit(Word_holder, (900, 225))
+        layer.popup_layer.blit(Word_holder, (900, 359))
+        layer.popup_layer.blit(Word_holder, (900, 475))
+        layer.popup_layer.blit(Word_holder, (900, 600))
+    
+    def display_current_word_set(self):
+        current_word_set = (0*self.current_page)
 
+    def display_page(self):
+        self.current_page += 1
+        if book.current_page > self.page_count:
+            self.current_page = 1
+        test_text = font.render(str(self.current_page), True, BLACK)
+        layer.popup_layer.blit(test_text, (500, 200))
+
+    
 typing_area_height = 50
 typing_area_y = 480
 
@@ -340,7 +376,6 @@ layer = Layers()
 book = Book()
 keyboard = Keyboard()
 timer = Timer()
-
 # Game loop
 def initalize_battle():
     timer.timer_duration = 30
@@ -354,6 +389,7 @@ def initalize_battle():
     keyboard.get_key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
+    book.get_page_count()
     music.Battle_BGM_1()
 
 def battle_interface():

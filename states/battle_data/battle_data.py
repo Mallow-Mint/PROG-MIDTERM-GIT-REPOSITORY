@@ -116,5 +116,3 @@ class Valid_Dictionary:
     
 dictionary = Valid_Dictionary()
 battle_data = Battle_Data()
-
-print(len(dictionary.valid_word_list))

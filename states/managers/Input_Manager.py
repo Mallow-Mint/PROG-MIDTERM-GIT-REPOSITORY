@@ -90,6 +90,7 @@ class Spell:
             case 'acid':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.spell_sound = sfx.acid_spell_sound
             case 'air':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
@@ -121,6 +122,7 @@ class Spell:
             case 'burn':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.spell_sound = sfx.fire_spell_sound
 
             case 'crusade':
                 self.enemy_selection_state = True
@@ -160,7 +162,6 @@ class Spell:
             case 'freeze':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(7))
-                self.spell_sound = sfx.fire_spell_sound
 
             case 'gale':
                 self.enemy_selection_state = True
@@ -182,9 +183,11 @@ class Spell:
             case 'ice':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(2))
+                self.spell_sound = sfx.ice_spell_sound
             case 'icewall':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
+                self.spell_sound = sfx.ice_spell_sound
             
             case 'kick':
                 self.enemy_selection_state = True
@@ -215,6 +218,7 @@ class Spell:
             case 'scorch':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                self.spell_sound = sfx.fire_spell_sound
             case 'smite':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
@@ -248,9 +252,11 @@ class Spell:
             case 'water':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
+                self.spell_sound = sfx.water_spell_sound
             case 'wet':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
+                self.spell_sound = sfx.water_spell_sound
             case 'wind':
                 self.enemy_selection_state = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
@@ -260,7 +266,7 @@ class Spell:
             
             case 'quasar':
                 self.enemy_selection_state = True
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(3))
             
             case 'zap':
                 self.enemy_selection_state = True
@@ -349,6 +355,7 @@ class Spell:
             case 'tsunami':
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
                 damage.AOE_spell(self.damage_dealt)
+                self.spell_sound = sfx.water_spell_sound
             
             case 'sandstorm':
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
@@ -390,6 +397,11 @@ class Spell:
                 self.enemy_selection_state = True
                 self.lifesteal = True
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(4))
+
+            case 'necromancy':
+                self.enemy_selection_state = True
+                self.lifesteal = True
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'bless':
