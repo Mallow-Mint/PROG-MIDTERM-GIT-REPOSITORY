@@ -86,7 +86,7 @@ class Layers:
         self.selection_layer = character.selection_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
-        self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT))
+        self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
 
 class Timer:
     def __init__(self):
@@ -263,7 +263,7 @@ class Keyboard:
             
             case self.pressed_key if self.pressed_key == 'tab':
                 if self.Dictionary_Open == False:
-                    layer.popup_layer.fill(RED)
+                    layer.popup_layer.fill((0,0,0,150))
                     self.Dictionary_Open = True
                 elif self.Dictionary_Open == True:
                     layer.popup_layer.fill(KEY_PURPLE)
