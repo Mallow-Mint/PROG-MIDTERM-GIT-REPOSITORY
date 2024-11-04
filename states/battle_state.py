@@ -42,6 +42,8 @@ class Battle(State):
             keyboard.key_replenish()
             keyboard.save_key_amounts()
             self.exit_state()
+        if character.battle_state == 'LOSS':
+            self.exit_state()
 
     def render(self, display):
         battle_interface()

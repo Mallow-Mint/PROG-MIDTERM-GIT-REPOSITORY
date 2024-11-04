@@ -28,6 +28,11 @@ class Map(State):
             self.exit_state()
             map.reset_map()
             character.battle_state = None
+        
+        if character.battle_state == 'LOSS':
+            self.exit_state()
+
+        
 
     def render(self, display):
         main_map()

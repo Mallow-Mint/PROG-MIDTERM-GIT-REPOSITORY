@@ -269,7 +269,7 @@ class Character:
                 if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
                     enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
                 time.sleep(1)
-        character.battle_loss()
+        character.battle_win()
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -310,12 +310,10 @@ class Character:
             self.battle_state = 'WIN'
             battle_data.current_health = battle_data.current_health
             music.Battle_BGM_1_stop()
+        
+        if self.player_hp_health_bar.current_hp <= 0:
+            self.battle_state = 'LOSS'
     
-    def battle_loss(self):
-        if battle_data.current_health[0] < 0:
-            print("You Died")
-        else:
-            print(f"You have {battle_data.current_health[0]} Hp Left")
 
 class Enemy_Actions:
     def __init__ (self):
