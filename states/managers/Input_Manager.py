@@ -60,7 +60,10 @@ class Damage():
         elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
             character.do_damage_single_target(spell.damage_dealt, 4)
             spell.reset_damage()
-
+        
+        else:
+            return None
+        spell.spell_sound()
         print(character.current_enemies_alive_hp)
         character.battle_win()
 
@@ -92,12 +95,7 @@ class Spell:
                 self.enemy_selection_state = True
                 base_damage = dictionary.single_target_words_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-
-#Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-            case self.current_spell if self.current_spell in dictionary.multi_target_word_damage.keys():
-                base_damage = dictionary.multi_target_word_damage[self.current_spell]
-                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-                damage.AOE_spell(self.damage_dealt)
+                self.spell_sound = sfx.water_spell_sound
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in dictionary.life_steal_damage.keys():
@@ -106,10 +104,16 @@ class Spell:
                 base_damage = dictionary.life_steal_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
 
+#Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+            case self.current_spell if self.current_spell in dictionary.multi_target_word_damage.keys():
+                base_damage = dictionary.multi_target_word_damage[self.current_spell]
+                self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
+                damage.AOE_spell(self.damage_dealt)
+
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in dictionary.healing_spell_ranges.keys():
-                heal_range = [dictionary.multi_target_word_damage[self.current_spell][0], dictionary.multi_target_word_damage[self.current_spell][1]]
-                damage.heal_spell(heal_range[0], heal_range[1])
+                heal_range = [dictionary.healing_spell_ranges[self.current_spell][0], dictionary.healing_spell_ranges[self.current_spell][1]]
+                damage.heal_spell(random.randint(heal_range[0], heal_range[1]))
 
 #Test words - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'test':
@@ -119,11 +123,13 @@ class Spell:
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(99))
                 for key, count in battle_data.Keys_Remaining.items():
                     battle_data.Keys_Remaining[key] = 5
+                sfx.FAKER()
+                time.sleep(4)
                 damage.AOE_spell(self.damage_dealt)
 
 
         self.previous_spell = spell.current_spell
-
+    
 
 spell = Spell()
 damage = Damage()

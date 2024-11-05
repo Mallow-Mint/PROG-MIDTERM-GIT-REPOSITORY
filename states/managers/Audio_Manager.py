@@ -57,5 +57,11 @@ class SoundEffects:
         water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/water sound effect.mp3')
         water_spell_sfx.set_volume(1)
         water_spell_sfx.play()
+    
+    def FAKER(self):
+        water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/SHOCKWAVE.mp3')
+        water_spell_sfx.set_volume(1)
+        water_spell_sfx.play()
+        
 music = Music()
 sfx =  SoundEffects()
