@@ -1,3 +1,4 @@
+import random
 def initialize_key_amounts():
     shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
     valid_words = shared_dictionary.read() 
@@ -10,7 +11,10 @@ def initialize_key_amounts():
         print(current_word)
     print(valid_word_list)
 
-l = ['dog', 'cat', 'cow']
+l = {'dog': 1, 'cat':2, 'cow':3}
+r = [1,6]
+x = 'dog'
 
-for x in l:
-    print(x)
+match x:
+    case x if x in l.keys():
+        print(random.randrange)

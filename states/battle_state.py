@@ -363,9 +363,9 @@ class Book:
         elif self.current_page < self.page_count: 
             current_word_set_start = 10 * (self.current_page - 1)
             current_word_set_end = 10 * (self.current_page)
-        elif self.current_page > self.page_count-1: 
-            current_word_set_start = 0
-            current_word_set_end = 0
+        elif self.current_page == self.page_count: 
+            current_word_set_start = 10 * (self.current_page - 1)
+            current_word_set_end = len(dictionary.valid_word_list)
         
         for word in range(current_word_set_start, current_word_set_end):
             word_display = font.render(dictionary.valid_word_list[word], True, BLACK)

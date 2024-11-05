@@ -79,23 +79,18 @@ class Character:
     def random_enemy_type(self):
         return mobs_list_type[random.randint(0,3)]
     
-    def get_enemy_sprite(self, enemy_type):
+    def get_enemy_idle_sprite(self, enemy_type):
         match enemy_type:
             case 'skeleton':
-                current_enemy_sprite_image = skeleton_idle_img
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(skeleton_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
             case 'zombie':
-                current_enemy_sprite_image = zombie_idle_img
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(zombie_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
             case 'orc':
-                current_enemy_sprite_image = orc_idle_img
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 125, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(orc_idle_img, 256, 64, 4, 5, random.randint(100,175), self.combat_layer)
             case 'goblin':
-                current_enemy_sprite_image = goblin_idle_img
-                current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
+                current_enemy_sprite = General_Spritesheet(goblin_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
 
         return current_enemy_sprite
-
     
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
@@ -105,7 +100,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy1)
                 self.current_enemies_alive_hp[0] = self.enemy1_max_hp
 
-                self.enemy_1_sprite = self.get_enemy_sprite(self.enemy1)
+                self.enemy_1_sprite = self.get_enemy_idle_sprite(self.enemy1)
                 self.enemy_1_sprite.get_frames()
                 self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
 
@@ -115,7 +110,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy2)
                 self.current_enemies_alive_hp[1] = self.enemy2_max_hp
 
-                self.enemy_2_sprite = self.get_enemy_sprite(self.enemy2)
+                self.enemy_2_sprite = self.get_enemy_idle_sprite(self.enemy2)
                 self.enemy_2_sprite.get_frames()
                 self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2_max_hp)
 
@@ -125,7 +120,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp[2] = self.enemy3_max_hp
 
-                self.enemy_3_sprite = self.get_enemy_sprite(self.enemy3)
+                self.enemy_3_sprite = self.get_enemy_idle_sprite(self.enemy3)
                 self.enemy_3_sprite.get_frames()
                 self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
 
@@ -135,7 +130,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy4)
                 self.current_enemies_alive_hp[3] = self.enemy4_max_hp
 
-                self.enemy_4_sprite = self.get_enemy_sprite(self.enemy4)
+                self.enemy_4_sprite = self.get_enemy_idle_sprite(self.enemy4)
                 self.enemy_4_sprite.get_frames()
                 self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4_max_hp)
         
@@ -152,7 +147,7 @@ class Character:
     def check_enemy_type_offset(self, enemy_type):
         match enemy_type:
             case 'skeleton':
-                self.x_offset = 180
+                self.x_offset = 160
                 self.y_offset = 150
             case 'zombie':
                 self.x_offset = 180
