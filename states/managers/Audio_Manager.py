@@ -6,7 +6,7 @@ class Music:
 
     def Battle_BGM_1(self):
         self.fight_bg_music_1 = pygame.mixer.Sound('Assets/fight_music.mp3')
-        self.fight_bg_music_1.set_volume(0.05)
+        self.fight_bg_music_1.set_volume(0.5)
         self.fight_bg_music_1.play(-1,0,1000)
     
     def Battle_BGM_1_stop(self):
@@ -25,7 +25,7 @@ class Music:
         
     def title_screen_music(self):
         self.menu_music = pygame.mixer.Sound('Assets/Background Music/title screen music.mp3')
-        self.menu_music.set_volume(0.1)
+        self.menu_music.set_volume(0.5)
         self.menu_music.play(-1, 0, 1000)
     def title_screen_music_stop(self):
         self.menu_music.stop()

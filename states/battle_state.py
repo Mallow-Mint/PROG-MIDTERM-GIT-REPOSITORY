@@ -319,6 +319,7 @@ class Keyboard:
             if keyboard.Key_Count_Remaining[key] < 5:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
+        self.typed_text = ''
 
 class Book:
     def __init__(self):

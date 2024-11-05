@@ -286,7 +286,7 @@ class Spell:
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(6))
                 damage.AOE_spell(self.damage_dealt)
 
-            case 'fireblast':
+            case 'fireball':
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(5))
                 damage.AOE_spell(self.damage_dealt)
             case 'firestorm':

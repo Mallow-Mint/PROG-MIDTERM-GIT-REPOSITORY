@@ -79,7 +79,6 @@ def intro_fade(screen):
             alpha = max(0, 255 - (fade_out_time / fade_out_duration) * 255)
             overlay.set_alpha(int(alpha))
             screen.fill((0, 0, 0))
-            screen.blit(Title_BG, (0, 0))
             screen.blit(overlay, (0, 0))
         else:
             break  
@@ -93,7 +92,7 @@ def intro_fade(screen):
             if event.type == pygame.KEYDOWN:
                 fade_in_duration = 0
                 fade_out_duration = 0
-                
+
 def render_text_centered(screen, text, font, color, position):
     lines = text.splitlines()
     y_offset = font.get_linesize() * len(lines) // 2 
