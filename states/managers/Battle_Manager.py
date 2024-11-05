@@ -5,6 +5,7 @@ from states.state_manager import *
 from states.managers.Audio_Manager import *
 from states.managers.Sprite_Manager import *
 from states.battle_data.battle_data import *
+from states.battle_data.enemy_data import *
 from main_spellbook import *
 
 RED = (255, 0, 0)
@@ -64,12 +65,6 @@ class Button:
 
 class Character:
     def __init__(self):
-        self.mobs_list_color = {'skeleton': 'Assets/Monsters/4 direction monsters/Skeleton/Idle.png', 
-                                'zombie': 'Assets/Monsters/4 direction monsters/Mushroom/Idle.png',
-                                'orc': 'Assets/Monsters/Golem_IdleB.png' ,
-                                'goblin': 'Assets/Monsters/4 direction monsters/Goblin/Idle.png'}
-        
-        self.mobs_list_hp = {'skeleton': 15, 'zombie': 10, 'orc': 20 , 'goblin': 10}
         self.combat_layer = pygame.Surface((1600,900))
         self.selection_layer = pygame.Surface((1600,900))
         self.selected_enemy = 0
@@ -78,11 +73,11 @@ class Character:
         self.battle_state = None
 
     def random_enemy_type(self):
-        self.mob_list_type = list(self.mobs_list_color.keys())
+        self.mob_list_type = list(mobs_list_sprites.keys())
         return self.mob_list_type[random.randint(0,3)]
     
     def enemy_color(self, enemy_type):
-        enemy_sprite = self.mobs_list_color[enemy_type]
+        enemy_sprite = mobs_list_sprites[enemy_type]
         print(enemy_sprite)
         return enemy_sprite
     
@@ -110,7 +105,7 @@ class Character:
         for x in range(enemy_count):
             if x == 0:
                 self.enemy1 = character.random_enemy_type()
-                self.enemy1_max_hp = self.mobs_list_hp[self.enemy1]
+                self.enemy1_max_hp = mobs_list_hp[self.enemy1]
                 self.current_enemy_type.append(self.enemy1)
                 self.current_enemies_alive_hp[0] = self.enemy1_max_hp
 
@@ -121,7 +116,7 @@ class Character:
 
             elif x == 1:
                 self.enemy2 = character.random_enemy_type()
-                self.enemy2_max_hp = self.mobs_list_hp[self.enemy2]
+                self.enemy2_max_hp = mobs_list_hp[self.enemy2]
                 self.current_enemy_type.append(self.enemy2)
                 self.current_enemies_alive_hp[1] = self.enemy2_max_hp
 
@@ -132,7 +127,7 @@ class Character:
 
             elif x == 2:
                 self.enemy3 = character.random_enemy_type()
-                self.enemy3_max_hp = self.mobs_list_hp[self.enemy3]
+                self.enemy3_max_hp = mobs_list_hp[self.enemy3]
                 self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp[2] = self.enemy3_max_hp
 
@@ -143,7 +138,7 @@ class Character:
 
             elif x == 3:                
                 self.enemy4 = character.random_enemy_type()
-                self.enemy4_max_hp = self.mobs_list_hp[self.enemy4]
+                self.enemy4_max_hp = mobs_list_hp[self.enemy4]
                 self.current_enemy_type.append(self.enemy4)
                 self.current_enemies_alive_hp[3] = self.enemy4_max_hp
 

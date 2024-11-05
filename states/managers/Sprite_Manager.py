@@ -23,7 +23,8 @@ class Keyboard_Letters:
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
                               'z', 'x', 'c', 'v', 'b', 'n', 'm' ]
-class KeyboardSprites():
+        
+class KeyboardSprites:
     def __init__(self, image):  
         self.sheet = image
 
@@ -103,5 +104,4 @@ class General_Spritesheet:
         self.get_current_sprite()
         self.get_single_frame(self.current_frame, x_pos, y_pos)
     
-
 keyboard_letters = Keyboard_Letters()
