@@ -63,6 +63,10 @@ class Button:
         self.selection_sprites.get_single_frame(2, self.x-5, self.y+self.height-20)
         self.selection_sprites.get_single_frame(3, self.x+self.width-20, self.y+self.height-20)
 
+class Enemy:
+    def __init__(self, enemy_type, enemy_hp, enemy_sprite_image):
+        pass
+
 class Character:
     def __init__(self):
         self.combat_layer = pygame.Surface((1600,900))
@@ -73,29 +77,21 @@ class Character:
         self.battle_state = None
 
     def random_enemy_type(self):
-        self.mob_list_type = list(mobs_list_sprites.keys())
-        return self.mob_list_type[random.randint(0,3)]
+        return mobs_list_type[random.randint(0,3)]
     
-    def enemy_color(self, enemy_type):
-        enemy_sprite = mobs_list_sprites[enemy_type]
-        print(enemy_sprite)
-        return enemy_sprite
-    
-    def get_enemy_sprite(self, enemy_type, enemy_type_png):
-        current_enemy_sprite_img = enemy_type_png
-
+    def get_enemy_sprite(self, enemy_type):
         match enemy_type:
             case 'skeleton':
-                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite_image = skeleton_idle_img
                 current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
             case 'zombie':
-                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite_image = zombie_idle_img
                 current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
             case 'orc':
-                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 5)
+                current_enemy_sprite_image = orc_idle_img
                 current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 256, 64, 4, 5, 125, self.combat_layer)
             case 'goblin':
-                current_enemy_sprite_image = get_image(current_enemy_sprite_img, 3)
+                current_enemy_sprite_image = goblin_idle_img
                 current_enemy_sprite = General_Spritesheet(current_enemy_sprite_image, 600, 150, 4, 3, 125, self.combat_layer)
 
         return current_enemy_sprite
@@ -109,8 +105,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy1)
                 self.current_enemies_alive_hp[0] = self.enemy1_max_hp
 
-                self.enemy_1_sprite_img = character.enemy_color(self.enemy1)
-                self.enemy_1_sprite = self.get_enemy_sprite(self.enemy1, self.enemy_1_sprite_img)
+                self.enemy_1_sprite = self.get_enemy_sprite(self.enemy1)
                 self.enemy_1_sprite.get_frames()
                 self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
 
@@ -120,8 +115,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy2)
                 self.current_enemies_alive_hp[1] = self.enemy2_max_hp
 
-                self.enemy_2_sprite_img = character.enemy_color(self.enemy2)
-                self.enemy_2_sprite = self.get_enemy_sprite(self.enemy2, self.enemy_2_sprite_img)
+                self.enemy_2_sprite = self.get_enemy_sprite(self.enemy2)
                 self.enemy_2_sprite.get_frames()
                 self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2_max_hp)
 
@@ -131,8 +125,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy3)
                 self.current_enemies_alive_hp[2] = self.enemy3_max_hp
 
-                self.enemy_3_sprite_img = character.enemy_color(self.enemy3)
-                self.enemy_3_sprite = self.get_enemy_sprite(self.enemy3, self.enemy_3_sprite_img)
+                self.enemy_3_sprite = self.get_enemy_sprite(self.enemy3)
                 self.enemy_3_sprite.get_frames()
                 self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
 
@@ -142,8 +135,7 @@ class Character:
                 self.current_enemy_type.append(self.enemy4)
                 self.current_enemies_alive_hp[3] = self.enemy4_max_hp
 
-                self.enemy_4_sprite_img = character.enemy_color(self.enemy4)
-                self.enemy_4_sprite = self.get_enemy_sprite(self.enemy4, self.enemy_4_sprite_img)
+                self.enemy_4_sprite = self.get_enemy_sprite(self.enemy4)
                 self.enemy_4_sprite.get_frames()
                 self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4_max_hp)
         
@@ -339,8 +331,6 @@ class Enemy_Actions:
                 self.current_enemy_damage = random.randint(1,3)
                 character.player_damage(self.current_enemy_damage)
                 print(f"goblin did {self.current_enemy_damage} damage")
-
-        print(character.mob_list_type)
 
 class Potions:
     def __init__(self):

@@ -278,7 +278,7 @@ class Keyboard:
                     layer.popup_layer.fill((0,0,0,150))
                     book.display_book()
                     book.display_word_holders()
-                    book.update_current_page()
+                    book.update_current_page_forward()
                     book.display_current_word_set()
                     book.Dictionary_Open = True
                 elif book.Dictionary_Open == True:
@@ -290,7 +290,14 @@ class Keyboard:
                 layer.popup_layer.fill((0,0,0,150))
                 book.display_book()
                 book.display_word_holders()
-                book.update_current_page()
+                book.update_current_page_forward()
+                book.display_current_word_set()
+            
+            case self.pressed_key if self.pressed_key == 'left' and book.Dictionary_Open == True:
+                layer.popup_layer.fill((0,0,0,150))
+                book.display_book()
+                book.display_word_holders()
+                book.update_current_page_backward()
                 book.display_current_word_set()
 
     def keyboard_display(self):
@@ -371,10 +378,14 @@ class Book:
             elif word % 2 != 0 and self.current_page > 1:
                 layer.popup_layer.blit(word_display, (920, 110 + (125 *int((word%10)//2))))
 
-    def update_current_page(self):
+    def update_current_page_forward(self):
         self.current_page += 1
         if self.current_page > self.page_count:
             self.current_page = 1
+    def update_current_page_backward(self):
+        self.current_page -= 1
+        if self.current_page == 0:
+            self.current_page = self.page_count
 
 class Player_Inventory:
     def __init__(self):
