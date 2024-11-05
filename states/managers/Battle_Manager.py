@@ -5,6 +5,7 @@ from states.state_manager import *
 from states.managers.Audio_Manager import *
 from states.managers.Sprite_Manager import *
 from states.battle_data.battle_data import *
+from main_spellbook import *
 
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
@@ -268,7 +269,6 @@ class Character:
             if self.current_enemy_type[current_enemy_attacking] in enemy.enemy_types:
                 if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
                     enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
-                time.sleep(1)
         character.battle_win()
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -313,7 +313,7 @@ class Character:
         
         if self.player_hp_health_bar.current_hp <= 0:
             self.battle_state = 'LOSS'
-    
+            music.Battle_BGM_1_stop()
 
 class Enemy_Actions:
     def __init__ (self):

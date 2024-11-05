@@ -319,6 +319,8 @@ class Keyboard:
             if keyboard.Key_Count_Remaining[key] < 5:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
+        self.typed_text = ''
+        self.cursor_position = 0
 
 class Book:
     def __init__(self):
@@ -333,7 +335,7 @@ class Book:
     
     def display_book(self):
         book.book_sprite.display_sprite(-150, -200)
-        update_game_screen()
+        layer.popup_layer.fill(KEY_PURPLE)
         while book.book_sprite.current_frame > 0:
             layer.popup_layer.fill(KEY_PURPLE)
             layer.popup_layer.fill((0,0,0,150))
@@ -467,6 +469,7 @@ def initalize_battle():
     timer.timer_duration = 30
     timer.start_ticks = pygame.time.get_ticks()
     character.battle_state = None
+    timer.is_player_turn = True
     layer.interface_layer.fill((KEY_PURPLE))
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)

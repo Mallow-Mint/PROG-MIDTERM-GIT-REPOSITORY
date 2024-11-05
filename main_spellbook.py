@@ -1,5 +1,6 @@
 import pygame
 import time
+import asyncio
 from states.title import *
 
 class Game():
@@ -19,7 +20,7 @@ class Game():
         self.STATE_STACK = []
         self.load_states()
 
-    def game_loop(self):
+    async def game_loop(self):
         while self.PLAYING:
             self.get_delta_time()
             self.update()       
@@ -46,4 +47,5 @@ class Game():
 if __name__ == "__main__":
     game = Game()
     while game.RUNNING:
-        game.game_loop()
+        asyncio.run(game.game_loop())
+
