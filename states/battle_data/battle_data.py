@@ -93,7 +93,7 @@ class Valid_Dictionary:
                                 'ice', 'iceprison', 'icewall',
                                 'judgement',
                                 'kick',
-                                'landfall', 'landslide', 'lava', 'light', 'lightbeam', 'lightning'
+                                'landfall', 'landslide', 'lava', 'light', 'lightbeam', 'lightning',
                                 'magma', 'necromancy',
                                 'obliterate',
                                 'poison', 'punch', 'purify',

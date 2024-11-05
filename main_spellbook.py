@@ -39,6 +39,7 @@ class Game():
         current_time = time.time()
         self.DELTA_TIME = current_time - self.PREVIOUS_TIME
         self.PREVIOUS_TIME = current_time
+        
 
     def load_states(self):
         self.title_screen = Title(self)

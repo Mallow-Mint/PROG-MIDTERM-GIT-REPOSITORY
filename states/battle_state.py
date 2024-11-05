@@ -320,7 +320,10 @@ class Keyboard:
                 keyboard.Key_Count_Remaining[key] += 1
         self.max_character_count = 20
         self.typed_text = ''
+<<<<<<< HEAD
         self.cursor_position = 0
+=======
+>>>>>>> 8b1f033fe97b3304017c1c20b97a546707e9a6b0
 
 class Book:
     def __init__(self):
