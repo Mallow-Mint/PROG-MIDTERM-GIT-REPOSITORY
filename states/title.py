@@ -13,10 +13,9 @@ class Title(State):
         State.__init__(self, game)
 
     def update(self):
-        character.battle_state = None
+        character.battle_staee = None
         if menu.start_tutorial:
             music.title_screen_music_stop()
-            battle_data.reset_battle_data()
             initalize_battle()
             new_state = Battle(self.game)
             new_state.enter_state()

@@ -31,3 +31,36 @@ print(l)
 
 for x in range(1):
     print(x)
+words = ['acid', 'air', 'airslice', 'airstrike', 'arrow', 'ashes', 'avalanche', 'axe',
+          'bane', 'bash', 'bite', 'bless', 'blight', 'bolt', 'burn',
+          'crusade', 'curse',
+          'dark', 'drown', 'destroy',
+          'earth', 'earthquake', 'eruption', 'execute', 'exile', 'explosion',
+          'fire', 'fireblast', 'firebolt', 'firestorm', 'flamethrower', 'freeze', 'frostnova',
+          'gale',
+          'hail', 'heal', 'heat', 'heatwave', 'hot', 'howl',
+          'ice', 'iceprison', 'icewall',
+          'judgement',
+          'kick',
+          'landfall', 'landslide', 'lava', 'light', 'lightbeam', 'lightning',
+          'magma', 'necromancy',
+          'obliterate',
+          'poison', 'punch', 'purify',
+          'quasar',
+          'rain', 'rainstorm', 'recover', 'rumble',
+          'sandstorm', 'scorch', 'smite', 'snare', 'snowball', 'squall', 'stonesplitter', 'strike', 'suffocate', 'sunbeam',
+          'thunder', 'thunderbolt', 'thunderclap', 'thunderstorm', 'tornado', 'torpedo', 'tsunami',
+          'umbral',
+          'volcano', 
+          'water', 'waterspout', 'waterstorm', 'wet', 'whirlpool', 'whirlwind', 'wind', 'windslash', 
+          'zap', 'zephyr']
+
+letter_counts = {}
+for word in words:
+    for letter in set(word):  # Use set to get unique letters in each word
+        letter_counts[letter] = letter_counts.get(letter, 0) + 1
+
+# Print the results
+print("Letter counts in words:")
+for letter, count in letter_counts.items():
+    print(f"{letter}: {count}")

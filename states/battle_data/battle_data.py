@@ -104,8 +104,9 @@ class Valid_Dictionary:
                                 'umbral',
                                 'volcano', 
                                 'water', 'waterspout', 'waterstorm', 'wet', 'whirlpool', 'whirlwind', 'wind', 'windslash', 
-                                'zap', 'zephyr', 
-                                'test', 'tonefaker']
+                                'zap', 'zephyr']
+    
+        self.secret_words = ['test', 'tonefaker']
         
         self.single_target_words_damage = { 'acid': 4,
                                             'air': 2,
@@ -201,9 +202,10 @@ class Valid_Dictionary:
                                      'heal': [4,8],
                                      'purify': [8,12],
                                      'recover': [13,20]}
+        
     
     def validWordChecker(self, current_typed_word:str):
-        if current_typed_word in self.valid_word_list:
+        if current_typed_word in self.valid_word_list or self.secret_words:
             return True
         else:
             return False

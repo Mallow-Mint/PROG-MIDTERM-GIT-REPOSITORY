@@ -73,6 +73,7 @@ class Enemy:
 class Character:
     def __init__(self):
         self.combat_layer = pygame.Surface((1600,900))
+        self.combat_action_layer = pygame.Surface((1600,900))
         self.selection_layer = pygame.Surface((1600,900))
         self.selected_enemy = 0
         self.current_enemies_alive_hp = [0,0,0,0]
@@ -140,8 +141,9 @@ class Character:
                 self.x_offset = 180
                 self.y_offset = 160
 
-    def display_enemy(self):
+    def display_idle_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
+        self.combat_action_layer.fill(KEY_GREEN)
         self.selection_layer.fill(KEY_GREEN)
 
         for enemy in range(self.amount_of_enemies):
@@ -242,7 +244,7 @@ class Character:
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.selection_layer)
 
-    def player_displayer(self):
+    def player_idle_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
         self.player_hp_health_bar.draw(self.combat_layer)
         self.player_sprite.display_sprite(140, 90)
@@ -313,6 +315,7 @@ class Potions:
         self.inventory_slot_2 = Button(80, 710, 115, 110, KEY_GREEN, YELLOW)
         self.inventory_slot_3 = Button(1400, 570, 115, 110, KEY_GREEN, YELLOW)
         self.inventory_slot_4 = Button(1400, 710, 115, 110, KEY_GREEN, YELLOW)
+        self.potion_selection_state = False
     
     def display_inventory_buttons(self):
         if battle_data.inventory_slots[0] is not None:
@@ -323,6 +326,29 @@ class Potions:
             self.inventory_slot_3.draw(character.selection_layer)
         if battle_data.inventory_slots[3] is not None:
             self.inventory_slot_4.draw(character.selection_layer)
+
+    def clicked_potion(self, mouse_pos):
+        self.current_click = mouse_pos
+
+        if self.inventory_slot_1.is_clicked(self.current_click):
+            battle_data.inventory_slots[0] = None
+            print('clicked on inventory_1')
+
+        elif self.inventory_slot_2.is_clicked(self.current_click):
+            battle_data.inventory_slots[1] = None
+            print('clicked on inventory_2')
+
+        elif self.inventory_slot_3.is_clicked(self.current_click):
+            battle_data.inventory_slots[2]= None
+            print('clicked on inventory_3')
+            
+        elif self.inventory_slot_4.is_clicked(self.current_click):
+            battle_data.inventory_slots[3] = None
+            print('clicked on inventory_4')
+        
+        else:
+            return None
+
 
 character = Character()
 enemy_action = Enemy_Actions()

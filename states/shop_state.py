@@ -458,6 +458,7 @@ class Button_1:
 
 # Main loop
 def shop_initializer():
+    shop_layer.fill(PURPLE_COLOR_KEY)
     sprite_layer.blit(wooden_sign, (0, 670))
     sprite_layer.blit(wooden_sign, (0, 750))
     sprite_layer.blit(wooden_sign, (1350, 750))

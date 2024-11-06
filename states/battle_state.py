@@ -34,6 +34,7 @@ class Battle(State):
                         update_game_screen()
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
+                    potions.clicked_potion(mouse_pos)
                     if keyboard.end_turn_button.is_clicked() == True:
                         timer.timer_duration = 1
 
@@ -86,7 +87,7 @@ class Layers:
     def __init__(self):
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.combat_layer = character.combat_layer
-        #self.combat_action_layer
+        self.combat_action_layer = character.combat_action_layer
         #spell.action_layer
         self.selection_layer = character.selection_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -350,6 +351,7 @@ class Book:
             layer.popup_layer.fill((0,0,0,150))
             book.book_sprite.display_sprite(-150, -200)
             update_game_screen()
+            clear_inputs()
     
     def display_word_holders(self):
         for x in range(10):
@@ -452,10 +454,12 @@ def update_game_screen():
     '''
     game_window.blit(layer.background_layer, (0,0))
     layer.combat_layer.set_colorkey(KEY_GREEN)
+    layer.combat_action_layer.set_colorkey(KEY_GREEN)
     layer.selection_layer.set_colorkey(KEY_GREEN)
     keyboard_sprite_sheet.keyboard_sprites.set_colorkey(KEY_GREEN)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     game_window.blit(layer.combat_layer,(0,0))
+    game_window.blit(layer.combat_action_layer,(0,0))
     game_window.blit(layer.selection_layer, (0,0))
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
@@ -498,8 +502,8 @@ def battle_interface():
     # Printing Graphics Areaaaaaaaaaaa
     keyboard.keyboard_display()
     keyboard.end_turn_button.draw(layer.interface_layer)
-    character.display_enemy()
-    character.player_displayer()
+    character.display_idle_enemy()
+    character.player_idle_displayer()
     potions.display_inventory_buttons()
     player_inventory.display_invetory()
     timer.update_time()
