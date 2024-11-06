@@ -40,36 +40,6 @@ class Damage():
             self.chain_word_damage_multipler = 1
             spell.previous_spell = ' '
 
-    def targeted_enemy(self, mouse_pos):
-        self.current_click = mouse_pos
-
-        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 1)
-            if spell.lifesteal == True:
-                self.heal_spell(int(self.damage_dealt/2))
-
-        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 2)
-            if spell.lifesteal == True:
-                self.heal_spell(int(self.damage_dealt/2))
-
-        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 3)
-            if spell.lifesteal == True:
-                self.heal_spell(int(self.damage_dealt/2))
-            
-        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 4)
-            if spell.lifesteal == True:
-                self.heal_spell(int(self.damage_dealt/2))
-        
-        else:
-            return None
-        #spell.spell_sound()
-        spell.reset_damage()
-        print(character.current_enemies_alive_hp)
-        character.battle_win()
-
 class Spell:
     def __init__(self):
         #Get Valid Words from Text File
@@ -131,6 +101,8 @@ class Spell:
                 sfx.FAKER()
                 time.sleep(4)
                 damage.AOE_spell(self.damage_dealt)
+            case 'a':
+                damage.AOE_spell(200)
 
         self.previous_spell = spell.current_spell
 

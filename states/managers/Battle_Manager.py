@@ -101,7 +101,7 @@ class Character:
         for x in range(enemy_count):
             random_enemy = self.random_enemy_type()
             if x == 0:
-                self.enemy1 = Enemy(random_enemy, x)
+                self.enemy1 = Enemy('skeleton', x)
                 self.enemy1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1.enemy_max_hp)
 
             elif x == 1:
@@ -128,18 +128,9 @@ class Character:
     
     def check_enemy_type_offset(self, enemy_type):
         match enemy_type:
-            case 'skeleton':
-                self.x_offset = 160
-                self.y_offset = 150
-            case 'zombie':
-                self.x_offset = 180
-                self.y_offset = 180
-            case 'orc':
-                self.x_offset = 100
-                self.y_offset = 100
-            case 'goblin':
-                self.x_offset = 180
-                self.y_offset = 160
+            case enemy_type if enemy_type in mobs_list_type:
+                self.x_offset = mobs_list_offset[enemy_type][0]
+                self.y_offset = mobs_list_offset[enemy_type][1]
 
     def display_idle_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
@@ -229,13 +220,6 @@ class Character:
         self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
         character.enemy_status(3)
 
-    def enemy_turn(self):
-        for current_enemy_attacking in range(self.amount_of_enemies):
-            if self.current_enemy_type[current_enemy_attacking] in enemy_action.enemy_types:
-                if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
-                    enemy_action.enemy_actions(self.current_enemy_type[current_enemy_attacking])
-        character.battle_win()
-
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
     def player_initalizer(self):
@@ -279,36 +263,6 @@ class Character:
             self.battle_state = 'LOSS'
             music.Battle_BGM_1_stop()
 
-class Enemy_Actions:
-    def __init__ (self):
-        self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
-    
-    def enemy_actions(self, enemy_doing_action):
-        match enemy_doing_action:
-            case 'skeleton':
-                skeleton_attack = random.randint(1,100)
-                if skeleton_attack <= 67:
-                    self.current_enemy_damage = random.randint(2,3)
-                else: 
-                    self.current_enemy_damage = random.randint(4,6)
-                character.player_damage(self.current_enemy_damage)
-                print(f"sekelton did {self.current_enemy_damage} damage")
-
-            case 'zombie':
-                self.current_enemy_damage = random.randint(2,4)
-                character.player_damage(self.current_enemy_damage)
-                print(f"zombie did {self.current_enemy_damage} damage")
-
-            case 'orc':
-                self.current_enemy_damage = random.randint(4,8)
-                character.player_damage(self.current_enemy_damage)
-                print(f"orc did {self.current_enemy_damage} damage")
-
-            case 'goblin':
-                self.current_enemy_damage = random.randint(1,3)
-                character.player_damage(self.current_enemy_damage)
-                print(f"goblin did {self.current_enemy_damage} damage")
-
 class Potions:
     def __init__(self):
         self.inventory_slot_1 = Button(80, 570, 115, 110, KEY_GREEN, YELLOW)
@@ -351,5 +305,4 @@ class Potions:
 
 
 character = Character()
-enemy_action = Enemy_Actions()
 potions = Potions()

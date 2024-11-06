@@ -106,7 +106,7 @@ class Valid_Dictionary:
                                 'water', 'waterspout', 'waterstorm', 'wet', 'whirlpool', 'whirlwind', 'wind', 'windslash', 
                                 'zap', 'zephyr']
     
-        self.secret_words = ['test', 'tonefaker']
+        self.secret_words = ['test', 'tonefaker', 'a']
         
         self.single_target_words_damage = { 'acid': 4,
                                             'air': 2,

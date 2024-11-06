@@ -30,4 +30,6 @@ l = remove_from_list(l, 'cow')
 
 d = {'water': 1}
 
-print(d['water'])
+t =(20,30)
+
+print(t[0])

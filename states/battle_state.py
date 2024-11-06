@@ -28,7 +28,7 @@ class Battle(State):
                     keyboard.key_press_action(key)
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                    damage.targeted_enemy(mouse_pos)
+                    enemy_actions.targeted_enemy(mouse_pos)
                     if spell.enemy_selection_state == False:
                         layer.popup_layer.fill(KEY_PURPLE)
                         update_game_screen()
@@ -37,6 +37,7 @@ class Battle(State):
                     potions.clicked_potion(mouse_pos)
                     if keyboard.end_turn_button.is_clicked() == True:
                         timer.timer_duration = 1
+
 
         character.battle_win()            
         if character.battle_state == 'WIN':
@@ -78,6 +79,7 @@ keyboard_sprite_sheet.get_keyboard_sprites()
 Background_Image = pygame.image.load('Assets/Background/bg_11/bg_11.png')
 Background_Image = pygame.transform.scale(Background_Image, (1600, 900))
 Interface_Image = pygame.image.load('Assets/Interface/interface_bg.png')
+Interface_Image_Hover = pygame.image.load('Assets/Interface/interface_bg_hover.png')
 Typing_area = pygame.image.load('Assets/Interface/typing_area.png')
 Word_holder = pygame.image.load('Assets/Interface/book_text_holder.png')
 Popup_box = pygame.image.load('Assets/Interface/popup_box.png')
@@ -90,7 +92,7 @@ class Layers:
         self.combat_action_layer = character.combat_action_layer
         #spell.action_layer
         self.selection_layer = character.selection_layer
-        self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
         self.popup_layer = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT)).convert_alpha()
 
@@ -108,9 +110,6 @@ class Timer:
     def update_time(self):
         self.seconds_passed = (pygame.time.get_ticks() - self.start_ticks) / 1000
         self.time_left = max(0, self.timer_duration - int(self.seconds_passed))
-        angle = (self.time_left / self.timer_duration) * 2 * math.pi
-        self.hand_x = self.center_x + self.radius * math.cos(-angle + math.pi / 2)
-        self.hand_y = self.center_y + self.radius * math.sin(-angle + math.pi / 2)
 
         if self.time_left <= 0: # Turn switching
             if self.is_player_turn == True:
@@ -119,7 +118,7 @@ class Timer:
                 layer.popup_layer.fill(KEY_PURPLE)
                 book.Dictionary_Open = False
                 update_game_screen()
-                character.enemy_turn()
+                enemy_actions.enemy_turn()
                 update_game_screen()
                 self.start_ticks = pygame.time.get_ticks()
                 self.is_player_turn = False
@@ -134,10 +133,10 @@ class Timer:
 
     def draw(self):
         if self.is_player_turn == True:
-            self.time_left_text = get_font(40).render(str(self.time_left), True, WHITE)
+            self.time_left_text_border = get_font(55).render(str(self.time_left), True, BLACK)
+            self.time_left_text = get_font(50).render(str(self.time_left), True, WHITE)
+            layer.interface_layer.blit(self.time_left_text_border, (15, 15))
             layer.interface_layer.blit(self.time_left_text, (15, 15))
-            pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
-            pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
 
 class EndTurnButton:
     def __init__(self, x, y, width, height, text, font):
@@ -148,21 +147,17 @@ class EndTurnButton:
         self.text = text
         self.font = font 
 
-        self.color = WHITE  # Black
-        self.hover_color = RED  # Yellow
+        self.color = WHITE 
+        self.hover_color = WHITE
         self.rect = pygame.Rect(x, y, width, height)
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.color = self.hover_color
-        else:
-            self.color = self.color  # Transparent
-
-        pygame.draw.rect(screen, self.color, self.rect)  # Fill the rect with the color
-        # Render the text and draw it centered on the button
-        text_surface = self.font.render(str(self.text), True, BLACK)  # White text
-        screen.blit(text_surface, (1400, 480))
+            layer.background_layer.blit(Interface_Image_Hover, (0,350))
+        text_surface = self.font.render(str(self.text), True, self.color)
+        screen.blit(text_surface, (self.x+30, self.y+15))
 
     def is_clicked(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -221,7 +216,6 @@ class Keyboard:
                     sfx.keyboard_press_sound()
                     update_game_screen()
                     self.key_state = 0
-                    update_game_screen()
                     while self.key_state < 1:
                         self.key_state += 0.1
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
@@ -307,7 +301,7 @@ class Keyboard:
     def keyboard_display(self):
         # Make Typing Area
         layer.background_layer.blit(Background_Image, (0,-440))
-        layer.background_layer.blit(Interface_Image, (0,410))
+        layer.background_layer.blit(Interface_Image, (0,350))
 
         layer.interface_layer.fill(KEY_PURPLE)
         layer.interface_layer.blit(Typing_area, (540,480))
@@ -324,7 +318,7 @@ class Keyboard:
                 layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
         # End Turn Button
-        self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", get_font(20))
+        self.end_turn_button = EndTurnButton(1300, 360, 190, 60, "End Turn", get_font(25))
 
     def end_turn_key_replenish(self):
         for key, amount in keyboard.Key_Count_Remaining.items():
@@ -446,6 +440,74 @@ class Player_Inventory:
                 elif battle_data.inventory_slots[3] == "Letter Potion":
                     self.Letter_Potion_Sprite.display_sprite(1440, 730) 
 
+class Enemy_Actions:
+    def __init__ (self):
+        self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
+    
+    def enemy_actions(self, enemy_doing_action):
+        match enemy_doing_action:
+            case 'skeleton':
+                skeleton_attack = random.randint(1,100)
+                if skeleton_attack <= 67:
+                    self.current_enemy_damage = random.randint(2,3)
+                else: 
+                    self.current_enemy_damage = random.randint(4,6)
+                character.player_damage(self.current_enemy_damage)
+                print(f"sekelton did {self.current_enemy_damage} damage")
+
+            case 'zombie':
+                self.current_enemy_damage = random.randint(2,4)
+                character.player_damage(self.current_enemy_damage)
+                print(f"zombie did {self.current_enemy_damage} damage")
+
+            case 'orc':
+                self.current_enemy_damage = random.randint(4,8)
+                character.player_damage(self.current_enemy_damage)
+                print(f"orc did {self.current_enemy_damage} damage")
+
+            case 'goblin':
+                self.current_enemy_damage = random.randint(1,3)
+                character.player_damage(self.current_enemy_damage)
+                print(f"goblin did {self.current_enemy_damage} damage")
+        
+    def enemy_turn(self):
+        for current_enemy_attacking in range(character.amount_of_enemies):
+            if character.current_enemy_type[current_enemy_attacking] in self.enemy_types:
+                if character.current_enemies_alive_hp[current_enemy_attacking] != 0:
+                    self.enemy_actions(character.current_enemy_type[current_enemy_attacking])
+        character.battle_win()
+
+    def targeted_enemy(self, mouse_pos):
+        self.current_click = mouse_pos
+
+        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 1)
+            if spell.lifesteal == True:
+                damage.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 2)
+            if spell.lifesteal == True:
+                damage.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 3)
+            if spell.lifesteal == True:
+                damage.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 4)
+            if spell.lifesteal == True:
+                damage.heal_spell(int(damage.damage_dealt/2))
+        
+        else:
+            return None
+        #spell.spell_sound()
+        spell.reset_damage()
+        print(character.current_enemies_alive_hp)
+        character.battle_win()
+
+
 typing_area_height = 50
 typing_area_y = 480
 
@@ -475,6 +537,7 @@ def clear_inputs():
 layer = Layers()
 book = Book()
 keyboard = Keyboard()
+enemy_actions = Enemy_Actions()
 timer = Timer()
 player_inventory = Player_Inventory()
 
