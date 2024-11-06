@@ -7,7 +7,7 @@ mobs_list_sprites = {'skeleton': 'Assets/Monsters/4 direction monsters/Skeleton/
                                 'orc': 'Assets/Monsters/Golem_IdleB.png' ,
                                 'goblin': 'Assets/Monsters/4 direction monsters/Goblin/Idle.png'}
         
-mobs_list_hp = {'skeleton': 15, 'zombie': 10, 'orc': 20 , 'goblin': 10}
+mobs_list_hp = {'skeleton': 30, 'zombie': 20, 'orc': 40 , 'goblin': 20}
 
 
 skeleton_idle_img = get_image('Assets/Monsters/4 direction monsters/Skeleton/Idle.png', 3)

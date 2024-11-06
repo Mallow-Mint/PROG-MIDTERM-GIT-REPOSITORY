@@ -65,8 +65,9 @@ KEY_PURPLE = (255, 0, 255)
 
 
 # Set fonts Used for Text
-font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 20)
-big_font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', 40)
+def get_font(font_size):
+    font = pygame.font.Font('Assets/Fonts/minercraftory/Minercraftory.ttf', font_size)
+    return font
 
 # Get Sprite Sheet for Keyboard
 keyboard_sprite_sheet_image = get_image('Assets/SimpleKeys/Classic/Light/Keys_Sprite_Sheet.png', 6)
@@ -112,7 +113,7 @@ class Timer:
 
         if self.time_left <= 0: # Turn switching
             if self.is_player_turn == True:
-                self.time_left_text = big_font.render("ENEMY TURN", True, RED)
+                self.time_left_text = get_font(40).render("ENEMY TURN", True, RED)
                 layer.interface_layer.blit(self.time_left_text, (15, 15))
                 layer.popup_layer.fill(KEY_PURPLE)
                 book.Dictionary_Open = False
@@ -132,7 +133,7 @@ class Timer:
 
     def draw(self):
         if self.is_player_turn == True:
-            self.time_left_text = big_font.render(str(self.time_left), True, WHITE)
+            self.time_left_text = get_font(40).render(str(self.time_left), True, WHITE)
             layer.interface_layer.blit(self.time_left_text, (15, 15))
             pygame.draw.circle(layer.interface_layer, WHITE, (self.center_x, self.center_y), self.radius, self.line_thickness)
             pygame.draw.line(layer.interface_layer, RED, (self.center_x, self.center_y), (self.hand_x, self.hand_y), self.line_thickness)
@@ -180,10 +181,10 @@ class Keyboard:
         self.key_state = 1 #1 is default 0 is pressed
 
         # Popup Messages
-        self.no_letter_left = font.render("You Have None of this Character Left!", True, BLACK)
-        self.no_character_left = font.render("You Have No Characters Left!", True, BLACK)   
-        self.not_in_dictionary = font.render("Word Not in your Dictionary", True, BLACK)
-        self.select_target = font.render("Please Select a Target", True, BLACK)
+        self.no_letter_left = get_font(20).render("You Have None of this Character Left!", True, BLACK)
+        self.no_character_left = get_font(20).render("You Have No Characters Left!", True, BLACK)   
+        self.not_in_dictionary = get_font(20).render("Word Not in your Dictionary", True, BLACK)
+        self.select_target = get_font(20).render("Please Select a Target", True, BLACK)
 
     def keyboard_amount_position(self):
         self.Key_Amount_Position = {}
@@ -263,7 +264,7 @@ class Keyboard:
                 # Update Max Character Count and Display enterd word at top of Screen
                     spell.spellcast(self.typed_text)
                     if spell.enemy_selection_state == True:
-                        self.displayed_text = font.render(self.typed_text.upper(), True, BLACK)
+                        self.displayed_text = get_font(20).render(self.typed_text.upper(), True, BLACK)
                         layer.popup_layer.blit(Popup_box, (460,40))
                         layer.popup_layer.blit(self.select_target, (650, 50))
                         update_game_screen()
@@ -311,17 +312,17 @@ class Keyboard:
         layer.interface_layer.blit(Typing_area, (540,480))
 
         # Draw typed text and cursor
-        typed_text_surface = font.render(keyboard.typed_text.upper(), True, BLACK)
+        typed_text_surface = get_font(20).render(keyboard.typed_text.upper(), True, BLACK)
         layer.interface_layer.blit(typed_text_surface, (560, typing_area_y + 12))
-        character_counter = big_font.render(str(keyboard.max_character_count), True, WHITE)
+        character_counter = get_font(40).render(str(keyboard.max_character_count), True, WHITE)
         layer.interface_layer.blit(character_counter, (1050, 473))
 
         for key, pos in keyboard.Key_Amount_Position.items():
-            count_text = font.render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
+            count_text = get_font(20).render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
             layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
         # End Turn Button
-        self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", font)
+        self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", get_font(20))
 
     def key_replenish(self):
         for key, amount in keyboard.Key_Count_Remaining.items():
@@ -336,7 +337,6 @@ class Book:
         self.Dictionary_Open = False
         self.book_img = get_image('Assets/Interface/book_display.png')
         self.book_sprite = General_Spritesheet(self.book_img, 19200, 1080, 10, 1, 10, layer.popup_layer)
-        self.book_sprite.get_frames()
         self.current_page = 0
     
     def get_page_count(self):
@@ -400,10 +400,6 @@ class Player_Inventory:
         self.All_Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_ALpotion, 288, 39, 12, 2, 75, layer.interface_layer)
         self.Letter_Potion_Sprite = General_Spritesheet(sprite_sheet_Lpotion, 396, 35, 22, 2, 75, layer.interface_layer)
 
-        self.Health_Pot_Sprite.get_frames()
-        self.Health_Pot_XL_Sprite.get_frames()
-        self.All_Letter_Potion_Sprite.get_frames()
-        self.Letter_Potion_Sprite.get_frames()
             
     def display_invetory(self):
         for i in range(len(battle_data.inventory_slots)):
@@ -488,12 +484,15 @@ def initalize_battle():
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
     character.enemy_initalizer(random.randint(2,4))
+    damage.chain_word_damage_multipler = 1
     keyboard.max_character_count = 20
     keyboard.get_key_amounts()
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
     book.get_page_count()
     music.Battle_BGM_1()
+    print(character.amount_of_enemies)
+    print(character.current_enemies_alive_hp)
 
 def battle_interface():
     # Printing Graphics Areaaaaaaaaaaa

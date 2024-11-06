@@ -80,6 +80,7 @@ class General_Spritesheet:
         self.current_time_1 = 0
         self.animation_cooldown = cooldown
         self.last_update_1 = pygame.time.get_ticks()
+        self.get_frames()
 
     def get_frames(self):
         scaled_width = self.width * self.scale

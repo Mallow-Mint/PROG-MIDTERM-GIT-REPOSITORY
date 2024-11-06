@@ -44,7 +44,6 @@ class Button:
         self.rect = pygame.Rect(x, y, width, height)
         self.selection_sprite_img = get_image('Assets/Interface/selection_sprites.png')
         self.selection_sprites = General_Spritesheet(self.selection_sprite_img, 105, 27, 4, 1, 0, character.selection_layer)
-        self.selection_sprites.get_frames()
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
@@ -64,8 +63,12 @@ class Button:
         self.selection_sprites.get_single_frame(3, self.x+self.width-20, self.y+self.height-20)
 
 class Enemy:
-    def __init__(self, enemy_type, enemy_hp, enemy_sprite_image):
-        pass
+    def __init__(self, enemy_type, enemy_number):
+        self.enemy = enemy_type
+        self.enemy_max_hp = mobs_list_hp[enemy_type]
+        character.current_enemy_type.append(self.enemy)
+        character.current_enemies_alive_hp[enemy_number] = self.enemy_max_hp
+        self.enemy_sprite = character.get_enemy_idle_sprite(self.enemy)
 
 class Character:
     def __init__(self):
@@ -92,55 +95,33 @@ class Character:
 
         return current_enemy_sprite
     
+
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
+            random_enemy = self.random_enemy_type()
             if x == 0:
-                self.enemy1 = character.random_enemy_type()
-                self.enemy1_max_hp = mobs_list_hp[self.enemy1]
-                self.current_enemy_type.append(self.enemy1)
-                self.current_enemies_alive_hp[0] = self.enemy1_max_hp
-
-                self.enemy_1_sprite = self.get_enemy_idle_sprite(self.enemy1)
-                self.enemy_1_sprite.get_frames()
-                self.enemy_1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1_max_hp)
+                self.enemy1 = Enemy(random_enemy, x)
+                self.enemy1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1.enemy_max_hp)
 
             elif x == 1:
-                self.enemy2 = character.random_enemy_type()
-                self.enemy2_max_hp = mobs_list_hp[self.enemy2]
-                self.current_enemy_type.append(self.enemy2)
-                self.current_enemies_alive_hp[1] = self.enemy2_max_hp
-
-                self.enemy_2_sprite = self.get_enemy_idle_sprite(self.enemy2)
-                self.enemy_2_sprite.get_frames()
-                self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2_max_hp)
+                self.enemy2 = Enemy(random_enemy, x)
+                self.enemy2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2.enemy_max_hp)
 
             elif x == 2:
-                self.enemy3 = character.random_enemy_type()
-                self.enemy3_max_hp = mobs_list_hp[self.enemy3]
-                self.current_enemy_type.append(self.enemy3)
-                self.current_enemies_alive_hp[2] = self.enemy3_max_hp
-
-                self.enemy_3_sprite = self.get_enemy_idle_sprite(self.enemy3)
-                self.enemy_3_sprite.get_frames()
-                self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3_max_hp)
+                self.enemy3 = Enemy(random_enemy, x)
+                self.enemy3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3.enemy_max_hp)
 
             elif x == 3:                
-                self.enemy4 = character.random_enemy_type()
-                self.enemy4_max_hp = mobs_list_hp[self.enemy4]
-                self.current_enemy_type.append(self.enemy4)
-                self.current_enemies_alive_hp[3] = self.enemy4_max_hp
-
-                self.enemy_4_sprite = self.get_enemy_idle_sprite(self.enemy4)
-                self.enemy_4_sprite.get_frames()
-                self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4_max_hp)
+                self.enemy4 = Enemy(random_enemy, x)
+                self.enemy4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4.enemy_max_hp)
         
         for x in range(4 - enemy_count):
             if x == 0:
-                self.enemy_4_hp_bar = HealthBar(1330, 110, 140, 20, 0)
+                self.enemy4_hp_bar = HealthBar(1330, 110, 140, 20, 0)
             elif x == 1:
-                self.enemy_3_hp_bar = HealthBar(1180, 160, 140, 20, 0)
+                self.enemy3_hp_bar = HealthBar(1180, 160, 140, 20, 0)
             elif x == 2:
-                self.enemy_2_hp_bar = HealthBar(1030, 110, 140, 20, 0)
+                self.enemy2_hp_bar = HealthBar(1030, 110, 140, 20, 0)
 
         self.amount_of_enemies = enemy_count
     
@@ -166,27 +147,27 @@ class Character:
         for enemy in range(self.amount_of_enemies):
             if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
                 pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
-                self.enemy_1_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy1)
-                self.enemy_1_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
+                self.enemy1_hp_bar.draw(self.combat_layer)
+                self.check_enemy_type_offset(self.enemy1.enemy)
+                self.enemy1.enemy_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
 
             elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
                 pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
-                self.enemy_2_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy2)
-                self.enemy_2_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
+                self.enemy2_hp_bar.draw(self.combat_layer)
+                self.check_enemy_type_offset(self.enemy2.enemy)
+                self.enemy2.enemy_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
 
             elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
                 pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
-                self.enemy_3_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy3)
-                self.enemy_3_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
+                self.enemy3_hp_bar.draw(self.combat_layer)
+                self.check_enemy_type_offset(self.enemy3.enemy)
+                self.enemy3.enemy_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
 
             elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
                 pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
-                self.enemy_4_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy4)
-                self.enemy_4_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
+                self.enemy4_hp_bar.draw(self.combat_layer)
+                self.check_enemy_type_offset(self.enemy4.enemy)
+                self.enemy4.enemy_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
         
         #Draw Buttons for Enemies
         self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)
@@ -213,44 +194,44 @@ class Character:
     def do_damage_single_target(self, damage_dealt, enemy_targeted):
         match enemy_targeted:
             case 1:
-                self.enemy_1_hp_bar.current_hp -= damage_dealt
-                self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+                self.enemy1_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[0] = self.enemy1_hp_bar.current_hp
                 character.enemy_status(0)
             case 2:
-                self.enemy_2_hp_bar.current_hp -= damage_dealt
-                self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+                self.enemy2_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[1] = self.enemy2_hp_bar.current_hp
                 character.enemy_status(1)
             case 3:
-                self.enemy_3_hp_bar.current_hp -= damage_dealt
-                self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+                self.enemy3_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[2] = self.enemy3_hp_bar.current_hp
                 character.enemy_status(2)
             case 4:
-                self.enemy_4_hp_bar.current_hp -= damage_dealt
-                self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+                self.enemy4_hp_bar.current_hp -= damage_dealt
+                self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
                 character.enemy_status(3)
     
     def do_damage_AOE(self, damage_dealt):
-        self.enemy_1_hp_bar.current_hp -= damage_dealt
-        self.current_enemies_alive_hp[0] = self.enemy_1_hp_bar.current_hp
+        self.enemy1_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[0] = self.enemy1_hp_bar.current_hp
         character.enemy_status(0)
 
-        self.enemy_2_hp_bar.current_hp -= damage_dealt
-        self.current_enemies_alive_hp[1] = self.enemy_2_hp_bar.current_hp
+        self.enemy2_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[1] = self.enemy2_hp_bar.current_hp
         character.enemy_status(1)
 
-        self.enemy_3_hp_bar.current_hp -= damage_dealt
-        self.current_enemies_alive_hp[2] = self.enemy_3_hp_bar.current_hp
+        self.enemy3_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[2] = self.enemy3_hp_bar.current_hp
         character.enemy_status(2)
 
-        self.enemy_4_hp_bar.current_hp -= damage_dealt
-        self.current_enemies_alive_hp[3] = self.enemy_4_hp_bar.current_hp
+        self.enemy4_hp_bar.current_hp -= damage_dealt
+        self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
         character.enemy_status(3)
 
     def enemy_turn(self):
         for current_enemy_attacking in range(self.amount_of_enemies):
-            if self.current_enemy_type[current_enemy_attacking] in enemy.enemy_types:
+            if self.current_enemy_type[current_enemy_attacking] in enemy_action.enemy_types:
                 if self.current_enemies_alive_hp[current_enemy_attacking] != 0:
-                    enemy.enemy_actions(self.current_enemy_type[current_enemy_attacking])
+                    enemy_action.enemy_actions(self.current_enemy_type[current_enemy_attacking])
         character.battle_win()
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -260,7 +241,6 @@ class Character:
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.selection_layer)
-        self.player_sprite.get_frames()
 
     def player_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
@@ -345,5 +325,5 @@ class Potions:
             self.inventory_slot_4.draw(character.selection_layer)
 
 character = Character()
-enemy = Enemy_Actions()
+enemy_action = Enemy_Actions()
 potions = Potions()
