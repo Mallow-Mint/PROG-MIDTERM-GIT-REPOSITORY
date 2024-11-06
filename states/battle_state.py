@@ -370,7 +370,7 @@ class Book:
             current_word_set_end = len(dictionary.valid_word_list)
         
         for word in range(current_word_set_start, current_word_set_end):
-            word_display = font.render(dictionary.valid_word_list[word], True, BLACK)
+            word_display = get_font(20).render(dictionary.valid_word_list[word], True, BLACK)
             if word % 2 == 0 and self.current_page == 1:
                 layer.popup_layer.blit(word_display, (380,110 + (125*int(word/2))))
             elif word % 2 != 0 and self.current_page == 1:
