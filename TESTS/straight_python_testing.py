@@ -1,4 +1,6 @@
 import random
+import pygame
+pygame.init
 def initialize_key_amounts():
     shared_dictionary = open('states/battle_data/SpellBook.txt', "r")
     valid_words = shared_dictionary.read() 
@@ -11,10 +13,19 @@ def initialize_key_amounts():
         print(current_word)
     print(valid_word_list)
 
-l = {'dog': 1, 'cat':2, 'cow':3}
-r = [1,6]
-x = 'dog'
+l = ['cat', 'dog', 'cow']
 
-match x:
-    case x if x in l.keys():
-        print(random.randrange)
+print(l)
+
+def remove_from_list(list, word):
+    working_list = list
+    removed_word_index = working_list.index(word)
+    working_list.pop(removed_word_index)
+    return working_list
+
+l = remove_from_list(l, 'dog')
+l = remove_from_list(l, 'cat')
+l = remove_from_list(l, 'cow')
+
+print(l)
+

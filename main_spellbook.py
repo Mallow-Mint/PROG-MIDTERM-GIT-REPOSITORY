@@ -45,7 +45,7 @@ class Game():
         self.STATE_STACK.append(self.title_screen)
 
 if __name__ == "__main__":
-    game = Game()
+    game = Game()       
     while game.RUNNING:
         asyncio.run(game.game_loop())
 

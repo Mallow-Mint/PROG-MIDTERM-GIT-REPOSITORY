@@ -85,6 +85,8 @@ class Layers:
     def __init__(self):
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.combat_layer = character.combat_layer
+        #self.combat_action_layer
+        #spell.action_layer
         self.selection_layer = character.selection_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()

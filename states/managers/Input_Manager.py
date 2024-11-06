@@ -47,23 +47,26 @@ class Damage():
             character.do_damage_single_target(spell.damage_dealt, 1)
             if spell.lifesteal == True:
                 self.heal_spell(int(self.damage_dealt/2))
-            spell.reset_damage()
 
         elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
             character.do_damage_single_target(spell.damage_dealt, 2)
-            spell.reset_damage()
+            if spell.lifesteal == True:
+                self.heal_spell(int(self.damage_dealt/2))
 
         elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
             character.do_damage_single_target(spell.damage_dealt, 3)
-            spell.reset_damage()
+            if spell.lifesteal == True:
+                self.heal_spell(int(self.damage_dealt/2))
             
         elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
             character.do_damage_single_target(spell.damage_dealt, 4)
-            spell.reset_damage()
+            if spell.lifesteal == True:
+                self.heal_spell(int(self.damage_dealt/2))
         
         else:
             return None
-        spell.spell_sound()
+        #spell.spell_sound()
+        spell.reset_damage()
         print(character.current_enemies_alive_hp)
         character.battle_win()
 
@@ -95,7 +98,7 @@ class Spell:
                 self.enemy_selection_state = True
                 base_damage = dictionary.single_target_words_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-                self.spell_sound = sfx.water_spell_sound
+                #self.spell_sound = spell_sfx[self.current_spell
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in dictionary.life_steal_damage.keys():
@@ -127,9 +130,8 @@ class Spell:
                 time.sleep(4)
                 damage.AOE_spell(self.damage_dealt)
 
-
         self.previous_spell = spell.current_spell
-    
+
 
 spell = Spell()
 damage = Damage()

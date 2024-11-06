@@ -268,9 +268,9 @@ class Character:
         self.player_sprite.display_sprite(140, 90)
 
     def player_heal(self, hp_healed, hp_change=0):
-        hp_change = int(battle_data.current_health[0])
+        hp_change = battle_data.current_health[0]
         hp_change += hp_healed
-        battle_data.current_health[0] = hp_change
+        battle_data.current_health[0] = int(hp_change)
         if battle_data.current_health[0] > 50:
             battle_data.current_health[0] = 50
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
@@ -279,7 +279,7 @@ class Character:
     def player_damage(self, hp_damage, hp_change=0):
         hp_change = battle_data.current_health[0]
         hp_change -= hp_damage
-        battle_data.current_health[0] = hp_change
+        battle_data.current_health[0] = int(hp_change)
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_hp_health_bar.draw(self.combat_layer)
     
