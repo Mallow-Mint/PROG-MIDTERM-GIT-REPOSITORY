@@ -1,12 +1,6 @@
 from states.managers.Sprite_Manager import *
 
 mobs_list_type = ['skeleton', 'zombie', 'orc', 'goblin']
-
-mobs_list_sprites = {'skeleton': 'Assets/Monsters/4 direction monsters/Skeleton/Idle.png', 
-                                'zombie': 'Assets/Monsters/4 direction monsters/Mushroom/Idle.png',
-                                'orc': 'Assets/Monsters/Golem_IdleB.png' ,
-                                'goblin': 'Assets/Monsters/4 direction monsters/Goblin/Idle.png'}
-        
 mobs_list_hp = {'skeleton': 30, 'zombie': 20, 'orc': 40 , 'goblin': 20}
 
 

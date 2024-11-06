@@ -205,7 +205,9 @@ class Valid_Dictionary:
         
     
     def validWordChecker(self, current_typed_word:str):
-        if current_typed_word in self.valid_word_list or self.secret_words:
+        if current_typed_word in self.valid_word_list:
+            return True
+        elif current_typed_word in self.secret_words:
             return True
         else:
             return False

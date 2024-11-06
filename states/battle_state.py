@@ -40,7 +40,7 @@ class Battle(State):
 
         character.battle_win()            
         if character.battle_state == 'WIN':
-            keyboard.key_replenish()
+            keyboard.end_turn_key_replenish()
             keyboard.save_key_amounts()
             self.exit_state()
         if character.battle_state == 'LOSS':
@@ -127,7 +127,7 @@ class Timer:
             else: 
                 self.timer_duration = 30
                 self.is_player_turn = True
-                keyboard.key_replenish()
+                keyboard.end_turn_key_replenish()
                 update_game_screen()
                 clear_inputs()
                 self.start_ticks = pygame.time.get_ticks()
@@ -319,13 +319,14 @@ class Keyboard:
         layer.interface_layer.blit(character_counter, (1050, 473))
 
         for key, pos in keyboard.Key_Amount_Position.items():
-            count_text = get_font(20).render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
-            layer.interface_layer.blit(count_text, (pos[0], pos[1]))
+            if keyboard.Key_Count_Remaining[key] > 0:
+                count_text = get_font(20).render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
+                layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
         # End Turn Button
         self.end_turn_button = EndTurnButton(1400, 470, 1500, 40, "End Turn", get_font(20))
 
-    def key_replenish(self):
+    def end_turn_key_replenish(self):
         for key, amount in keyboard.Key_Count_Remaining.items():
             if keyboard.Key_Count_Remaining[key] < 5:
                 keyboard.Key_Count_Remaining[key] += 1

@@ -98,7 +98,7 @@ class Spell:
                 self.enemy_selection_state = True
                 base_damage = dictionary.single_target_words_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-                #self.spell_sound = spell_sfx[self.current_spell
+                #self.spell_sound = spell_sfx_single_target[self.current_spell]
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in dictionary.life_steal_damage.keys():
@@ -111,6 +111,8 @@ class Spell:
             case self.current_spell if self.current_spell in dictionary.multi_target_word_damage.keys():
                 base_damage = dictionary.multi_target_word_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
+                #self.spell_sound = spell_sfx_single_target[self.current_spell]
+                #spell.spell_sound()
                 damage.AOE_spell(self.damage_dealt)
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

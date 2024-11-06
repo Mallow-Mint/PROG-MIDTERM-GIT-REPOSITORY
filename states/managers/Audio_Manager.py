@@ -68,5 +68,5 @@ class SoundEffects:
 music = Music()
 sfx =  SoundEffects()
 
-water_spell_sfx = sfx.water_spell_sound
-spell_sfx = {"water": water_spell_sfx}
+water_spell_single_target_sfx = sfx.water_spell_sound
+spell_sfx_single_target = {"water": water_spell_single_target_sfx}
