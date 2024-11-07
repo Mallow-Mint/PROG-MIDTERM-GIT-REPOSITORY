@@ -15,21 +15,5 @@ def initialize_key_amounts():
 
 l = ['cat', 'dog', 'cow']
 
+l.pop()
 print(l)
-
-def remove_from_list(list, word):
-    working_list = list
-    removed_word_index = working_list.index(word)
-    working_list.pop(removed_word_index)
-    return working_list
-
-l = remove_from_list(l, 'dog')
-l = remove_from_list(l, 'cat')
-l = remove_from_list(l, 'cow')
-
-
-d = {'water': 1}
-
-t =(20,30)
-
-print(t[0])

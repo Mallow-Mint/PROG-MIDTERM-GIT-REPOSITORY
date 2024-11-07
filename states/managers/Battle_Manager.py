@@ -70,6 +70,7 @@ class Enemy:
         character.current_enemies_alive_hp[enemy_number] = self.enemy_max_hp
         self.enemy_sprite = character.get_enemy_idle_sprite(self.enemy)
         self.enemy_attack_sprite = character.get_enemy_attack_sprite(self.enemy)
+        self.enemy_hit_sprite = character.get_enemy_hit_sprite(self.enemy)
 
 class Character:
     def __init__(self):
@@ -100,15 +101,28 @@ class Character:
     def get_enemy_attack_sprite(self, enemy_type):
         match enemy_type:
             case 'skeleton':
-                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'zombie':
-                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'bat_eye':
-                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'goblin':
-                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
 
         return current_enemy_attack_sprite
+
+    def get_enemy_hit_sprite(self, enemy_type):
+        match enemy_type:
+            case 'skeleton':
+                current_enemy_hit_sprite = General_Spritesheet(skeleton_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
+            case 'zombie':
+                current_enemy_hit_sprite = General_Spritesheet(zombie_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
+            case 'bat_eye':
+                current_enemy_hit_sprite = General_Spritesheet(bat_eye_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
+            case 'goblin':
+                current_enemy_hit_sprite = General_Spritesheet(goblin_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
+
+        return current_enemy_hit_sprite
 
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
@@ -174,8 +188,7 @@ class Character:
             self.check_enemy_type_offset(self.enemy4.enemy)
             self.enemy4.enemy_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
     
-
-    # Display Enemy Hit Animation
+    # Display Enemy Attack Animation
     def display_enemy1_attack(self):
         if self.current_enemies_alive_hp[0] > 0:
             pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
@@ -203,6 +216,35 @@ class Character:
             self.enemy4_hp_bar.draw(self.combat_layer)
             self.check_enemy_type_offset(self.enemy4.enemy)
             self.enemy4.enemy_attack_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
+
+    # Display Enemy Hit Animation
+    def display_enemy1_hit(self):
+        if self.current_enemies_alive_hp[0] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
+            self.enemy1_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy1.enemy)
+            self.enemy1.enemy_hit_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
+        
+    def display_enemy2_hit(self):
+        if self.current_enemies_alive_hp[1] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
+            self.enemy2_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy2.enemy)
+            self.enemy2.enemy_hit_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
+
+    def display_enemy3_hit(self):
+        if self.current_enemies_alive_hp[2] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
+            self.enemy3_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy3.enemy)
+            self.enemy3.enemy_hit_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
+    
+    def display_enemy4_hit(self):
+        if self.current_enemies_alive_hp[3] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
+            self.enemy4_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy4.enemy)
+            self.enemy4.enemy_hit_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
     
     def display_idle_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
@@ -252,7 +294,7 @@ class Character:
                 self.enemy4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
                 character.enemy_status(3)
-    
+
     def do_damage_AOE(self, damage_dealt):
         self.enemy1_hp_bar.current_hp -= damage_dealt
         self.current_enemies_alive_hp[0] = self.enemy1_hp_bar.current_hp
@@ -269,6 +311,33 @@ class Character:
         self.enemy4_hp_bar.current_hp -= damage_dealt
         self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
         character.enemy_status(3)
+    
+    def enemy_actions(self, enemy_doing_action):
+        match enemy_doing_action:
+            case 'skeleton':
+                skeleton_attack = random.randint(1,100)
+                if skeleton_attack <= 67:
+                    self.current_enemy_damage = random.randint(2,3)
+                else: 
+                    self.current_enemy_damage = random.randint(4,6)
+                character.player_damage(self.current_enemy_damage)
+                print(f"sekelton did {self.current_enemy_damage} damage")
+
+            case 'zombie':
+                self.current_enemy_damage = random.randint(2,4)
+                character.player_damage(self.current_enemy_damage)
+                print(f"zombie did {self.current_enemy_damage} damage")
+
+            case 'bat_eye':
+                self.current_enemy_damage = random.randint(4,8)
+                character.player_damage(self.current_enemy_damage)
+                print(f"bat_eye did {self.current_enemy_damage} damage")
+
+            case 'goblin':
+                self.current_enemy_damage = random.randint(1,3)
+                character.player_damage(self.current_enemy_damage)
+                print(f"goblin did {self.current_enemy_damage} damage")
+
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -277,8 +346,12 @@ class Character:
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_hit_img = get_image('Assets/Wizard Pack/Hit.png', 2)
+        self.player_attack_img = get_image('Assets/Wizard Pack/Attack2.png', 2)
+        self.player_heal_img = get_image('Assets/Wizard Pack/Attack1.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.combat_layer)
-        self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 924, 190, 4, 2, 150, self.combat_action_layer)
+        self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 1617, 190, 7, 2, 125, self.combat_action_layer)
+        self.player_attack_sprite = General_Spritesheet(self.player_attack_img, 1848, 190, 8, 2, 90, self.combat_action_layer)
+        self.player_heal_sprite = General_Spritesheet(self.player_heal_img, 1848, 190, 8, 2, 90, self.combat_action_layer)
 
     def player_idle_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
@@ -290,8 +363,19 @@ class Character:
         self.player_hp_health_bar.draw(self.combat_layer)
         self.player_hit_sprite.display_sprite(140, 90)
 
-    def player_heal(self, hp_healed, hp_change=0):
+    def player_attack_displayer(self):
+        pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
+        self.player_hp_health_bar.draw(self.combat_layer)
+        self.player_attack_sprite.display_sprite(140, 90)
+    
+    def player_heal_displayer(self):
+        pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
+        self.player_hp_health_bar.draw(self.combat_layer)
+        self.player_heal_sprite.display_sprite(140, 90)
+
+    def player_heal(self, hp_healed):
         hp_change = battle_data.current_health[0]
+        self.hp_healed = hp_healed
         hp_change += hp_healed
         battle_data.current_health[0] = int(hp_change)
         if battle_data.current_health[0] > 50:
@@ -342,23 +426,41 @@ class Potions:
         self.current_click = mouse_pos
 
         if self.inventory_slot_1.is_clicked(self.current_click):
+            self.use_potion(battle_data.inventory_slots[0])
             battle_data.inventory_slots[0] = None
             print('clicked on inventory_1')
 
         elif self.inventory_slot_2.is_clicked(self.current_click):
+            self.use_potion(battle_data.inventory_slots[1])
             battle_data.inventory_slots[1] = None
             print('clicked on inventory_2')
 
         elif self.inventory_slot_3.is_clicked(self.current_click):
+            self.use_potion(battle_data.inventory_slots[2])
             battle_data.inventory_slots[2]= None
             print('clicked on inventory_3')
             
         elif self.inventory_slot_4.is_clicked(self.current_click):
+            self.use_potion(battle_data.inventory_slots[3])
             battle_data.inventory_slots[3] = None
             print('clicked on inventory_4')
         
         else:
             return None
+    
+    def use_potion(self, potion_used):
+        if potion_used is not None:
+            match potion_used:
+                case 'Healing Potion S':
+                    character.player_heal(character.player_hp_health_bar.max_hp // 4)
+                case 'Healing Potion XL':
+                    character.player_heal(character.player_hp_health_bar.max_hp // 4)
+                case 'Letter Potion':
+                    battle_data.max_character_count += 10
+                case 'All Letter Potion':
+                    for key, amount in battle_data.Keys_Remaining.items():
+                        if battle_data.Keys_Remaining[key] < 5:
+                            battle_data.Keys_Remaining[key] += 1
 
 
 character = Character()

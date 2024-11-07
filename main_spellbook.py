@@ -23,7 +23,7 @@ class Game():
     async def game_loop(self):
         while self.PLAYING:
             self.get_delta_time()
-            self.update()       
+            self.update()        
             self.render()  
             self.fps.tick(60)
 
@@ -33,7 +33,7 @@ class Game():
     def render(self):
         self.STATE_STACK[-1].render(self.GAME_DISPLAY)
         self.GAME_SCREEN.blit(self.GAME_DISPLAY, (0,0))
-        pygame.display.flip()
+        pygame.display.flip() 
 
     def get_delta_time(self):   
         current_time = time.time()

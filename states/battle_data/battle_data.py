@@ -79,8 +79,6 @@ class Battle_Data:
         self.inventory_slots = [None] * 6
         self.total_characters = 0
 
-
-
 class Valid_Dictionary:
     def __init__(self):
         self.valid_word_list = ['acid', 'air', 'airslice', 'airstrike', 'arrow', 'ashes', 'avalanche', 'axe',
