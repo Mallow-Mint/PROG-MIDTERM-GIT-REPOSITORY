@@ -587,51 +587,54 @@ class Player_Actions:
     
     def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
-        timer.is_player_turn = False
-        self.saved_time_left = timer.time_left
-        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-            self.player_attack()
-            enemy_actions.enemy1_hit()
-            character.do_damage_single_target(spell.damage_dealt, 1)
-            if spell.lifesteal == True:
-                player_action.heal_spell(int(damage.damage_dealt/2))
+        if character.enemy_1_selector.is_clicked(self.current_click) == True or \
+            character.enemy_2_selector.is_clicked(self.current_click) == True or \
+            character.enemy_3_selector.is_clicked(self.current_click) == True or character.enemy_4_selector.is_clicked(self.current_click) == True:
+            timer.is_player_turn = False
+            self.saved_time_left = timer.time_left
+            if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+                self.player_attack()
+                enemy_actions.enemy1_hit()
+                character.do_damage_single_target(spell.damage_dealt, 1)
+                if spell.lifesteal == True:
+                    player_action.heal_spell(int(damage.damage_dealt/2))
 
-        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-            self.player_attack()
-            enemy_actions.enemy2_hit()
-            character.do_damage_single_target(spell.damage_dealt, 2)
-            if spell.lifesteal == True:
-                player_action.heal_spell(int(damage.damage_dealt/2))
+            elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+                self.player_attack()
+                enemy_actions.enemy2_hit()
+                character.do_damage_single_target(spell.damage_dealt, 2)
+                if spell.lifesteal == True:
+                    player_action.heal_spell(int(damage.damage_dealt/2))
 
-        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-            self.player_attack()
-            enemy_actions.enemy3_hit()
-            character.do_damage_single_target(spell.damage_dealt, 3)
-            if spell.lifesteal == True:
-                player_action.heal_spell(int(damage.damage_dealt/2))
+            elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+                self.player_attack()
+                enemy_actions.enemy3_hit()
+                character.do_damage_single_target(spell.damage_dealt, 3)
+                if spell.lifesteal == True:
+                    player_action.heal_spell(int(damage.damage_dealt/2))
 
-        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-            self.player_attack()
-            enemy_actions.enemy4_hit()
-            character.do_damage_single_target(spell.damage_dealt, 4)
-            if spell.lifesteal == True:
-                player_action.heal_spell(int(damage.damage_dealt/2))
+            elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+                self.player_attack()
+                enemy_actions.enemy4_hit()
+                character.do_damage_single_target(spell.damage_dealt, 4)
+                if spell.lifesteal == True:
+                    player_action.heal_spell(int(damage.damage_dealt/2))
+                    #spell.spell_sound()
+            damage_text = "You did " + str(spell.damage_dealt) + " Damage"
+            damage_text_surface = get_font(20).render(str(damage_text), True, BLACK)
+            update_game_screen()
+            spell.reset_damage()
+            print(character.current_enemies_alive_hp)
+            timer.timer_duration = self.saved_time_left
+            timer.time_left = self.saved_time_left
+            timer.start_ticks = pygame.time.get_ticks()
+            timer.is_player_turn = True
+            layer.popup_layer.blit(Popup_box, (460,40))
+            layer.popup_layer.blit(damage_text_surface, (680, 50))
+            character.battle_win()
         
         else:
-            return None
-        #spell.spell_sound()
-        damage_text = "You did " + str(spell.damage_dealt) + " Damage"
-        damage_text_surface = get_font(20).render(str(damage_text), True, BLACK)
-        update_game_screen()
-        spell.reset_damage()
-        print(character.current_enemies_alive_hp)
-        timer.timer_duration = self.saved_time_left
-        timer.time_left = self.saved_time_left
-        timer.start_ticks = pygame.time.get_ticks()
-        timer.is_player_turn = True
-        layer.popup_layer.blit(Popup_box, (460,40))
-        layer.popup_layer.blit(damage_text_surface, (680, 50))
-        character.battle_win()
+            pass
 
     def heal_spell(self, hp_healed):
         self.player_heal_animation()

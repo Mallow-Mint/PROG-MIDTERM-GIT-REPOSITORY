@@ -50,7 +50,7 @@ pygame.init()
 Title_BG = pygame.image.load('Assets/Background/bg_15/bg_15.png')
 Title_BG = pygame.transform.scale(Title_BG, (1600, 900))
 
-MENU_SCREEN = pygame.display.set_mode((1600, 900))
+MENU_SCREEN = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
 BLACK = (0, 0, 0)
 
 def get_font(size):

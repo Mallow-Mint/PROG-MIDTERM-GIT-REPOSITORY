@@ -10,7 +10,7 @@ class Game():
         self.GAME_HEIGHT = 900
         self.GAME_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.TRANSITION_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
-        self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
+        self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT), pygame.FULLSCREEN)
         pygame.display.set_caption("Spell Book")
         self.RUNNING = True
         self.PLAYING = True
@@ -44,7 +44,7 @@ class Game():
         self.title_screen = Title(self)
         self.STATE_STACK.append(self.title_screen)
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     game = Game()       
     while game.RUNNING:
         asyncio.run(game.game_loop())
