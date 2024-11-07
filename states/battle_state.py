@@ -28,7 +28,7 @@ class Battle(State):
                     keyboard.key_press_action(key)
 
                 elif event.type == pygame.MOUSEBUTTONDOWN and spell.enemy_selection_state == True:
-                    enemy_actions.targeted_enemy(mouse_pos)
+                    player_action.targeted_enemy(mouse_pos)
                     if spell.enemy_selection_state == False:
                         layer.popup_layer.fill(KEY_PURPLE)
                         update_game_screen()
@@ -112,8 +112,9 @@ class Timer:
 
         if self.time_left <= 0: # Turn switching
             if self.is_player_turn == True:
-                self.time_left_text = get_font(40).render("ENEMY TURN", True, RED)
-                layer.interface_layer.blit(self.time_left_text, (15, 15))
+                self.time_left_text = get_font(25).render("ENEMY TURN", True, RED)
+                layer.interface_layer.blit(self.time_left_text, (680, typing_area_y + 10))
+                keyboard.typed_text = ''
                 layer.popup_layer.fill(KEY_PURPLE)
                 book.Dictionary_Open = False
                 update_game_screen()
@@ -134,8 +135,8 @@ class Timer:
         if self.is_player_turn == True:
             self.time_left_text_border = get_font(55).render(str(self.time_left), True, BLACK)
             self.time_left_text = get_font(50).render(str(self.time_left), True, WHITE)
-            layer.interface_layer.blit(self.time_left_text_border, (15, 15))
-            layer.interface_layer.blit(self.time_left_text, (15, 15))
+            layer.interface_layer.blit(self.time_left_text_border, (12, 5))
+            layer.interface_layer.blit(self.time_left_text, (12, 5))
 
 class EndTurnButton:
     def __init__(self, x, y, width, height, text, font):
@@ -154,7 +155,7 @@ class EndTurnButton:
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.color = self.hover_color
-            layer.background_layer.blit(Interface_Image_Hover, (0,350))
+            layer.background_layer.blit(Interface_Image_Hover, (0,-10))
         text_surface = self.font.render(str(self.text), True, self.color)
         screen.blit(text_surface, (self.x+30, self.y+15))
 
@@ -250,7 +251,11 @@ class Keyboard:
                 if dictionary.validWordChecker(self.typed_text) == True:
                 # Update Max Character Count and Display enterd word at top of Screen
                     spell.spellcast(self.typed_text)
-                    if spell.enemy_selection_state == True:
+                    if spell.enemy_selection_state == False:
+                        player_action.AOE_spell(spell.damage_dealt)
+                        player_action.heal_spell(random.randint(spell.heal_range[0], spell.heal_range[1]))
+                        spell.reset_damage()
+                    elif spell.enemy_selection_state == True:
                         self.displayed_text = get_font(20).render(self.typed_text.upper(), True, BLACK)
                         layer.popup_layer.blit(Popup_box, (460,40))
                         layer.popup_layer.blit(self.select_target, (650, 50))
@@ -293,7 +298,7 @@ class Keyboard:
     def keyboard_display(self):
         # Make Typing Area
         layer.background_layer.blit(Background_Image, (0,-440))
-        layer.background_layer.blit(Interface_Image, (0,350))
+        layer.background_layer.blit(Interface_Image, (0,-10))
 
         layer.interface_layer.fill(KEY_PURPLE)
         layer.interface_layer.blit(Typing_area, (540,480))
@@ -477,36 +482,6 @@ class Enemy_Actions:
             update_game_screen()
         character.battle_win()
 
-    def targeted_enemy(self, mouse_pos):
-        self.current_click = mouse_pos
-
-        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 1)
-            if spell.lifesteal == True:
-                damage.heal_spell(int(damage.damage_dealt/2))
-
-        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 2)
-            if spell.lifesteal == True:
-                damage.heal_spell(int(damage.damage_dealt/2))
-
-        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 3)
-            if spell.lifesteal == True:
-                damage.heal_spell(int(damage.damage_dealt/2))
-
-        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-            character.do_damage_single_target(spell.damage_dealt, 4)
-            if spell.lifesteal == True:
-                damage.heal_spell(int(damage.damage_dealt/2))
-        
-        else:
-            return None
-        #spell.spell_sound()
-        spell.reset_damage()
-        print(character.current_enemies_alive_hp)
-        character.battle_win()
-
     def player_hit(self):
         character.player_hit_displayer()
         while character.player_hit_sprite.current_frame > 0:
@@ -518,6 +493,7 @@ class Enemy_Actions:
             character.display_enemy3()
             character.display_enemy4()
             update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
 
     #ENEMY ATTACK ANIMATIONS WOOOOO!!!!
     def enemy1_attack(self):
@@ -572,6 +548,48 @@ class Enemy_Actions:
             update_game_screen()
         self.player_hit()
 
+class Player_Actions:
+    def __init__(self):
+        pass
+    
+    def targeted_enemy(self, mouse_pos):
+        self.current_click = mouse_pos
+
+        if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 1)
+            if spell.lifesteal == True:
+                player_action.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 2)
+            if spell.lifesteal == True:
+                player_action.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 3)
+            if spell.lifesteal == True:
+                player_action.heal_spell(int(damage.damage_dealt/2))
+
+        elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+            character.do_damage_single_target(spell.damage_dealt, 4)
+            if spell.lifesteal == True:
+                player_action.heal_spell(int(damage.damage_dealt/2))
+        
+        else:
+            return None
+        #spell.spell_sound()
+        spell.reset_damage()
+        print(character.current_enemies_alive_hp)
+        character.battle_win()
+
+    def heal_spell(self, hp_healed):
+        character.player_heal(hp_healed)
+        print(character.player_hp_health_bar.current_hp)
+
+    def AOE_spell(self, damage_dealt):
+        character.do_damage_AOE(damage_dealt)
+        print(character.current_enemies_alive_hp)
+
 
 typing_area_height = 50
 typing_area_y = 480
@@ -602,6 +620,7 @@ layer = Layers()
 book = Book()
 keyboard = Keyboard()
 enemy_actions = Enemy_Actions()
+player_action = Player_Actions()
 timer = Timer()
 player_inventory = Player_Inventory()
 

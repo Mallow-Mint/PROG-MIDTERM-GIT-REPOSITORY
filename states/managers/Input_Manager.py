@@ -22,16 +22,6 @@ class Damage():
             pass
         return damage_dealt
     
-    def heal_spell(self, hp_healed):
-        character.player_heal(hp_healed)
-        spell.reset_damage()
-        print(character.player_hp_health_bar.current_hp)
-
-    def AOE_spell(self, damage_dealt):
-        character.do_damage_AOE(damage_dealt)
-        spell.reset_damage()
-        print(character.current_enemies_alive_hp)
-
     
     def word_chain(self, previous_spell, current_spell):
         if previous_spell[-1] == current_spell[0]:
@@ -51,13 +41,13 @@ class Spell:
         self.enemy_selection_state = False
         self.lifesteal = False
         self.damage_dealt = 0
-        self.damage_healed = 0
+        self.heal_range = [0,0]
 
     def reset_damage(self):
         self.enemy_selection_state = False
         self.lifesteal = False
         self.damage_dealt = 0
-        self.damage_healed = 0
+        self.heal_range = [0,0]
 
     def spellcast(self, spell_used):
         self.current_spell = spell_used
@@ -83,12 +73,10 @@ class Spell:
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
                 #self.spell_sound = spell_sfx_single_target[self.current_spell]
                 #spell.spell_sound()
-                damage.AOE_spell(self.damage_dealt)
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in dictionary.healing_spell_ranges.keys():
-                heal_range = [dictionary.healing_spell_ranges[self.current_spell][0], dictionary.healing_spell_ranges[self.current_spell][1]]
-                damage.heal_spell(random.randint(heal_range[0], heal_range[1]))
+                self.heal_range = [dictionary.healing_spell_ranges[self.current_spell][0], dictionary.healing_spell_ranges[self.current_spell][1]]
 
 #Test words - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'test':
@@ -100,9 +88,8 @@ class Spell:
                     battle_data.Keys_Remaining[key] = 5
                 sfx.FAKER()
                 time.sleep(4)
-                damage.AOE_spell(self.damage_dealt)
             case 'a':
-                damage.AOE_spell(200)
+                self.damage_dealt = 200
 
         self.previous_spell = spell.current_spell
 

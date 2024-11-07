@@ -100,13 +100,13 @@ class Character:
     def get_enemy_attack_sprite(self, enemy_type):
         match enemy_type:
             case 'skeleton':
-                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'zombie':
-                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'bat_eye':
-                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
             case 'goblin':
-                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
 
         return current_enemy_attack_sprite
 
@@ -252,7 +252,7 @@ class Character:
                 self.enemy4_hp_bar.current_hp -= damage_dealt
                 self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
                 character.enemy_status(3)
-    
+
     def do_damage_AOE(self, damage_dealt):
         self.enemy1_hp_bar.current_hp -= damage_dealt
         self.current_enemies_alive_hp[0] = self.enemy1_hp_bar.current_hp
@@ -269,6 +269,8 @@ class Character:
         self.enemy4_hp_bar.current_hp -= damage_dealt
         self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
         character.enemy_status(3)
+    
+
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -278,7 +280,7 @@ class Character:
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_hit_img = get_image('Assets/Wizard Pack/Hit.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.combat_layer)
-        self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 924, 190, 4, 2, 150, self.combat_action_layer)
+        self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 1617, 190, 7, 2, 125, self.combat_action_layer)
 
     def player_idle_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
