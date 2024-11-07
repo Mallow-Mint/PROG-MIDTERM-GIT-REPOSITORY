@@ -312,6 +312,31 @@ class Character:
         self.current_enemies_alive_hp[3] = self.enemy4_hp_bar.current_hp
         character.enemy_status(3)
     
+    def enemy_actions(self, enemy_doing_action):
+        match enemy_doing_action:
+            case 'skeleton':
+                skeleton_attack = random.randint(1,100)
+                if skeleton_attack <= 67:
+                    self.current_enemy_damage = random.randint(2,3)
+                else: 
+                    self.current_enemy_damage = random.randint(4,6)
+                character.player_damage(self.current_enemy_damage)
+                print(f"sekelton did {self.current_enemy_damage} damage")
+
+            case 'zombie':
+                self.current_enemy_damage = random.randint(2,4)
+                character.player_damage(self.current_enemy_damage)
+                print(f"zombie did {self.current_enemy_damage} damage")
+
+            case 'bat_eye':
+                self.current_enemy_damage = random.randint(4,8)
+                character.player_damage(self.current_enemy_damage)
+                print(f"bat_eye did {self.current_enemy_damage} damage")
+
+            case 'goblin':
+                self.current_enemy_damage = random.randint(1,3)
+                character.player_damage(self.current_enemy_damage)
+                print(f"goblin did {self.current_enemy_damage} damage")
 
 
 # PLAYER RELATED FUNCTIONS --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -321,10 +346,12 @@ class Character:
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
         self.player_hit_img = get_image('Assets/Wizard Pack/Hit.png', 2)
-        self.player_attack_img = get_image('Assets/Wizard Pack/Attack1.png', 2)
+        self.player_attack_img = get_image('Assets/Wizard Pack/Attack2.png', 2)
+        self.player_heal_img = get_image('Assets/Wizard Pack/Attack1.png', 2)
         self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.combat_layer)
         self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 1617, 190, 7, 2, 125, self.combat_action_layer)
         self.player_attack_sprite = General_Spritesheet(self.player_attack_img, 1848, 190, 8, 2, 90, self.combat_action_layer)
+        self.player_heal_sprite = General_Spritesheet(self.player_heal_img, 1848, 190, 8, 2, 90, self.combat_action_layer)
 
     def player_idle_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
@@ -340,9 +367,15 @@ class Character:
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
         self.player_hp_health_bar.draw(self.combat_layer)
         self.player_attack_sprite.display_sprite(140, 90)
+    
+    def player_heal_displayer(self):
+        pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
+        self.player_hp_health_bar.draw(self.combat_layer)
+        self.player_heal_sprite.display_sprite(140, 90)
 
-    def player_heal(self, hp_healed, hp_change=0):
+    def player_heal(self, hp_healed):
         hp_change = battle_data.current_health[0]
+        self.hp_healed = hp_healed
         hp_change += hp_healed
         battle_data.current_health[0] = int(hp_change)
         if battle_data.current_health[0] > 50:

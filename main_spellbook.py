@@ -23,7 +23,7 @@ class Game():
     async def game_loop(self):
         while self.PLAYING:
             self.get_delta_time()
-            self.update()       
+            self.update()        
             self.render()  
             self.fps.tick(60)
 
