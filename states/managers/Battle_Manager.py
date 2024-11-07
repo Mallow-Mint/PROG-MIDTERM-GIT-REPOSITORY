@@ -68,9 +68,9 @@ class Enemy:
         self.enemy_max_hp = mobs_list_hp[enemy_type]
         character.current_enemy_type.append(self.enemy)
         character.current_enemies_alive_hp[enemy_number] = self.enemy_max_hp
-        self.enemy_sprite = character.get_enemy_idle_sprite(self.enemy)
-        self.enemy_attack_sprite = character.get_enemy_attack_sprite(self.enemy)
-        self.enemy_hit_sprite = character.get_enemy_hit_sprite(self.enemy)
+        self.enemy_sprite = get_enemy_idle_sprite(self.enemy, character.combat_layer)
+        self.enemy_attack_sprite = get_enemy_attack_sprite(self.enemy, character.combat_action_layer)
+        self.enemy_hit_sprite = get_enemy_hit_sprite(self.enemy, character.combat_action_layer)
 
 class Character:
     def __init__(self):
@@ -85,62 +85,24 @@ class Character:
     def random_enemy_type(self):
         return mobs_list_type[random.randint(0,3)]
     
-    def get_enemy_idle_sprite(self, enemy_type):
-        match enemy_type:
-            case 'skeleton':
-                current_enemy_sprite = General_Spritesheet(skeleton_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
-            case 'zombie':
-                current_enemy_sprite = General_Spritesheet(zombie_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
-            case 'bat_eye':
-                current_enemy_sprite = General_Spritesheet(bat_eye_idle_img, 1200, 150, 8, 3, random.randint(40,50), self.combat_layer)
-            case 'goblin':
-                current_enemy_sprite = General_Spritesheet(goblin_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
-
-        return current_enemy_sprite
-    
-    def get_enemy_attack_sprite(self, enemy_type):
-        match enemy_type:
-            case 'skeleton':
-                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
-            case 'zombie':
-                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
-            case 'bat_eye':
-                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
-            case 'goblin':
-                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 80, self.combat_action_layer)
-
-        return current_enemy_attack_sprite
-
-    def get_enemy_hit_sprite(self, enemy_type):
-        match enemy_type:
-            case 'skeleton':
-                current_enemy_hit_sprite = General_Spritesheet(skeleton_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
-            case 'zombie':
-                current_enemy_hit_sprite = General_Spritesheet(zombie_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
-            case 'bat_eye':
-                current_enemy_hit_sprite = General_Spritesheet(bat_eye_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
-            case 'goblin':
-                current_enemy_hit_sprite = General_Spritesheet(goblin_hit_img, 600, 150, 4, 3, 100, self.combat_action_layer)
-
-        return current_enemy_hit_sprite
 
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
             random_enemy = self.random_enemy_type()
             if x == 0:
-                self.enemy1 = Enemy('skeleton', x)
+                self.enemy1 = Enemy(random_enemy, x)
                 self.enemy1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1.enemy_max_hp)
 
             elif x == 1:
-                self.enemy2 = Enemy('goblin', x)
+                self.enemy2 = Enemy(random_enemy, x)
                 self.enemy2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2.enemy_max_hp)
 
             elif x == 2:
-                self.enemy3 = Enemy('zombie', x)
+                self.enemy3 = Enemy(random_enemy, x)
                 self.enemy3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3.enemy_max_hp)
 
             elif x == 3:                
-                self.enemy4 = Enemy('bat_eye', x)
+                self.enemy4 = Enemy(random_enemy, x)
                 self.enemy4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4.enemy_max_hp)
         
         for x in range(4 - enemy_count):

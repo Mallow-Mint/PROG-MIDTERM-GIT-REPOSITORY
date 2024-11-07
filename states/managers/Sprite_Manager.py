@@ -101,3 +101,41 @@ class General_Spritesheet:
         self.get_current_sprite()
         self.get_single_frame(self.current_frame, x_pos, y_pos)
 
+class Spell_Spritesheet:
+    def __init__(self, image, width, height, frame_count_per_row, amount_of_rows, scale, cooldown, layer):
+        self.sheet = image
+        self.width = width
+        self.height = height
+        self.scale = scale
+        self.frames_per_row = frame_count_per_row
+        self.amount_of_rows = amount_of_rows
+        self.layer = layer
+        self.current_frame = 0
+        self.current_time_1 = 0
+        self.animation_cooldown = cooldown
+        self.last_update_1 = pygame.time.get_ticks()
+        self.get_frames()
+
+    def get_frames(self):
+        scaled_width = self.width * self.scale
+        scaled_height = self.height * self.scale
+        self.frame_coordinates = []
+        for row in range(self.amount_of_rows):
+            for animation_frame in range(self.frames_per_row):
+                current_frame = ((scaled_width/self.frames_per_row) * animation_frame, (scaled_height/self.amount_of_rows) * row, (scaled_width/self.frames_per_row) , scaled_height/self.amount_of_rows)
+                self.frame_coordinates.append(current_frame)
+    
+    def get_single_frame(self, row , frame_on_row, x_pos, y_pos):
+        self.layer.blit(self.sheet, (x_pos, y_pos), self.frame_coordinates[(self.frames_per_row * row) + frame_on_row])
+
+    def get_current_sprite(self):
+        if self.current_time_1 - self.last_update_1 >= self.animation_cooldown:
+            self.current_frame += 1
+            self.last_update_1 = self.current_time_1
+            if self.current_frame >= self.frames_per_row:
+                self.current_frame = 0
+    
+    def display_sprite(self, row , x_pos, y_pos):
+        self.current_time_1 = pygame.time.get_ticks()
+        self.get_current_sprite()
+        self.get_single_frame(row, self.current_frame, x_pos, y_pos)

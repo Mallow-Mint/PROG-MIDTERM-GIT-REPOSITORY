@@ -1,6 +1,5 @@
 import pygame
 import sys
-from states.spritesheet import *
 from states.state_manager import *
 from states.managers.Audio_Manager import *
 from states.battle_data.battle_data import *

@@ -52,7 +52,7 @@ pygame.init()
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
-game_window = pygame.display.set_mode((1600, 900))
+game_window = pygame.display.set_mode((1600, 900), pygame.FULLSCREEN)
 
 # Set Colors used for Textures
 WHITE = (255, 255, 255)

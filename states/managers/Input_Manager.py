@@ -3,6 +3,7 @@ import random
 import time
 from states.managers.Battle_Manager import *
 from states.managers.Audio_Manager import *
+from states.battle_data.spell_data import *
 from states.battle_data.battle_data import *
 
 class Damage():
@@ -54,29 +55,29 @@ class Spell:
         damage.word_chain(self.previous_spell, self.current_spell)
         match self.current_spell:
 #Single Target Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            case self.current_spell if self.current_spell in dictionary.single_target_words_damage.keys():
+            case self.current_spell if self.current_spell in spell_dict.single_target_words_damage.keys():
                 self.enemy_selection_state = True
-                base_damage = dictionary.single_target_words_damage[self.current_spell]
+                base_damage = spell_dict.single_target_words_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
                 #self.spell_sound = spell_sfx_single_target[self.current_spell]
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            case self.current_spell if self.current_spell in dictionary.life_steal_damage.keys():
+            case self.current_spell if self.current_spell in spell_dict.life_steal_damage.keys():
                 self.enemy_selection_state = True
                 self.lifesteal = True
-                base_damage = dictionary.life_steal_damage[self.current_spell]
+                base_damage = spell_dict.life_steal_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
 
 #Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-            case self.current_spell if self.current_spell in dictionary.multi_target_word_damage.keys():
-                base_damage = dictionary.multi_target_word_damage[self.current_spell]
+            case self.current_spell if self.current_spell in spell_dict.multi_target_word_damage.keys():
+                base_damage = spell_dict.multi_target_word_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
                 #self.spell_sound = spell_sfx_single_target[self.current_spell]
                 #spell.spell_sound()
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            case self.current_spell if self.current_spell in dictionary.healing_spell_ranges.keys():
-                self.heal_range = [dictionary.healing_spell_ranges[self.current_spell][0], dictionary.healing_spell_ranges[self.current_spell][1]]
+            case self.current_spell if self.current_spell in spell_dict.healing_spell_ranges.keys():
+                self.heal_range = [spell_dict.healing_spell_ranges[self.current_spell][0], spell_dict.healing_spell_ranges[self.current_spell][1]]
 
 #Test words - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'test':

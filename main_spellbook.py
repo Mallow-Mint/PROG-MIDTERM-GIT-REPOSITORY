@@ -10,7 +10,7 @@ class Game():
         self.GAME_HEIGHT = 900
         self.GAME_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.TRANSITION_DISPLAY = pygame.Surface((self.GAME_WIDTH, self.GAME_HEIGHT))
-        self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT), pygame.FULLSCREEN)
+        self.GAME_SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         pygame.display.set_caption("Spell Book")
         self.RUNNING = True
         self.PLAYING = True

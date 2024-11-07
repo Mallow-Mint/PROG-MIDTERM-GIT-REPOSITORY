@@ -22,3 +22,42 @@ skeleton_hit_img = get_image('Assets/Monsters/4 direction monsters/Skeleton/Take
 zombie_hit_img = get_image('Assets/Monsters/4 direction monsters/Mushroom/Take Hit.png', 3)
 bat_eye_hit_img = get_image('Assets/Monsters/4 direction monsters/Flying eye/Take Hit.png', 3)
 goblin_hit_img = get_image('Assets/Monsters/4 direction monsters/Goblin/Take Hit.png', 3)
+
+def get_enemy_idle_sprite(enemy_type, layer):
+    match enemy_type:
+        case 'skeleton':
+            current_enemy_sprite = General_Spritesheet(skeleton_idle_img, 600, 150, 4, 3, random.randint(100,175), layer)
+        case 'zombie':
+            current_enemy_sprite = General_Spritesheet(zombie_idle_img, 600, 150, 4, 3, random.randint(100,175), layer)
+        case 'bat_eye':
+            current_enemy_sprite = General_Spritesheet(bat_eye_idle_img, 1200, 150, 8, 3, random.randint(40,50), layer)
+        case 'goblin':
+            current_enemy_sprite = General_Spritesheet(goblin_idle_img, 600, 150, 4, 3, random.randint(100,175), layer)
+
+    return current_enemy_sprite
+
+def get_enemy_attack_sprite(enemy_type, layer):
+    match enemy_type:
+        case 'skeleton':
+            current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 80, layer)
+        case 'zombie':
+            current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 80, layer)
+        case 'bat_eye':
+            current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 80, layer)
+        case 'goblin':
+            current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 80, layer)
+
+    return current_enemy_attack_sprite
+
+def get_enemy_hit_sprite(enemy_type, layer):
+    match enemy_type:
+        case 'skeleton':
+            current_enemy_hit_sprite = General_Spritesheet(skeleton_hit_img, 600, 150, 4, 3, 100, layer)
+        case 'zombie':
+            current_enemy_hit_sprite = General_Spritesheet(zombie_hit_img, 600, 150, 4, 3, 100, layer)
+        case 'bat_eye':
+            current_enemy_hit_sprite = General_Spritesheet(bat_eye_hit_img, 600, 150, 4, 3, 100, layer)
+        case 'goblin':
+            current_enemy_hit_sprite = General_Spritesheet(goblin_hit_img, 600, 150, 4, 3, 100, layer)
+
+    return current_enemy_hit_sprite
