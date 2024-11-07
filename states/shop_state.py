@@ -127,7 +127,7 @@ WHITE = (255, 255, 255)
 
 # Function to load and return the custom font
 def get_font(size):
-    return pygame.font.Font("Assets/Shop_Assets/Shop Font.ttf", size)
+    return pygame.font.Font("Assets/Shop_Assets/dpcomic.ttf", size)
 
 # Function to draw text using the custom font
 def draw_text(shop_layer, text, font_size, x, y, color=PURPLE):
@@ -221,9 +221,9 @@ class Shop:
         # Display category tabs
         for i, category in enumerate(self.categories):
             color = LIGHT_GREY if category == self.active_category else PURPLE
-            draw_text(shop_layer, "Letters", 20, 60, 755, WHITE)
-            draw_text(shop_layer, "Potions", 20, 60, 835, WHITE)
-            draw_text(shop_layer, "Leave", 20, 1430, 840, WHITE)
+            draw_text(shop_layer, "Letters", 30, 60, 755, WHITE)
+            draw_text(shop_layer, "Potions", 30, 60, 835, WHITE)
+            draw_text(shop_layer, "Leave", 30, 1430, 840, WHITE)
 
         # Display items from the active category
         if self.active_category == "Potions":
@@ -458,10 +458,9 @@ class Button_1:
 
 # Main loop
 def shop_initializer():
-    shop_layer.fill(PURPLE_COLOR_KEY)
-    sprite_layer.blit(wooden_sign, (0, 670))
-    sprite_layer.blit(wooden_sign, (0, 750))
-    sprite_layer.blit(wooden_sign, (1350, 750))
+    #sprite_layer.blit(wooden_sign, (0, 670))
+    #sprite_layer.blit(wooden_sign, (0, 750))
+    #sprite_layer.blit(wooden_sign, (1350, 750))
     music.shop_bg_music()
 
 clock = pygame.time.Clock()
