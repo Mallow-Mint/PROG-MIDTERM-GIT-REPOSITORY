@@ -6,6 +6,7 @@ import random
 class Battle_Data:
     def __init__(self):
         self.current_health = [50]
+        self.max_character_count = 20
         self.Keys_Remaining = { 'q': 5,
                                 'w': 5,
                                 'e': 5, 

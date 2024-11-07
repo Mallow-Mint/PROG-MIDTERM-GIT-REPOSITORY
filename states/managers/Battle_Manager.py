@@ -69,6 +69,7 @@ class Enemy:
         character.current_enemy_type.append(self.enemy)
         character.current_enemies_alive_hp[enemy_number] = self.enemy_max_hp
         self.enemy_sprite = character.get_enemy_idle_sprite(self.enemy)
+        self.enemy_attack_sprite = character.get_enemy_attack_sprite(self.enemy)
 
 class Character:
     def __init__(self):
@@ -89,13 +90,25 @@ class Character:
                 current_enemy_sprite = General_Spritesheet(skeleton_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
             case 'zombie':
                 current_enemy_sprite = General_Spritesheet(zombie_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
-            case 'orc':
-                current_enemy_sprite = General_Spritesheet(orc_idle_img, 256, 64, 4, 5, random.randint(100,175), self.combat_layer)
+            case 'bat_eye':
+                current_enemy_sprite = General_Spritesheet(bat_eye_idle_img, 1200, 150, 8, 3, random.randint(40,50), self.combat_layer)
             case 'goblin':
                 current_enemy_sprite = General_Spritesheet(goblin_idle_img, 600, 150, 4, 3, random.randint(100,175), self.combat_layer)
 
         return current_enemy_sprite
     
+    def get_enemy_attack_sprite(self, enemy_type):
+        match enemy_type:
+            case 'skeleton':
+                current_enemy_attack_sprite = General_Spritesheet(skeleton_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+            case 'zombie':
+                current_enemy_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+            case 'bat_eye':
+                current_enemy_attack_sprite = General_Spritesheet(bat_eye_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+            case 'goblin':
+                current_enemy_attack_sprite = General_Spritesheet(goblin_attack_img, 1200, 150, 8, 3, 100, self.combat_action_layer)
+
+        return current_enemy_attack_sprite
 
     def enemy_initalizer(self, enemy_count:int):
         for x in range(enemy_count):
@@ -105,15 +118,15 @@ class Character:
                 self.enemy1_hp_bar = HealthBar(880, 160, 140, 20, self.enemy1.enemy_max_hp)
 
             elif x == 1:
-                self.enemy2 = Enemy(random_enemy, x)
+                self.enemy2 = Enemy('goblin', x)
                 self.enemy2_hp_bar = HealthBar(1030, 110, 140, 20, self.enemy2.enemy_max_hp)
 
             elif x == 2:
-                self.enemy3 = Enemy(random_enemy, x)
+                self.enemy3 = Enemy('zombie', x)
                 self.enemy3_hp_bar = HealthBar(1180, 160, 140, 20, self.enemy3.enemy_max_hp)
 
             elif x == 3:                
-                self.enemy4 = Enemy(random_enemy, x)
+                self.enemy4 = Enemy('bat_eye', x)
                 self.enemy4_hp_bar = HealthBar(1330, 110, 140, 20, self.enemy4.enemy_max_hp)
         
         for x in range(4 - enemy_count):
@@ -131,36 +144,73 @@ class Character:
             case enemy_type if enemy_type in mobs_list_type:
                 self.x_offset = mobs_list_offset[enemy_type][0]
                 self.y_offset = mobs_list_offset[enemy_type][1]
+    
+    #Single Idle_Enemy_Display for Attack Animations Later
+    def display_enemy1(self):
+        if self.current_enemies_alive_hp[0] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
+            self.enemy1_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy1.enemy)
+            self.enemy1.enemy_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
+        
+    def display_enemy2(self):
+        if self.current_enemies_alive_hp[1] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
+            self.enemy2_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy2.enemy)
+            self.enemy2.enemy_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
 
+    def display_enemy3(self):
+        if self.current_enemies_alive_hp[2] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
+            self.enemy3_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy3.enemy)
+            self.enemy3.enemy_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
+    
+    def display_enemy4(self):
+        if self.current_enemies_alive_hp[3] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
+            self.enemy4_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy4.enemy)
+            self.enemy4.enemy_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
+    
+
+    # Display Enemy Hit Animation
+    def display_enemy1_attack(self):
+        if self.current_enemies_alive_hp[0] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
+            self.enemy1_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy1.enemy)
+            self.enemy1.enemy_attack_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
+        
+    def display_enemy2_attack(self):
+        if self.current_enemies_alive_hp[1] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
+            self.enemy2_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy2.enemy)
+            self.enemy2.enemy_attack_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
+
+    def display_enemy3_attack(self):
+        if self.current_enemies_alive_hp[2] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
+            self.enemy3_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy3.enemy)
+            self.enemy3.enemy_attack_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
+    
+    def display_enemy4_attack(self):
+        if self.current_enemies_alive_hp[3] > 0:
+            pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
+            self.enemy4_hp_bar.draw(self.combat_layer)
+            self.check_enemy_type_offset(self.enemy4.enemy)
+            self.enemy4.enemy_attack_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
+    
     def display_idle_enemy(self):
         self.combat_layer.fill(KEY_GREEN)
-        self.combat_action_layer.fill(KEY_GREEN)
         self.selection_layer.fill(KEY_GREEN)
-
-        for enemy in range(self.amount_of_enemies):
-            if enemy == 0 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (875, 155, 150, 30))
-                self.enemy1_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy1.enemy)
-                self.enemy1.enemy_sprite.display_sprite(900-self.x_offset, 200-self.y_offset)
-
-            elif enemy == 1 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1025, 105, 150, 30))
-                self.enemy2_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy2.enemy)
-                self.enemy2.enemy_sprite.display_sprite(1050-self.x_offset, 150-self.y_offset)
-
-            elif enemy == 2 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1175, 155, 150, 30))
-                self.enemy3_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy3.enemy)
-                self.enemy3.enemy_sprite.display_sprite(1200-self.x_offset, 200-self.y_offset)
-
-            elif enemy == 3 and self.current_enemies_alive_hp[enemy] > 0:
-                pygame.draw.rect(self.combat_layer, (0,0,0), (1325, 105, 150, 30))
-                self.enemy4_hp_bar.draw(self.combat_layer)
-                self.check_enemy_type_offset(self.enemy4.enemy)
-                self.enemy4.enemy_sprite.display_sprite(1350-self.x_offset, 150-self.y_offset)
+        self.display_enemy1()
+        self.display_enemy2()
+        self.display_enemy3()
+        self.display_enemy4()
         
         #Draw Buttons for Enemies
         self.enemy_1_selector = Button(900, 200, 100, 200, KEY_GREEN, YELLOW)
@@ -226,12 +276,19 @@ class Character:
         self.player_hp_health_bar = HealthBar(280, 160, 140, 20, 50)
         self.player_hp_health_bar.current_hp = battle_data.current_health[0]
         self.player_sprite_img = get_image('Assets/Wizard Pack/Idle.png', 2)
-        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.selection_layer)
+        self.player_hit_img = get_image('Assets/Wizard Pack/Hit.png', 2)
+        self.player_sprite = General_Spritesheet(self.player_sprite_img, 1386, 190, 6, 2, 200, self.combat_layer)
+        self.player_hit_sprite = General_Spritesheet(self.player_hit_img, 924, 190, 4, 2, 150, self.combat_action_layer)
 
     def player_idle_displayer(self):
         pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
         self.player_hp_health_bar.draw(self.combat_layer)
         self.player_sprite.display_sprite(140, 90)
+    
+    def player_hit_displayer(self):
+        pygame.draw.rect(self.combat_layer, (0,0,0), (275, 155, 150, 30))
+        self.player_hp_health_bar.draw(self.combat_layer)
+        self.player_hit_sprite.display_sprite(140, 90)
 
     def player_heal(self, hp_healed, hp_change=0):
         hp_change = battle_data.current_health[0]

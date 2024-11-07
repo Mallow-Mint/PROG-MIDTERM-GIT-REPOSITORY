@@ -35,7 +35,7 @@ class Game():
         self.GAME_SCREEN.blit(self.GAME_DISPLAY, (0,0))
         pygame.display.flip()
 
-    def get_delta_time(self):
+    def get_delta_time(self):   
         current_time = time.time()
         self.DELTA_TIME = current_time - self.PREVIOUS_TIME
         self.PREVIOUS_TIME = current_time

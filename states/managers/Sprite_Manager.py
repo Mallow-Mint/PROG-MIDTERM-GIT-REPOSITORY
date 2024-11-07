@@ -4,6 +4,7 @@ import time
 pygame.init()
 #Colors 
 GREEN = (30, 255, 0)
+KEY_PURPLE = (255, 0, 255)
 
 potion_layer = pygame.Surface((1600,900))
 background_layer = pygame.Surface((1600,900))
@@ -104,5 +105,6 @@ class General_Spritesheet:
         self.current_time_1 = pygame.time.get_ticks()
         self.get_current_sprite()
         self.get_single_frame(self.current_frame, x_pos, y_pos)
+
     
 keyboard_letters = Keyboard_Letters()

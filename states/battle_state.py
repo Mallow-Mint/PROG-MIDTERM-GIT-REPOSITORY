@@ -42,7 +42,6 @@ class Battle(State):
         character.battle_win()            
         if character.battle_state == 'WIN':
             keyboard.end_turn_key_replenish()
-            keyboard.save_key_amounts()
             self.exit_state()
         if character.battle_state == 'LOSS':
             self.exit_state()
@@ -169,7 +168,6 @@ class Keyboard:
     def __init__(self):
         self.typed_text = ""
         self.cursor_position = 0
-        self.max_character_count = 20
         self.Dictionary_Open = False
         self.valid_letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 
                               'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
@@ -199,19 +197,13 @@ class Keyboard:
             self.Key_Amount_Position[self.letter_pos] = (self.position_x, self.position_y)
         self.Letter_Positions_File.close()
 
-    def get_key_amounts(self):
-        self.Key_Count_Remaining = battle_data.Keys_Remaining
-
-    def save_key_amounts(self):
-        battle_data.Keys_Remaining = self.Key_Count_Remaining
-
     def key_press_action(self, key:str,):
         self.pressed_key = key
         match self.pressed_key:
-            case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count > 0:
+            case self.pressed_key if self.pressed_key in self.valid_letters and battle_data.max_character_count > 0:
                 layer.popup_layer.fill(KEY_PURPLE)
                 book.Dictionary_Open = False
-                if self.Key_Count_Remaining[self.pressed_key] > 0:
+                if battle_data.Keys_Remaining[self.pressed_key] > 0:
                     layer.keyboard_layer = keyboard_sprite_sheet.pressed_key_animation(self.pressed_key)
                     sfx.keyboard_press_sound()
                     update_game_screen()
@@ -221,8 +213,8 @@ class Keyboard:
                         layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
                     self.typed_text = self.typed_text[:self.cursor_position] + self.pressed_key + self.typed_text[self.cursor_position:]
                     self.cursor_position += 1
-                    self.Key_Count_Remaining[self.pressed_key] -= 1
-                    self.max_character_count -=1
+                    battle_data.Keys_Remaining[self.pressed_key] -= 1
+                    battle_data.max_character_count -=1
                 else:
                     layer.popup_layer.fill(KEY_PURPLE)
                     book.Dictionary_Open = False
@@ -230,7 +222,7 @@ class Keyboard:
                     layer.popup_layer.blit(Popup_box, (450,40))
                     layer.popup_layer.blit(self.no_letter_left, (530, 50))
 
-            case self.pressed_key if self.pressed_key in self.valid_letters and self.max_character_count == 0:
+            case self.pressed_key if self.pressed_key in self.valid_letters and battle_data.max_character_count == 0:
                 layer.popup_layer.fill(KEY_PURPLE)
                 book.Dictionary_Open = False
                 layer.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
@@ -247,8 +239,8 @@ class Keyboard:
                 self.typed_text = self.typed_text[:self.cursor_position - 1] + self.typed_text[self.cursor_position:]
                 self.cursor_position -= 1
                 if self.deleted_key in self.valid_letters:
-                    self.Key_Count_Remaining[self.deleted_key] += 1  # Add 1 to the count of the deleted key
-                    self.max_character_count += 1
+                    battle_data.Keys_Remaining[self.deleted_key] += 1  # Add 1 to the count of the deleted key
+                    battle_data.max_character_count += 1
 
             case self.pressed_key if self.pressed_key == 'return':
                 layer.popup_layer.fill(KEY_PURPLE)
@@ -309,22 +301,22 @@ class Keyboard:
         # Draw typed text and cursor
         typed_text_surface = get_font(20).render(keyboard.typed_text.upper(), True, BLACK)
         layer.interface_layer.blit(typed_text_surface, (560, typing_area_y + 12))
-        character_counter = get_font(40).render(str(keyboard.max_character_count), True, WHITE)
+        character_counter = get_font(40).render(str(battle_data.max_character_count), True, WHITE)
         layer.interface_layer.blit(character_counter, (1050, 473))
 
         for key, pos in keyboard.Key_Amount_Position.items():
-            if keyboard.Key_Count_Remaining[key] > 0:
-                count_text = get_font(20).render(str(keyboard.Key_Count_Remaining[key]), True, BLACK)
+            if battle_data.Keys_Remaining[key] > 0:
+                count_text = get_font(20).render(str(battle_data.Keys_Remaining[key]), True, BLACK)
                 layer.interface_layer.blit(count_text, (pos[0], pos[1]))
             
         # End Turn Button
         self.end_turn_button = EndTurnButton(1300, 360, 190, 60, "End Turn", get_font(25))
 
     def end_turn_key_replenish(self):
-        for key, amount in keyboard.Key_Count_Remaining.items():
-            if keyboard.Key_Count_Remaining[key] < 5:
-                keyboard.Key_Count_Remaining[key] += 1
-        self.max_character_count = 20
+        for key, amount in battle_data.Keys_Remaining.items():
+            if battle_data.Keys_Remaining[key] < 5:
+                battle_data.Keys_Remaining[key] += 1
+        battle_data.max_character_count = 20
         self.typed_text = ''
         self.cursor_position = 0
 
@@ -442,7 +434,7 @@ class Player_Inventory:
 
 class Enemy_Actions:
     def __init__ (self):
-        self.enemy_types = ['skeleton', 'zombie', 'orc', 'goblin']
+        self.enemy_types = ['skeleton', 'zombie', 'bat_eye', 'goblin']
     
     def enemy_actions(self, enemy_doing_action):
         match enemy_doing_action:
@@ -460,10 +452,10 @@ class Enemy_Actions:
                 character.player_damage(self.current_enemy_damage)
                 print(f"zombie did {self.current_enemy_damage} damage")
 
-            case 'orc':
+            case 'bat_eye':
                 self.current_enemy_damage = random.randint(4,8)
                 character.player_damage(self.current_enemy_damage)
-                print(f"orc did {self.current_enemy_damage} damage")
+                print(f"bat_eye did {self.current_enemy_damage} damage")
 
             case 'goblin':
                 self.current_enemy_damage = random.randint(1,3)
@@ -472,9 +464,17 @@ class Enemy_Actions:
         
     def enemy_turn(self):
         for current_enemy_attacking in range(character.amount_of_enemies):
-            if character.current_enemy_type[current_enemy_attacking] in self.enemy_types:
-                if character.current_enemies_alive_hp[current_enemy_attacking] != 0:
-                    self.enemy_actions(character.current_enemy_type[current_enemy_attacking])
+            if character.current_enemies_alive_hp[current_enemy_attacking] != 0:
+                if current_enemy_attacking == 0:
+                    self.enemy1_attack()
+                if current_enemy_attacking == 1:
+                    self.enemy2_attack()
+                if current_enemy_attacking == 2:
+                    self.enemy3_attack()
+                if current_enemy_attacking == 3:
+                    self.enemy4_attack()
+                self.enemy_actions(character.current_enemy_type[current_enemy_attacking])
+            update_game_screen()
         character.battle_win()
 
     def targeted_enemy(self, mouse_pos):
@@ -507,6 +507,71 @@ class Enemy_Actions:
         print(character.current_enemies_alive_hp)
         character.battle_win()
 
+    def player_hit(self):
+        character.player_hit_displayer()
+        while character.player_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.player_hit_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+
+    #ENEMY ATTACK ANIMATIONS WOOOOO!!!!
+    def enemy1_attack(self):
+        character.display_enemy1_attack()
+        while character.enemy1.enemy_attack_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy1_attack()
+            character.player_idle_displayer()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        self.player_hit()
+
+    def enemy2_attack(self):
+        character.display_enemy2_attack()
+        while character.enemy2.enemy_attack_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy2_attack()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        self.player_hit()
+
+    def enemy3_attack(self):
+        character.display_enemy3_attack()
+        while character.enemy3.enemy_attack_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy3_attack()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy4()
+            update_game_screen()
+        self.player_hit()
+
+    def enemy4_attack(self):
+        character.display_enemy4_attack()
+        while character.enemy4.enemy_attack_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy4_attack()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            update_game_screen()
+        self.player_hit()
+
 
 typing_area_height = 50
 typing_area_y = 480
@@ -517,7 +582,6 @@ def update_game_screen():
     '''
     game_window.blit(layer.background_layer, (0,0))
     layer.combat_layer.set_colorkey(KEY_GREEN)
-    layer.combat_action_layer.set_colorkey(KEY_GREEN)
     layer.selection_layer.set_colorkey(KEY_GREEN)
     keyboard_sprite_sheet.keyboard_sprites.set_colorkey(KEY_GREEN)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
@@ -547,14 +611,15 @@ def initalize_battle():
     timer.start_ticks = pygame.time.get_ticks()
     character.battle_state = None
     timer.is_player_turn = True
+    layer.combat_action_layer.fill(KEY_GREEN)
+    layer.combat_action_layer.set_colorkey(KEY_GREEN)
     layer.interface_layer.fill((KEY_PURPLE))
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(random.randint(2,4))
+    character.enemy_initalizer(4)
     damage.chain_word_damage_multipler = 1
-    keyboard.max_character_count = 20
-    keyboard.get_key_amounts()
+    battle_data.max_character_count = 20
     keyboard.keyboard_amount_position() 
     character.player_initalizer()
     book.get_page_count()
