@@ -59,6 +59,35 @@ class SoundEffects:
         water_spell_sfx.set_volume(1)
         water_spell_sfx.play()
     
+    def air_spell_sound(self):
+        air_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/sfx air slash.mp3')
+        air_spell_sfx.set_volume(1)
+        air_spell_sfx.play()
+    
+    def fire_AOE_spell_sound(self):
+        fire_AOE = pygame.mixer.Sound('Assets/Sound Effects/Fireball sound effect.mp3')
+        fire_AOE.set_volume(1)
+        fire_AOE.play()
+    
+    def fireball_spell_sound(self):
+        fireball_sfx = pygame.mixer.Sound('Assets/Sound Effects/fireball sfx.mp3')
+        fireball_sfx.set_volume(1)
+        fireball_sfx.play()
+
+    def snow_spell_sound(self):
+        snow_sfx = pygame.mixer.Sound('Assets/Sound Effects/Ice Spell Sound.mp3')
+        snow_sfx.set_volume(1)
+        snow_sfx.play()
+
+    def freeze_spell_sound(self):
+        freeze_sfx = pygame.mixer.Sound('Assets/Sound Effects/freeze.mp3')
+        freeze_sfx.set_volume(1)
+        freeze_sfx.play()
+    
+    def light_beam_sound(self):
+        light_beam_sfx = pygame.mixer.Sound('Assets/Sound Effects/laser sound.mp3')
+        light_beam_sfx.set_volume(1)
+    
     def FAKER(self):
         water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/SHOCKWAVE.mp3')
         water_spell_sfx.set_volume(1)
@@ -67,6 +96,42 @@ class SoundEffects:
 
 music = Music()
 sfx =  SoundEffects()
+#Single Target Spells SFX - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 water_spell_single_target_sfx = sfx.water_spell_sound
-spell_sfx_single_target = {"water": water_spell_single_target_sfx}
+air_spell_single_target_sfx = sfx.air_spell_sound
+fireball_single_target_sfx = sfx.fireball_spell_sound
+snow_single_target_sfx = sfx.snow_spell_sound
+freeze_single_target_sfx = sfx.freeze_spell_sound
+light_beam_single_target_sfx = sfx.light_beam_sound
+
+
+spell_sfx_single_target = {"water": water_spell_single_target_sfx,
+                           "wet": water_spell_single_target_sfx,
+                           "Air": air_spell_single_target_sfx, 
+                           "Airslice": air_spell_single_target_sfx,
+                           "Airstrike": air_spell_single_target_sfx,
+                           "fireball": fireball_single_target_sfx,
+                           "firebolt": fireball_single_target_sfx,
+                           "icewall": snow_single_target_sfx,
+                           "ice": snow_single_target_sfx,
+                           "freeze": freeze_single_target_sfx,
+                           "burn": fireball_single_target_sfx,
+                           "fire": fireball_single_target_sfx,
+                           "hot": fireball_single_target_sfx,
+                           "lava": fireball_single_target_sfx,
+                           "lightbeam": light_beam_single_target_sfx,
+                           "light": light_beam_single_target_sfx,
+                           
+
+                           }
+
+#Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+firestorm_spell_AOE_targe_sfx = sfx.fire_AOE_spell_sound()
+
+spell_sfx_AOE_target = {"firestorm": firestorm_spell_AOE_targe_sfx,
+                        "heatwave": firestorm_spell_AOE_targe_sfx,
+                        "explosion": firestorm_spell_AOE_targe_sfx
+
+                        }
