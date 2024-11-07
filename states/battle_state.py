@@ -482,19 +482,6 @@ class Enemy_Actions:
             update_game_screen()
         character.battle_win()
 
-    def player_hit(self):
-        character.player_hit_displayer()
-        while character.player_hit_sprite.current_frame > 0:
-            layer.combat_layer.fill(KEY_GREEN)
-            layer.combat_action_layer.fill(KEY_GREEN)
-            character.player_hit_displayer()
-            character.display_enemy1()
-            character.display_enemy2()
-            character.display_enemy3()
-            character.display_enemy4()
-            update_game_screen()
-        layer.combat_action_layer.fill(KEY_GREEN)
-
     #ENEMY ATTACK ANIMATIONS WOOOOO!!!!
     def enemy1_attack(self):
         character.display_enemy1_attack()
@@ -507,7 +494,7 @@ class Enemy_Actions:
             character.display_enemy3()
             character.display_enemy4()
             update_game_screen()
-        self.player_hit()
+        player_action.player_hit()
 
     def enemy2_attack(self):
         character.display_enemy2_attack()
@@ -520,7 +507,7 @@ class Enemy_Actions:
             character.display_enemy3()
             character.display_enemy4()
             update_game_screen()
-        self.player_hit()
+        player_action.player_hit()
 
     def enemy3_attack(self):
         character.display_enemy3_attack()
@@ -533,7 +520,7 @@ class Enemy_Actions:
             character.display_enemy2()
             character.display_enemy4()
             update_game_screen()
-        self.player_hit()
+        player_action.player_hit()
 
     def enemy4_attack(self):
         character.display_enemy4_attack()
@@ -546,7 +533,61 @@ class Enemy_Actions:
             character.display_enemy2()
             character.display_enemy3()
             update_game_screen()
-        self.player_hit()
+        player_action.player_hit()
+    
+    #ENMEY HIT ANIMATIONS ALMOST DONE WITH ANIMATIONS FOR ENEMIESSSS
+    def enemy1_hit(self):
+        character.display_enemy1_hit()
+        while character.enemy1.enemy_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy1_hit()
+            character.player_idle_displayer()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+
+    def enemy2_hit(self):
+        character.display_enemy2_hit()
+        while character.enemy2.enemy_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy2_hit()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+
+    def enemy3_hit(self):
+        character.display_enemy3_hit()
+        while character.enemy3.enemy_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy3_hit()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy4()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+
+    def enemy4_hit(self):
+        character.display_enemy4_hit()
+        while character.enemy4.enemy_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.display_enemy4_hit()
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+
 
 class Player_Actions:
     def __init__(self):
@@ -554,23 +595,30 @@ class Player_Actions:
     
     def targeted_enemy(self, mouse_pos):
         self.current_click = mouse_pos
-
         if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+            self.player_attack()
+            enemy_actions.enemy1_hit()
             character.do_damage_single_target(spell.damage_dealt, 1)
             if spell.lifesteal == True:
                 player_action.heal_spell(int(damage.damage_dealt/2))
 
         elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+            self.player_attack()
+            enemy_actions.enemy2_hit()
             character.do_damage_single_target(spell.damage_dealt, 2)
             if spell.lifesteal == True:
                 player_action.heal_spell(int(damage.damage_dealt/2))
 
         elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+            self.player_attack()
+            enemy_actions.enemy3_hit()
             character.do_damage_single_target(spell.damage_dealt, 3)
             if spell.lifesteal == True:
                 player_action.heal_spell(int(damage.damage_dealt/2))
 
         elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+            self.player_attack()
+            enemy_actions.enemy4_hit()
             character.do_damage_single_target(spell.damage_dealt, 4)
             if spell.lifesteal == True:
                 player_action.heal_spell(int(damage.damage_dealt/2))
@@ -589,6 +637,33 @@ class Player_Actions:
     def AOE_spell(self, damage_dealt):
         character.do_damage_AOE(damage_dealt)
         print(character.current_enemies_alive_hp)
+
+    def player_hit(self):
+        character.player_hit_displayer()
+        while character.player_hit_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.player_hit_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+    
+    def player_attack(self):
+        character.player_attack_displayer()
+        while character.player_attack_sprite.current_frame > 0:
+            layer.combat_layer.fill(KEY_GREEN)
+            layer.combat_action_layer.fill(KEY_GREEN)
+            character.player_attack_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        layer.combat_action_layer.fill(KEY_GREEN)
+
 
 
 typing_area_height = 50

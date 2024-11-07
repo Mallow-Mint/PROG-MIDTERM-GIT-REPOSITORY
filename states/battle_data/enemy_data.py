@@ -18,3 +18,7 @@ goblin_attack_img = get_image('Assets/Monsters/4 direction monsters/Goblin/Attac
 
 
 #Hit_PNG's
+skeleton_hit_img = get_image('Assets/Monsters/4 direction monsters/Skeleton/Take Hit.png', 3)
+zombie_hit_img = get_image('Assets/Monsters/4 direction monsters/Mushroom/Take Hit.png', 3)
+bat_eye_hit_img = get_image('Assets/Monsters/4 direction monsters/Flying eye/Take Hit.png', 3)
+goblin_hit_img = get_image('Assets/Monsters/4 direction monsters/Goblin/Take Hit.png', 3)
