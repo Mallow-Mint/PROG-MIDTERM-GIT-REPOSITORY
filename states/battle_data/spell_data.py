@@ -3,7 +3,7 @@ from states.managers.Sprite_Manager import *
 class Spell_Dict:
     def __init__(self):
         self.single_target_words_damage = { 'acid': 4,
-                                            'air': 2,
+                                            'air': 2, 
                                             'airslice': 8,
                                             'arrow': 4,
                                             'ashes': 4,
@@ -50,7 +50,6 @@ class Spell_Dict:
                                             'wind': 4,
                                             'water': 5,
                                             'wet': 3,
-                                            'wind': 4,
                                             'windslash': 8,
                                             'zap': 4}
         
