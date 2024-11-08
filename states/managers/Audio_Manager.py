@@ -99,6 +99,16 @@ class SoundEffects:
         heal_sfx.set_volume(1)
         heal_sfx.play()
 
+    def exile_sound(self):
+        exile_sfx = pygame.mixer.Sound('Assets/Sound Effects/exile_sound.mp3')
+        exile_sfx.set_volume(1)
+        exile_sfx.play() 
+
+    def curse_sound(self):
+        curse_sfx = pygame.mixer.Sound('Assets/Sound Effects/curse_sound.mp3')
+        curse_sfx.set_volume(1)
+        curse_sfx.play()    
+
     def FAKER(self):
         water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/SHOCKWAVE.mp3')
         water_spell_sfx.set_volume(1)
@@ -115,6 +125,8 @@ fireball_single_target_sfx = sfx.fireball_spell_sound
 snow_single_target_sfx = sfx.snow_spell_sound
 freeze_single_target_sfx = sfx.freeze_spell_sound
 light_beam_single_target_sfx = sfx.light_beam_sound
+exile_single_target_sfx = sfx.exile_sound
+curse_single_target_sfx = sfx.curse_sound
 
 
 spell_sfx_single_target = {"water": water_spell_single_target_sfx,
@@ -122,8 +134,6 @@ spell_sfx_single_target = {"water": water_spell_single_target_sfx,
                            "acid": water_spell_single_target_sfx,
                            "air": air_spell_single_target_sfx, 
                            "airslice": air_spell_single_target_sfx,
-                           "airstrike": air_spell_single_target_sfx,
-                           "fireball": fireball_single_target_sfx,
                            "firebolt": fireball_single_target_sfx,
                            "icewall": snow_single_target_sfx,
                            "ice": snow_single_target_sfx,
@@ -134,8 +144,9 @@ spell_sfx_single_target = {"water": water_spell_single_target_sfx,
                            "lava": fireball_single_target_sfx,
                            "lightbeam": light_beam_single_target_sfx,
                            "light": light_beam_single_target_sfx,
+                           "exile": exile_single_target_sfx,
+                           "cirse": curse_single_target_sfx,
                            
-
                            }
 
 #Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -146,9 +157,13 @@ quasar_spell_AOE_target_sfx = sfx.quasar_sound
 spell_sfx_AOE_target = {"firestorm": firestorm_spell_AOE_targe_sfx,
                         "heatwave": firestorm_spell_AOE_targe_sfx,
                         "explosion": firestorm_spell_AOE_targe_sfx,
-                        "quasar": quasar_spell_AOE_target_sfx
+                        "quasar": quasar_spell_AOE_target_sfx,
+                        "fireball": fireball_single_target_sfx,
+                        "airstrike": air_spell_single_target_sfx,
 
                         }
+
+#Heal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 heal_spell_Heal_sfx = sfx.heal_sound
 
