@@ -596,6 +596,7 @@ class Player_Actions:
             self.saved_time_left = timer.time_left
             self.player_attack()
             if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
+                spell.spell_sound()
                 self.spell_display_animation((800,100))
                 enemy_actions.enemy1_hit()
                 character.do_damage_single_target(spell.damage_dealt, 1)
@@ -603,6 +604,7 @@ class Player_Actions:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
+                spell.spell_sound()
                 self.spell_display_animation((950,50))
                 enemy_actions.enemy2_hit()
                 character.do_damage_single_target(spell.damage_dealt, 2)
@@ -610,6 +612,7 @@ class Player_Actions:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
+                spell.spell_sound()
                 self.spell_display_animation((1100,100))
                 enemy_actions.enemy3_hit()
                 character.do_damage_single_target(spell.damage_dealt, 3)
@@ -617,6 +620,7 @@ class Player_Actions:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
+                spell.spell_sound()
                 self.spell_display_animation((1250,50))
                 enemy_actions.enemy4_hit()
                 character.do_damage_single_target(spell.damage_dealt, 4)
@@ -649,6 +653,7 @@ class Player_Actions:
         self.saved_time_left = timer.time_left
 
         self.player_attack()
+        spell.spell_sound()
         self.spell_display_animation((1000,30))
         enemy_actions.enemy1_hit()
         enemy_actions.enemy2_hit()

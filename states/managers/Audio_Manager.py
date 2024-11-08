@@ -87,7 +87,13 @@ class SoundEffects:
     def light_beam_sound(self):
         light_beam_sfx = pygame.mixer.Sound('Assets/Sound Effects/laser sound.mp3')
         light_beam_sfx.set_volume(1)
-    
+        light_beam_sfx.play()
+
+    def quasar_sound(self):
+        quasar_sfx = pygame.mixer.Sound('Assets/Sound Effects/quasar_sfx.mp3')
+        quasar_sfx.set_volume(1)
+        quasar_sfx.play()
+
     def FAKER(self):
         water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/SHOCKWAVE.mp3')
         water_spell_sfx.set_volume(1)
@@ -128,10 +134,12 @@ spell_sfx_single_target = {"water": water_spell_single_target_sfx,
 
 #Aoe Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-firestorm_spell_AOE_targe_sfx = sfx.fire_AOE_spell_sound()
+firestorm_spell_AOE_targe_sfx = sfx.fire_AOE_spell_sound
+quasar_spell_AOE_target_sfx = sfx.quasar_sound
 
 spell_sfx_AOE_target = {"firestorm": firestorm_spell_AOE_targe_sfx,
                         "heatwave": firestorm_spell_AOE_targe_sfx,
-                        "explosion": firestorm_spell_AOE_targe_sfx
+                        "explosion": firestorm_spell_AOE_targe_sfx,
+                        "quasar": quasar_spell_AOE_target_sfx
 
                         }
