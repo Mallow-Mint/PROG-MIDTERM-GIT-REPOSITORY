@@ -16,12 +16,14 @@ zombie_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 1
 
 test_spell_img = get_image('Assets/Attack Effects/Free/Part 14/672.png', 4)
 test_spell_sprite = Spell_Spritesheet(test_spell_img, 896, 576, 14, 9, 4, 100, display)
-    
+
+
 
 running = True
 sprite_changer = 0
 while running:
     display.fill(BLACK)
+    mouse_pos = pygame.mouse.get_cursor()
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             key = pygame.key.name(event.key)

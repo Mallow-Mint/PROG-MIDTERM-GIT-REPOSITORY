@@ -3,6 +3,7 @@ import random
 import math
 import sys
 from states.state_manager import *
+from states.battle_data import *
 from states.managers.Sprite_Manager import *
 from states.managers.Input_Manager import *
 from states.managers.Battle_Manager import *
@@ -60,6 +61,7 @@ BLACK = (0, 0, 0)
 GREY = (130, 130, 130)
 RED = (255, 0, 0)
 KEY_PURPLE = (255, 0, 255)
+KEY_YELLOW = (255,255,0)
 
 
 # Set fonts Used for Text
@@ -86,7 +88,7 @@ class Layers:
         self.background_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.combat_layer = character.combat_layer
         self.combat_action_layer = character.combat_action_layer
-        #spell.action_layer
+        self.spell_layer = spell.spell_animation_layer
         self.selection_layer = character.selection_layer
         self.interface_layer = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT)).convert_alpha()
         self.keyboard_layer = keyboard_sprite_sheet.keyboard_default_sprite()
@@ -592,29 +594,30 @@ class Player_Actions:
             character.enemy_3_selector.is_clicked(self.current_click) == True or character.enemy_4_selector.is_clicked(self.current_click) == True:
             timer.is_player_turn = False
             self.saved_time_left = timer.time_left
+            self.player_attack()
             if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-                self.player_attack()
+                self.spell_display_animation((800,100))
                 enemy_actions.enemy1_hit()
                 character.do_damage_single_target(spell.damage_dealt, 1)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-                self.player_attack()
+                self.spell_display_animation((950,50))
                 enemy_actions.enemy2_hit()
                 character.do_damage_single_target(spell.damage_dealt, 2)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-                self.player_attack()
+                self.spell_display_animation((1100,100))
                 enemy_actions.enemy3_hit()
                 character.do_damage_single_target(spell.damage_dealt, 3)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-                self.player_attack()
+                self.spell_display_animation((1250,50))
                 enemy_actions.enemy4_hit()
                 character.do_damage_single_target(spell.damage_dealt, 4)
                 if spell.lifesteal == True:
@@ -646,6 +649,7 @@ class Player_Actions:
         self.saved_time_left = timer.time_left
 
         self.player_attack()
+        self.spell_display_animation((1000,30))
         enemy_actions.enemy1_hit()
         enemy_actions.enemy2_hit()
         enemy_actions.enemy3_hit()
@@ -699,6 +703,20 @@ class Player_Actions:
             update_game_screen()
         layer.combat_action_layer.fill(KEY_GREEN)
         character.player_idle_displayer()
+    
+    def spell_display_animation(self, spell_pos):
+        spell.spell_animation.display_sprite(spell_animations.current_spell_color, spell_pos)
+        while spell.spell_animation.current_frame > 0:
+            layer.spell_layer.fill(KEY_YELLOW)
+            layer.combat_layer.fill(KEY_GREEN)
+            spell.spell_animation.display_sprite(spell_animations.current_spell_color, spell_pos)
+            character.player_idle_displayer()
+            character.display_enemy1()
+            character.display_enemy2()
+            character.display_enemy3()
+            character.display_enemy4()
+            update_game_screen()
+        layer.spell_layer.fill(KEY_YELLOW)
 
 typing_area_height = 50
 typing_area_y = 480
@@ -714,6 +732,7 @@ def update_game_screen():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     game_window.blit(layer.combat_layer,(0,0))
     game_window.blit(layer.combat_action_layer,(0,0))
+    game_window.blit(layer.spell_layer,(0,0))
     game_window.blit(layer.selection_layer, (0,0))
     game_window.blit(layer.keyboard_layer, (0,0))
     game_window.blit(layer.interface_layer, (0,0))
@@ -741,7 +760,9 @@ def initalize_battle():
     timer.is_player_turn = True
     layer.combat_action_layer.fill(KEY_GREEN)
     layer.combat_action_layer.set_colorkey(KEY_GREEN)
-    layer.interface_layer.fill((KEY_PURPLE))
+    layer.spell_layer.fill(KEY_YELLOW)
+    layer.spell_layer.set_colorkey(KEY_YELLOW)
+    layer.interface_layer.fill(KEY_PURPLE)
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)

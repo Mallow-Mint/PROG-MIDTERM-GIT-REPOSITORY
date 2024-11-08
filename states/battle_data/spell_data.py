@@ -96,5 +96,38 @@ class Spell_Dict:
                                      'heal': [4,8],
                                      'purify': [8,12],
                                      'recover': [13,20]}
-        
+
+class Spell_Animations:
+    def __init__(self):
+        pass
+
+    def get_spell_sprite_sheet(self, spell, display):
+        '''
+        COLOR CODE
+        0 = Orange
+        1 = Purple
+        2 = Light Blue
+        3 = Green
+        4 = Brown
+        5 = White
+        6 = Light Purple
+        7 = Red
+        8 = Dark Blue
+        '''
+        match spell:
+            case 'explosion':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/672.png', 6)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 6, 100, display)
+                self.current_spell_color = 0
+            case 'fire':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/663.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 100, display)
+                self.current_spell_color = 0
+            case 'quasar':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 15/720.png', 6)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1280, 576, 20, 9, 6, 100, display)
+                self.current_spell_color = 1
+        return self.current_spell_animation
+
+spell_animations = Spell_Animations()
 spell_dict = Spell_Dict()

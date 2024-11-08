@@ -125,8 +125,8 @@ class Spell_Spritesheet:
                 current_frame = ((scaled_width/self.frames_per_row) * animation_frame, (scaled_height/self.amount_of_rows) * row, (scaled_width/self.frames_per_row) , scaled_height/self.amount_of_rows)
                 self.frame_coordinates.append(current_frame)
     
-    def get_single_frame(self, row , frame_on_row, x_pos, y_pos):
-        self.layer.blit(self.sheet, (x_pos, y_pos), self.frame_coordinates[(self.frames_per_row * row) + frame_on_row])
+    def get_single_frame(self, row , frame_on_row, pos):
+        self.layer.blit(self.sheet, pos, self.frame_coordinates[(self.frames_per_row * row) + frame_on_row])
 
     def get_current_sprite(self):
         if self.current_time_1 - self.last_update_1 >= self.animation_cooldown:
@@ -135,7 +135,19 @@ class Spell_Spritesheet:
             if self.current_frame >= self.frames_per_row:
                 self.current_frame = 0
     
-    def display_sprite(self, row , x_pos, y_pos):
+    def display_sprite(self, color , pos):
+        '''
+        COLOR CODE
+        0 = Orange
+        1 = Purple
+        2 = Light Blue
+        3 = Green
+        4 = Brown
+        5 = White
+        6 = Light Purple
+        7 = Red
+        8 = Dark Blue
+        '''
         self.current_time_1 = pygame.time.get_ticks()
         self.get_current_sprite()
-        self.get_single_frame(row, self.current_frame, x_pos, y_pos)
+        self.get_single_frame(color, self.current_frame, pos)
