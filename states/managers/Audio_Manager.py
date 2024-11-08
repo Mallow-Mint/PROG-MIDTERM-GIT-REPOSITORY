@@ -94,6 +94,11 @@ class SoundEffects:
         quasar_sfx.set_volume(1)
         quasar_sfx.play()
 
+    def heal_sound(self):
+        heal_sfx = pygame.mixer.Sound('Assets/Sound Effects/heal_sfx.mp3')
+        heal_sfx.set_volume(1)
+        heal_sfx.play()
+
     def FAKER(self):
         water_spell_sfx = pygame.mixer.Sound('Assets/Sound Effects/SHOCKWAVE.mp3')
         water_spell_sfx.set_volume(1)
@@ -143,3 +148,8 @@ spell_sfx_AOE_target = {"firestorm": firestorm_spell_AOE_targe_sfx,
                         "quasar": quasar_spell_AOE_target_sfx
 
                         }
+
+heal_spell_Heal_sfx = sfx.heal_sound
+
+spell_sfx_Heal = {"heal": heal_spell_Heal_sfx}
+

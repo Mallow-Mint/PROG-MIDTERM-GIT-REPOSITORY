@@ -80,6 +80,9 @@ class Spell:
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in spell_dict.healing_spell_ranges.keys():
                 self.heal_range = [spell_dict.healing_spell_ranges[self.current_spell][0], spell_dict.healing_spell_ranges[self.current_spell][1]]
+                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell, self.spell_animation_layer)
+                self.spell_sound = spell_sfx_Heal[self.current_spell]
+
 
 #Test words - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case 'test':

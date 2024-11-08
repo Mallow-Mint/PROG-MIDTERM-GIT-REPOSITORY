@@ -645,13 +645,15 @@ class Player_Actions:
 
     def heal_spell(self, hp_healed):
         self.player_heal_animation()
+        spell.spell_sound()
+        self.spell_display_animation((220, 110))
         character.player_heal(hp_healed)
         print(character.player_hp_health_bar.current_hp)
 
     def AOE_spell(self, damage_dealt):
         timer.is_player_turn = False
         self.saved_time_left = timer.time_left
-
+        
         self.player_attack()
         spell.spell_sound()
         self.spell_display_animation((1000,30))

@@ -116,16 +116,21 @@ class Spell_Animations:
         match spell:
             case 'explosion':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 14/672.png', 6)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 6, 100, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 6, 40, display)
                 self.current_spell_color = 0
             case 'fire':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 14/663.png', 5)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 100, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 40, display)
                 self.current_spell_color = 0
             case 'quasar':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 15/720.png', 6)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1280, 576, 20, 9, 6, 100, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1280, 576, 20, 9, 6, 40, display)
                 self.current_spell_color = 1
+
+            case 'heal':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/655.png', 4)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 960, 576, 15, 9, 4, 40, display)
+                self.current_spell_color = 3
         return self.current_spell_animation
 
 spell_animations = Spell_Animations()
