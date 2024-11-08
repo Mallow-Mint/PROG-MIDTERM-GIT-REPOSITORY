@@ -97,10 +97,10 @@ class Spell_Dict:
                                      'recover': [13,20]}
 
 class Spell_Animations:
-    def __init__(self):
-        pass
+    def __init__(self, sheet):
+        self.sheet = sheet
 
-    def get_spell_sprite_sheet(self, spell, display):
+    def get_spell_sprite_sheet(self, spell):
         '''
         COLOR CODE
         0 = Orange
@@ -114,24 +114,109 @@ class Spell_Animations:
         8 = Dark Blue
         '''
         match spell:
+            #SINGLE TARGET SPELLS
+            case 'acid':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/654.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1088, 576, 17, 9, 5, 40, self.sheet)
+                self.current_spell_color = 3
+            case 'air'  :
+                spell_image = get_image('Assets/Attack Effects/Free/Part 5/233.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 640, 576, 10, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+            case 'airslice'  :
+                spell_image = get_image('Assets/Attack Effects/Free/Part 13/613.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1088, 576, 17, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+            case 'arrow'  :
+                spell_image = get_image('Assets/Attack Effects/Free/Part 8/395.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 576, 576, 9, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+            case 'ashes':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 11/518.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 768, 576, 12, 9, 5, 40, self.sheet)
+                self.current_spell_color = 6
+            case 'axe':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 12/589.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+
+            case 'bane':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 13/633.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 960, 576, 15, 9, 5, 40, self.sheet)
+                self.current_spell_color = 6
+            case 'bash':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 13/612.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 960, 576, 15, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+            case 'blight':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 7/316.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 512, 576, 8, 9, 5, 60, self.sheet)
+                self.current_spell_color = 7
+            case 'bolt':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 5/223.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 320, 576, 5, 9, 5, 70, self.sheet)
+                self.current_spell_color = 2
+            case 'burn':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/663.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 40, self.sheet)
+                self.current_spell_color = 0
+
+            case 'crusade':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 13/623.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 832, 576, 13, 9, 5, 40, self.sheet)
+                self.current_spell_color = 5
+            case 'curse':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 3/133.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 768, 576, 12, 9, 5, 40, self.sheet)
+                self.current_spell_color = 1
+
+            case 'dark':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 12/586.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 5, 40, self.sheet)
+                self.current_spell_color = 8
+            case 'drown':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 13/622.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 5, 40, self.sheet)
+                self.current_spell_color = 2
+            case 'destroy':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 8/388.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 576, 576, 9, 9, 5, 40, self.sheet)
+                self.current_spell_color = 7
+
+            case 'earth':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 10/466.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 704, 576, 11, 9, 5, 40, self.sheet)
+                self.current_spell_color = 4
+            case 'execute':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 12/589.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 5, 40, self.sheet)
+                self.current_spell_color = 7
+            case 'exile':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 5/232.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 576, 576, 9, 9, 5, 40, self.sheet)
+                self.current_spell_color = 7
+
+            case 'fire':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 14/665.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 40, self.sheet)
+                self.current_spell_color = 0
+            case 'firebolt':
+                spell_image = get_image('Assets/Attack Effects/Free/Part 5/223.png', 5)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 320, 576, 5, 9, 5, 70, self.sheet)
+                self.current_spell_color = 0
+
             case 'explosion':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 14/672.png', 6)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 6, 40, display)
-                self.current_spell_color = 0
-            case 'fire':
-                spell_image = get_image('Assets/Attack Effects/Free/Part 14/663.png', 5)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1024, 576, 16, 9, 5, 40, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 896, 576, 14, 9, 6, 40, self.sheet)
                 self.current_spell_color = 0
             case 'quasar':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 15/720.png', 6)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1280, 576, 20, 9, 6, 40, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 1280, 576, 20, 9, 6, 40, self.sheet)
                 self.current_spell_color = 1
-
             case 'heal':
                 spell_image = get_image('Assets/Attack Effects/Free/Part 14/655.png', 4)
-                self.current_spell_animation  = Spell_Spritesheet(spell_image, 960, 576, 15, 9, 4, 40, display)
+                self.current_spell_animation  = Spell_Spritesheet(spell_image, 960, 576, 15, 9, 4, 40, self.sheet)
                 self.current_spell_color = 3
         return self.current_spell_animation
 
-spell_animations = Spell_Animations()
 spell_dict = Spell_Dict()

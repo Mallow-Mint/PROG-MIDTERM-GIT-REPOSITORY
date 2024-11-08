@@ -119,9 +119,10 @@ light_beam_single_target_sfx = sfx.light_beam_sound
 
 spell_sfx_single_target = {"water": water_spell_single_target_sfx,
                            "wet": water_spell_single_target_sfx,
-                           "Air": air_spell_single_target_sfx, 
-                           "Airslice": air_spell_single_target_sfx,
-                           "Airstrike": air_spell_single_target_sfx,
+                           "acid": water_spell_single_target_sfx,
+                           "air": air_spell_single_target_sfx, 
+                           "airslice": air_spell_single_target_sfx,
+                           "airstrike": air_spell_single_target_sfx,
                            "fireball": fireball_single_target_sfx,
                            "firebolt": fireball_single_target_sfx,
                            "icewall": snow_single_target_sfx,

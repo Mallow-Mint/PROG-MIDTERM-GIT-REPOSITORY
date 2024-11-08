@@ -595,33 +595,30 @@ class Player_Actions:
             timer.is_player_turn = False
             self.saved_time_left = timer.time_left
             self.player_attack()
+            #spell.spell_sound()
             if character.enemy_1_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[0] !=0:
-                spell.spell_sound()
-                self.spell_display_animation((800,100))
+                self.spell_display_animation((790,100))
                 enemy_actions.enemy1_hit()
                 character.do_damage_single_target(spell.damage_dealt, 1)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_2_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[1] !=0:
-                spell.spell_sound()
-                self.spell_display_animation((950,50))
+                self.spell_display_animation((940,50))
                 enemy_actions.enemy2_hit()
                 character.do_damage_single_target(spell.damage_dealt, 2)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_3_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[2] !=0:
-                spell.spell_sound()
-                self.spell_display_animation((1100,100))
+                self.spell_display_animation((1090,100))
                 enemy_actions.enemy3_hit()
                 character.do_damage_single_target(spell.damage_dealt, 3)
                 if spell.lifesteal == True:
                     player_action.heal_spell(int(damage.damage_dealt/2))
 
             elif character.enemy_4_selector.is_clicked(self.current_click) == True and character.current_enemies_alive_hp[3] !=0:
-                spell.spell_sound()
-                self.spell_display_animation((1250,50))
+                self.spell_display_animation((1240,50))
                 enemy_actions.enemy4_hit()
                 character.do_damage_single_target(spell.damage_dealt, 4)
                 if spell.lifesteal == True:
@@ -645,7 +642,7 @@ class Player_Actions:
 
     def heal_spell(self, hp_healed):
         self.player_heal_animation()
-        spell.spell_sound()
+        #spell.spell_sound()
         self.spell_display_animation((220, 110))
         character.player_heal(hp_healed)
         print(character.player_hp_health_bar.current_hp)
@@ -655,7 +652,7 @@ class Player_Actions:
         self.saved_time_left = timer.time_left
         
         self.player_attack()
-        spell.spell_sound()
+        #spell.spell_sound()
         self.spell_display_animation((1000,30))
         enemy_actions.enemy1_hit()
         enemy_actions.enemy2_hit()
@@ -773,7 +770,7 @@ def initalize_battle():
     layer.interface_layer.set_colorkey(KEY_PURPLE)
     layer.popup_layer.fill(KEY_PURPLE)
     layer.popup_layer.set_colorkey(KEY_PURPLE)
-    character.enemy_initalizer(4)
+    character.enemy_initalizer(random.randint(2,4))
     damage.chain_word_damage_multipler = 1
     battle_data.max_character_count = 20
     keyboard.keyboard_amount_position() 

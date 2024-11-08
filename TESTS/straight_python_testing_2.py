@@ -15,8 +15,10 @@ zombie_attack_img = get_image('Assets/Monsters/4 direction monsters/Mushroom/Att
 zombie_attack_sprite = General_Spritesheet(zombie_attack_img, 1200, 150, 8, 3, 100, display)
 
 test_spell_img = get_image('Assets/Attack Effects/Free/Part 14/672.png', 4)
-test_spell_sprite = Spell_Spritesheet(test_spell_img, 896, 576, 14, 9, 4, 100, display)
 
+d = {'testspell': Spell_Spritesheet(test_spell_img, 896, 576, 14, 9, 4, 100, display)}
+
+print(d['testspell'])
 
 
 running = True
@@ -30,7 +32,7 @@ while running:
             if key == 'return':
                 running = False
             if key == 'right':
-                if sprite_changer < test_spell_sprite.amount_of_rows - 1:
+                if sprite_changer < d['testspell'].amount_of_rows - 1:
                     sprite_changer += 1
                 else:
                     sprite_changer = 0
@@ -38,9 +40,9 @@ while running:
                 if sprite_changer > 0:
                     sprite_changer -= 1
                 else:
-                    sprite_changer = test_spell_sprite.amount_of_rows - 1
+                    sprite_changer = d['testspell'].amount_of_rows - 1
 
-    test_spell_sprite.display_sprite(sprite_changer, 0, 0)
+    d['testspell'].display_sprite(sprite_changer, 0, 0)
     window.blit(display, (0,0))
     pygame.display.flip()
     

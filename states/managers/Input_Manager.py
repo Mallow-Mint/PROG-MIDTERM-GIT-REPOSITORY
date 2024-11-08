@@ -60,8 +60,8 @@ class Spell:
                 self.enemy_selection_state = True
                 base_damage = spell_dict.single_target_words_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell, self.spell_animation_layer)
-                self.spell_sound = spell_sfx_single_target[self.current_spell]
+                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell)
+                #self.spell_sound = spell_sfx_single_target[self.current_spell]
 
 #Life Steal Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in spell_dict.life_steal_damage.keys():
@@ -74,13 +74,13 @@ class Spell:
             case self.current_spell if self.current_spell in spell_dict.multi_target_word_damage.keys():
                 base_damage = spell_dict.multi_target_word_damage[self.current_spell]
                 self.damage_dealt = damage.critical_checker(damage.damage_range_calculator(base_damage))
-                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell, self.spell_animation_layer)
+                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell)
                 self.spell_sound = spell_sfx_AOE_target[self.current_spell]
 
 #Healing Spells - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             case self.current_spell if self.current_spell in spell_dict.healing_spell_ranges.keys():
                 self.heal_range = [spell_dict.healing_spell_ranges[self.current_spell][0], spell_dict.healing_spell_ranges[self.current_spell][1]]
-                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell, self.spell_animation_layer)
+                self.spell_animation = spell_animations.get_spell_sprite_sheet(self.current_spell)
                 self.spell_sound = spell_sfx_Heal[self.current_spell]
 
 
@@ -101,4 +101,5 @@ class Spell:
 
 
 spell = Spell()
+spell_animations = Spell_Animations(spell.spell_animation_layer)
 damage = Damage()
